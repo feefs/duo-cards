@@ -22,10 +22,15 @@ class DuoTranslator():
 
     def query_words(self, start_days_ago=0, start_weeks_ago=0, end_days_ago=0, end_weeks_ago=0,
                     low_strength=1, high_strength=4):
+        print(start_days_ago, start_weeks_ago)
+        print(end_days_ago, end_weeks_ago)
         current_dt = datetime.now()
         to_ms = lambda d, w: (current_dt - timedelta(days=d, weeks=w)).timestamp() * 1000
         start_ms = to_ms(start_days_ago, start_weeks_ago)
         end_ms = to_ms(end_days_ago, end_weeks_ago)
+        print(start_ms)
+        print(end_ms)
+        print('---')
 
         if start_days_ago == 0 and start_weeks_ago == 0:
             start_ms = 0
