@@ -1,0 +1,73 @@
+@import './mixins';
+
+.home-body {
+	margin: auto;
+	margin-top: 5vh;
+	width: 90vw;
+	height: 75vh;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24vmin;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
+	gap: 3vmin 4vmin;
+	grid-template-areas:
+		'a a a a a a b'
+		'a a a a a a c'
+		'a a a a a a c'
+		'a a a a a a c';
+	
+	> div {
+		box-shadow: 0 0 20px 6px rgba(0, 0, 0, 0.4);
+		border-radius: 15px;
+	}
+
+	.decks {
+		grid-area: a;
+		
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		
+		overflow: scroll;
+
+		.deck-preview {
+			margin: 5.25vmin;
+			width: 20vmin;
+			height: 20vmin;
+
+			> div {
+				background: $nord1;
+				// <offset-x><offset-y><blur-radius><spread-radius>
+				box-shadow: 0 1vmin 0 $nord3,
+					0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
+				border-radius: 15px;
+
+				width: 20vmin;
+				height: 20vmin;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: calc(8px + 2vmin);
+				
+			}
+		}
+	}
+
+	.action-nav {
+		grid-area: b;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		.new-deck {
+			@include styled-button($nord14, $nord3, 15vmin, 6vmin, 0, 0);
+		}
+	}
+
+	.curated {
+		grid-area: c;
+		//background: linear-gradient(90deg, $nord1, $nord0);
+	}
+}

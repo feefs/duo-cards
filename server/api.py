@@ -22,15 +22,10 @@ class DuoTranslator():
 
     def query_words(self, start_days_ago=0, start_weeks_ago=0, end_days_ago=0, end_weeks_ago=0,
                     low_strength=1, high_strength=4):
-        print(start_days_ago, start_weeks_ago)
-        print(end_days_ago, end_weeks_ago)
         current_dt = datetime.now()
         to_ms = lambda d, w: (current_dt - timedelta(days=d, weeks=w)).timestamp() * 1000
         start_ms = to_ms(start_days_ago, start_weeks_ago)
         end_ms = to_ms(end_days_ago, end_weeks_ago)
-        print(start_ms)
-        print(end_ms)
-        print('---')
 
         if start_days_ago == 0 and start_weeks_ago == 0:
             start_ms = 0
@@ -55,15 +50,17 @@ class DuoTranslator():
             parsed = d['extra_data']['parsed']
             word_entry = {}
 
-            word_entry['origin'] = d['origin']
-            word_entry['translation'] = d['text'].lower()
-            word_entry['pos'] = None
+            word_entry['ja'] = d['origin']
+            word_entry['pronunciation'] = d['extra_data']['origin_pronunciation']
+            word_entry['en'] = d['text'].lower()
+            word_entry['pos'] = ""
             word_entry['defs'] = []
 
             if len(parsed) > 2:
                 options = self.pos_options(parsed)
-                word_entry['pos'] = options[0]['pos']
-                word_entry['defs'] = options
+                if options:
+                    word_entry['pos'] = options[0]['pos']
+                    word_entry['defs'] = options
 
             result.append(word_entry)
 
@@ -71,7 +68,7 @@ class DuoTranslator():
 
     def pos_options(self, parsed):
         result = []
-        parts_of_speech = parsed[3][5][0]
+        parts_of_speech = parsed[3][5][0] if parsed[3][5] is not None else []
 
         for p in parts_of_speech:
             entry = {}

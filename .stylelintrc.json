@@ -1,0 +1,31 @@
+{
+  "extends": "stylelint-config-sass-guidelines",
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "indentation": "tab",
+
+    "max-nesting-depth": 5,
+    "rule-empty-line-before": ["always-multi-line", {"ignore": ["first-nested"]}],
+    "selector-class-pattern": ".*",
+    "selector-list-comma-newline-after": "always-multi-line",
+    "selector-max-id": 5,
+    "selector-max-compound-selectors": 5,
+    "selector-no-qualifying-type": [true, {"ignore": ["attribute"]}],
+
+    
+    "order/properties-alphabetical-order": null,
+    "order/properties-order": [
+      "position",
+      "margin",
+      "overflow",
+      "width",
+      "height",
+      "top",
+      "left",
+      "right",
+      "bottom"
+    ]
+  }
+}

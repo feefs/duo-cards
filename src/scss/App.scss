@@ -1,0 +1,10 @@
+@import './nord';
+@import './Header';
+@import './Home';
+@import './Create';
+@import './View';
+
+.App {
+	font-family: 'Nunito', sans-serif;
+	color: $nord6;
+}

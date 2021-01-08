@@ -1,11 +1,14 @@
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from api import DuoTranslator
 import json
 
 app = Flask(__name__)
+CORS(app)
 dt = None
 
-@app.route('/query', methods=['GET'])
+@app.route('/query', methods=['POST'])
+@cross_origin()
 def query():
     data = request.get_json()
     start_days_ago = data['start']['days']
@@ -17,7 +20,8 @@ def query():
     return json.dumps(dt.query_words(start_days_ago, start_weeks_ago, end_days_ago, end_weeks_ago,
                                      lower_strength, upper_strength), ensure_ascii=False)
 
-@app.route('/translate', methods=['GET'])
+@app.route('/translate', methods=['POST'])
+@cross_origin()
 def translate():
     data = request.get_json()
     return json.dumps(dt.translation(data['word_list']), ensure_ascii=False)
