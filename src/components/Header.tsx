@@ -28,12 +28,10 @@ function Header() {
 		<Link to="/" style={{textDecoration: 'none'}}>
 		  <div className="title">Duo-cards</div>
 		</Link>
-  
 		<div></div>
-  
 		<div className="userStatus">
 		  {user ? [
-        <div key={0}>{"Logged in as " + auth.currentUser?.displayName}</div>,
+        <div key={0}>{auth.currentUser?.email}</div>,
         <div key={1}><SignOut /></div>
       ] : <div><SignIn /></div>}
 		</div>

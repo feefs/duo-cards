@@ -23,4 +23,8 @@
 		transform: translate($X, $Y + 0.5vmin);
 		transition: 0.05s;
 	}
+
+	&:hover {
+		cursor: pointer;
+	}
 }

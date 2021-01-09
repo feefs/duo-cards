@@ -6,10 +6,11 @@
 
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24vmin;
-	grid-template-rows: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
 	gap: 3vmin 4vmin;
 	grid-template-areas:
 		'a a a a a a b'
+		'a a a a a a c'
 		'a a a a a a c';
 	
 	> div {
@@ -22,42 +23,64 @@
 		
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
+		align-items: flex-start;
 		
 		overflow: scroll;
 
 		.card-preview {
 			margin: 5.25vmin;
 			width: 20vmin;
+
+			width: 20vmin;
 			height: 20vmin;
+			
+			background: $nord1;
+			// <offset-x><offset-y><blur-radius><spread-radius>
+			box-shadow: 0 1vmin 0 $nord3,
+				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
+			border-radius: 15px;
 
-			> div {
-				background: $nord1;
-				// <offset-x><offset-y><blur-radius><spread-radius>
-				box-shadow: 0 1vmin 0 $nord3,
-					0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
-				border-radius: 15px;
-
-				width: 20vmin;
-				height: 20vmin;
-
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: space-between;
-				font-size: calc(4px + 2vmin);
-				
-			}
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			font-size: calc(4px + 2vmin);
 		}
 	}
 
 	.actions {
 		grid-area: b;
-		//background: linear-gradient(45deg, $nord1, $nord0, $nord0, $nord1);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+
+		.practice-deck {
+			@include styled-button($nord10, $nord3, 15vmin, 6vmin, 0, 0);
+		}
+
+		.edit-deck {
+			@include styled-button($nord13, $nord3, 15vmin, 6vmin, 0, 0);
+		}
 	}
 
 	.stats {
 		grid-area: c;
-		//background: linear-gradient(90deg, $nord1, $nord0);
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-evenly;
+
+		font-size: calc(2vmin);
+
+		> div {
+			width: 70%;
+			text-align: center;
+
+			:last-child {
+				font-size: calc(2px + 2vmin);
+			}
+		}
 	}
 }

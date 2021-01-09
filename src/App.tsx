@@ -9,6 +9,8 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Create from './components/Create';
 import View from './components/View';
+import Edit from './components/Edit';
+import Practice from './components/Practice';
 import './scss/App.scss'
 
 if (firebase.apps.length) {
@@ -35,14 +37,6 @@ function App() {
       </div>
     </Router>
   )
-}
-
-function Edit() {
-  return <div>Edit is incomplete.</div>
-}
-
-function Practice() {
-  return <div>Practice is incomplete.</div>
 }
 
 export default App
