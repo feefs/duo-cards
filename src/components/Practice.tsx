@@ -7,14 +7,6 @@ import firebase from 'firebase/app'
 
 function Practice(match: any) {
   const[user] = useAuthState(auth);
-  const [data, setData] = useState({
-    cards: [],
-    created: null,
-    last_edited: null,
-    last_practiced: null,
-    creator_uid: "",
-    name: ""
-  })
 
   const [deckName, setDeckName] = useState("")
   const [cardlist, setCardlist] = useState([])
@@ -30,14 +22,13 @@ function Practice(match: any) {
     })
     const doc = await deck.get()
     const d = doc.data() as any
-    if (!d) {
-        return
-    }
+    if (!d || !user || d.creator_uid !== user.uid) {
+      return
+  }
     const cards: any[] = d.cards
     for (let i = 0; i < cards.length; i++) {
       cards[i].flipped = false;
     }
-    //setData(d)
     setDeckName(d.name)
     setCardlist(d.cards)
   }
@@ -82,7 +73,7 @@ function PracticeSlides(props: any) {
   }
   
   const viewDeck = (id: string) => {
-    setTimeout(() => history.push(`/view/${id}`), 100)
+    setTimeout(() => history.push(`/duo-cards/view/${id}`), 100)
   }
 
   const toggleLanguage = () => {
@@ -95,7 +86,7 @@ function PracticeSlides(props: any) {
   }
 
   const editDeck = (id: string) => {
-    setTimeout(() => history.push(`/edit/${id}`), 100)
+    setTimeout(() => history.push(`/duo-cards/edit/${id}`), 100)
   }
 
   const slides = props.cards.map((c: any, index: number) => {

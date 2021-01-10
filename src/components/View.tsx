@@ -22,7 +22,7 @@ function View(match: any) {
     const deck = db.collection('decks').doc(match.match.params.id)
     const doc = await deck.get()
     const d = doc.data() as any
-    if (!d) {
+    if (!d || !user || d.creator_uid !== user.uid) {
         return
     }
     setData(d)
@@ -47,7 +47,7 @@ function View(match: any) {
 
   return (
     <div className="view-body">
-        <div className="cards">{user ? cardlist : "Loading"}</div>
+        <div className="cards">{cardlist}</div>
         <Actions match={match.match} />
         <Stats data={data} />
     </div>
@@ -57,11 +57,11 @@ function View(match: any) {
 function Actions(props: any) {
   const history = useHistory()
   const practiceDeck = (id: string) => {
-    setTimeout(() => history.push(`/practice/${id}`), 100)
+    setTimeout(() => history.push(`/duo-cards/practice/${id}`), 100)
   }
 
   const editDeck = (id: string) => {
-    setTimeout(() => history.push(`/edit/${id}`), 100)
+    setTimeout(() => history.push(`/duo-cards/edit/${id}`), 100)
   }
 
   return (
@@ -79,11 +79,12 @@ function Stats(props: any) {
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`
   }
 
-  return (
+  const stats = (
+    props.data.created ? 
     <div className="stats">
       <div>
-        <div>Deck name:</div>
         <div>{props.data.name}</div>
+        <div></div>
       </div>
       <div>
         <div># of cards:</div>
@@ -102,7 +103,10 @@ function Stats(props: any) {
         <div>{formatTimestamp(props.data.created)}</div>
       </div>
     </div>
-  ) 
+    : <div className="stats"></div>
+  )
+
+  return stats
 }
 
 export default View

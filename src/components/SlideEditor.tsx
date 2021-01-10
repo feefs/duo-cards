@@ -45,7 +45,7 @@ function SlideEditor(props: any) {
     }
   }
 
-  const wipe = () => {
+  const wipeCard = () => {
     const dc = deepCopy()
     const dcc = dc[currentIndex]
     dcc.ja = ""
@@ -76,9 +76,7 @@ function SlideEditor(props: any) {
         cards: processedCards,
         last_edited: time
       })
-      console.log('Updated deck with ID: ', props.dbRef)
     } else {
-      
       const res = await db.collection('decks').add({
         creator_uid: user.uid,
         name: props.deckName,
@@ -88,18 +86,20 @@ function SlideEditor(props: any) {
 
       const userSnapshot = db.collection('users').doc(`${user.uid}`)
       const userData = await userSnapshot.get()
-      userSnapshot.update({ decks: userData.get('decks').concat({
-        name: props.deckName,
-        deckID: res.id
-      }) })
-
-      console.log('New deck constructed with ID: ', res.id)
+      userSnapshot.update({
+        decks: userData.get('decks').concat({ name: props.deckName, deckID: res.id })
+      })
     }
     if (props.ret) {
       history.goBack()
     } else {
-      history.push('/')
+      history.push('/duo-cards')
     }
+  }
+
+  const deleteDeck = async () => {
+    await db.collection('decks').doc(props.dbRef).delete()
+    history.push('/duo-cards')
   }
 
   const slides = props.cards.map((c: any, index: number) => {
@@ -131,8 +131,9 @@ function SlideEditor(props: any) {
       </div>
       <button className="new-card" onClick={newCard}>+</button>
       <button className="delete-card" onClick={deleteCard}>x</button>
-      <button className="wipe" onClick={wipe}>-</button>
+      <button className="wipe-card" onClick={wipeCard}>-</button>
       <button className="submit-deck" onClick={submitDeck}>✓</button>
+      {props.dbRef ? <button className="delete-deck" onClick={deleteDeck}>Delete Deck</button> : null}
     </div>
   )
 }

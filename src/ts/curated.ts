@@ -22,7 +22,8 @@ const longLost = {
     name: "Long Lost Words",
     parameters: JSON.stringify({
         start: {"days": 0, "weeks": 0},
-        end: {"days": 0, "weeks": 12}
+        end: {"days": 0, "weeks": 12},
+        strength: [1, 2]
     }),
     num: 15
 }

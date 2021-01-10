@@ -18,9 +18,9 @@ function Edit(match: any) {
     const deck = db.collection('decks').doc(match.match.params.id)
     const doc = await deck.get()
     const d = doc.data() as {cards: [], created: any, creator_uid: string, name: string}
-    if (!d) {
-        return
-    }
+    if (!d || !user || d.creator_uid !== user.uid) {
+      return
+  }
     const cards: any[] = d.cards
     let highestID = 0
     for (let i = 0; i < cards.length; i++) {

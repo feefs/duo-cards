@@ -4,7 +4,6 @@
 	box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.4);
 	border-bottom-left-radius: 15px;
 	border-bottom-right-radius: 15px;
-	//background: linear-gradient(-135deg, $nord1, $nord0, $nord0, $nord1);
 
 	margin: auto;
 	width: 90vw;
@@ -16,8 +15,7 @@
 
 
 	.title {
-		width: 40vw;
-		max-width: 300px;
+		width: 50vmin;
 
 		color: #58cc02;
 		font-size: calc(6vmin);
@@ -25,9 +23,8 @@
 	}
 
 	.userStatus {
-		width: 45vw;
+		width: 45vmin;
 		height: 10vh;
-		max-width: 350px;
 
 		text-align: center;
 		font-size: calc(8px + 2vmin);

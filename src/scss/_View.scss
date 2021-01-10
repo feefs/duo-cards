@@ -45,6 +45,11 @@
 			align-items: center;
 			justify-content: space-between;
 			font-size: calc(4px + 2vmin);
+
+			> div {
+				text-align: center;
+				width: 80%;
+			}
 		}
 	}
 
@@ -57,10 +62,12 @@
 
 		.practice-deck {
 			@include styled-button($nord10, $nord3, 15vmin, 6vmin, 0, 0);
+			font-size: calc(2.75vmin);
 		}
 
 		.edit-deck {
 			@include styled-button($nord13, $nord3, 15vmin, 6vmin, 0, 0);
+			font-size: calc(2.75vmin);
 		}
 	}
 

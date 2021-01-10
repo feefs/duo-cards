@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { auth, db } from '../App';
 import curatedList from '../ts/curated';
 
@@ -19,17 +19,18 @@ function Home() {
 
 function Decks(props: {user: any}) {
   const [decks, setDecks] = useState<any[]>([])
+  const [empty, setEmpty] = useState(false)
   const history = useHistory()
 
   const viewDeck = (id: string) => {
-    setTimeout(() => history.push(`/view/${id}`), 100)
+    setTimeout(() => history.push(`/duo-cards/view/${id}`), 100)
   }
 
   const fetchDecks = async () => {
     if (!props.user) {
+      setEmpty(false)
       return
     }
-
     const userDecks = db.collection('decks').where("creator_uid", "==", `${props.user.uid}`)
     const decks = await userDecks.orderBy("created", "desc").get()
     const data: any[] = []
@@ -38,6 +39,9 @@ function Decks(props: {user: any}) {
       d.id = doc.ref.id
       data.push(d)
     })
+    if (data.length === 0) {
+      setEmpty(true)
+    }
     setDecks(data)
   }
 
@@ -57,13 +61,16 @@ function Decks(props: {user: any}) {
     )
   })
 
-  return <div className="decks">{props.user ? decklist : "User not signed in; decks not available"}</div>
+  return <div className="decks">
+    {props.user ? decklist : <div className="text">User not signed in, decks not available.</div>}
+    {empty ? <div className="text">No decks. Make one!</div> : null}
+    </div>
 }
 
 function ActionNav() {
   const history = useHistory()
   const newDeck = () => {
-    setTimeout(() => history.push('/create'), 100)
+    setTimeout(() => history.push('/duo-cards/create'), 100)
   }
 
   return (
@@ -74,20 +81,26 @@ function ActionNav() {
 }
 
 function Curated() {
+  const history = useHistory()
+  const curatedDeck = (c: any) => {
+    setTimeout(() => history.push({
+      pathname: "/duo-cards/create",
+      state: { curateParameters: c.parameters, numCards: c.num }
+    }), 100)
+  }
+  
   return (
     <div className="curated">
-      {curatedList.map(curated =>
-      <Link style={{color: "#ECEFF4", textDecoration: 'none'}}
-        to={{ pathname: "/create",
-              state: {
-                curateParameters: curated.parameters, numCards: curated.num
-              }
-          }}
-      >
-        <div>{curated.name}</div>
-      </Link>
-      )
-      }
+      <div className="text">Curated</div>
+      <div className="curated-previews">
+        {curatedList.map(curated =>
+            <div
+              className="curated-card"
+              onClick={() => {curatedDeck(curated)}}>
+              {curated.name}
+            </div>
+        )}
+      </div>
     </div>
   )
 }

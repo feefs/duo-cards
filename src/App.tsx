@@ -28,11 +28,11 @@ function App() {
       <div className="App">
         <Header />
           <Switch>
-            <Route path="/" exact component={Home}/>
-            <Route path="/create" exact component={Create}/>
-            <Route path="/view/:id" exact component={View}/>
-            <Route path="/edit/:id" exact component={Edit}/>
-            <Route path="/practice/:id" exact component={Practice}/>
+            <Route path="/duo-cards" exact component={Home}/>
+            <Route path="/duo-cards/create" exact component={Create}/>
+            <Route path="/duo-cards/view/:id" exact component={View}/>
+            <Route path="/duo-cards/edit/:id" exact component={Edit}/>
+            <Route path="/duo-cards/practice/:id" exact component={Practice}/>
           </Switch>
       </div>
     </Router>

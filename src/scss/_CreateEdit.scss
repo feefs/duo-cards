@@ -11,6 +11,8 @@
 
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	font-size: calc(4vmin);
 
 	.editor {
 		margin: auto;
@@ -55,7 +57,7 @@
 			font-size: calc(3.5vmin);
 		}
 
-		.wipe {
+		.wipe-card {
 			@include styled-button($nord12, $nord3, 5vmin, 5vmin, 5vmin, -6vmin);
 			grid-area: a;
 			font-size: calc(3vmin);
@@ -77,6 +79,11 @@
 			@include styled-button($nord15, $nord3, 5vmin, 5vmin, 5vmin, -6vmin);
 			grid-area: b;
 			font-size: calc(2vmin);
+		}
+
+		.delete-deck {
+			@include styled-button($nord11, $nord3, 30vmin, 5vmin, 0, 3vmin);
+			font-size: calc(2.5vmin);
 		}
 	}
 

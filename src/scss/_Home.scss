@@ -27,8 +27,12 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
-		
 		overflow: scroll;
+
+		.text {
+			margin: auto;
+			font-size: calc(2.5vmin);
+		}
 
 		.deck-preview {
 			margin: 5.25vmin;
@@ -44,9 +48,14 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			text-align: center;
 			font-size: calc(8px + 2vmin);
 
 			transition: 0.05s;
+
+			> div {
+				width: 80%;
+			}
 
 			&:hover {
 				cursor: pointer;
@@ -76,5 +85,51 @@
 
 	.curated {
 		grid-area: c;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+		overflow: scroll;
+
+		.text {
+			font-size: calc(2px + 3vmin);
+			margin-top: 2vmin;
+		}
+
+		.curated-previews {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.curated-card {
+			margin: 2vmin;
+			width: 15vmin;
+			height: 15vmin;
+
+			background: $nord1;
+			// <offset-x><offset-y><blur-radius><spread-radius>
+			box-shadow: 0 0.5vmin 0 $nord3,
+				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
+			border-radius: 15px;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			font-size: calc(1px + 2vmin);
+
+			&:hover {
+				cursor: pointer;
+			}
+			
+			&:active {
+				box-shadow: 0 0.1vmin 0 $nord3,
+					0 0.5vmin 0.5vmin rgba(0, 0, 0, 0.35);
+				transform: translateY(0.5vmin);
+				transition: 0.05s;
+			}
+		}
 	}
 }

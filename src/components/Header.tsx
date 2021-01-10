@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { auth, db } from '../App';
 
 import firebase from 'firebase/app'
@@ -25,8 +25,8 @@ function Header() {
 
 	return (
 	  <header className="header">
-		<Link to="/" style={{textDecoration: 'none'}}>
-		  <div className="title">Duo-cards</div>
+		<Link to="/duo-cards" style={{textDecoration: 'none'}}>
+		  <div className="title">Duo-cards (ja)</div>
 		</Link>
 		<div></div>
 		<div className="userStatus">
@@ -49,7 +49,13 @@ function SignIn() {
 }
   
 function SignOut() {
-	return <button className="googleButton" onClick={() => auth.signOut()}>Sign Out</button>
+  const history = useHistory()
+  const signOutAndHome = async () => {
+    await auth.signOut()
+    history.push('/duo-cards')
+  }
+
+	return <button className="googleButton" onClick={signOutAndHome}>Sign Out</button>
 }
 
 export default Header
