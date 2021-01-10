@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/duo-cards/static/css/main.8ad2bce2.chunk.css",
+    "main.css": "/duo-cards/static/css/main.ee992b3a.chunk.css",
     "main.js": "/duo-cards/static/js/main.5bbaf2c6.chunk.js",
     "main.js.map": "/duo-cards/static/js/main.5bbaf2c6.chunk.js.map",
     "runtime-main.js": "/duo-cards/static/js/runtime-main.0b6bd293.js",
@@ -10,13 +10,13 @@
     "static/js/3.b5289266.chunk.js": "/duo-cards/static/js/3.b5289266.chunk.js",
     "static/js/3.b5289266.chunk.js.map": "/duo-cards/static/js/3.b5289266.chunk.js.map",
     "index.html": "/duo-cards/index.html",
-    "static/css/main.8ad2bce2.chunk.css.map": "/duo-cards/static/css/main.8ad2bce2.chunk.css.map",
+    "static/css/main.ee992b3a.chunk.css.map": "/duo-cards/static/css/main.ee992b3a.chunk.css.map",
     "static/js/2.95e6f978.chunk.js.LICENSE.txt": "/duo-cards/static/js/2.95e6f978.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.0b6bd293.js",
     "static/js/2.95e6f978.chunk.js",
-    "static/css/main.8ad2bce2.chunk.css",
+    "static/css/main.ee992b3a.chunk.css",
     "static/js/main.5bbaf2c6.chunk.js"
   ]
 }
