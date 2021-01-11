@@ -81,6 +81,22 @@
 			font-size: calc(2vmin);
 		}
 
+		.submit-deck.disabled {
+			text-decoration: line-through;
+			color: $nord3;
+
+			&:active {
+				box-shadow: 0 0.5vmin 0 $nord3,
+					0 1vmin 1vmin rgba(0, 0, 0, 0.35);
+				transform: translate(5vmin, -6vmin);
+				transition: unset;
+			}
+
+			&:hover {
+				cursor: not-allowed;
+			}
+		}
+
 		.delete-deck {
 			@include styled-button($nord11, $nord3, 30vmin, 5vmin, 0, 3vmin);
 			font-size: calc(2.5vmin);

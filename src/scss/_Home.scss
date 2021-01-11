@@ -27,7 +27,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
-		overflow: scroll;
+		overflow-y: scroll;
+		overflow-x: hidden;
 
 		.text {
 			margin: auto;
@@ -81,6 +82,22 @@
 			@include styled-button($nord14, $nord3, 15vmin, 6vmin, 0, 0);
 			font-size: calc(2px + 2vmin);
 		}
+
+		.new-deck.disabled {
+			text-decoration: line-through;
+			color: $nord3;
+
+			&:active {
+				box-shadow: 0 0.5vmin 0 $nord3,
+					0 1vmin 1vmin rgba(0, 0, 0, 0.35);
+				transform: unset;
+				transition: unset;
+			}
+
+			&:hover {
+				cursor: not-allowed;
+			}
+		}
 	}
 
 	.curated {
@@ -89,7 +106,8 @@
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: center;
-		overflow: scroll;
+		overflow-y: scroll;
+		overflow-x: hidden;
 
 		.text {
 			font-size: calc(2px + 3vmin);

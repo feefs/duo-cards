@@ -13,13 +13,16 @@
 	align-items: center;
 	justify-content: space-around;
 
-
 	.title {
 		width: 50vmin;
 
 		color: #58cc02;
 		font-size: calc(6vmin);
 		text-align: center;
+
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	.userStatus {

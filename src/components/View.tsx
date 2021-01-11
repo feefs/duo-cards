@@ -3,28 +3,35 @@ import { useHistory } from 'react-router-dom';
 import { auth, db } from '../App';
 
 import { useAuthState } from 'react-firebase-hooks/auth'
+import firebase from 'firebase/app'
 
-function View(match: any) {
+// Types
+import { DeckSchema, CardSchema, MatchProps, HistType } from '../ts/interfaces';
+
+function View(match: MatchProps) {
   const[user] = useAuthState(auth);
-  const [data, setData] = useState({
+  const [data, setData] = useState<DeckSchema>({
     cards: [],
     created: null,
-    last_edited: null,
-    last_practiced: null,
     creator_uid: "",
     name: ""
   })
+
+  const deckID = match.match.params.id
   
   const fetchCards = async () => {
     if (!user) {
         return
     }
-    const deck = db.collection('decks').doc(match.match.params.id)
+
+    const deck = db.collection('decks').doc(deckID)
     const doc = await deck.get()
-    const d = doc.data() as any
+    const d = doc.data() as DeckSchema
+
     if (!d || !user || d.creator_uid !== user.uid) {
         return
     }
+
     setData(d)
   }
 
@@ -32,7 +39,7 @@ function View(match: any) {
       fetchCards()
   }, [user])
 
-  const cardlist = data.cards.map((c: any, index: number) => {
+  const cardlist = data.cards.map((c: CardSchema) => {
     return (
       <div key={c.id} className="card-preview">
           <div></div>
@@ -48,14 +55,15 @@ function View(match: any) {
   return (
     <div className="view-body">
         <div className="cards">{cardlist}</div>
-        <Actions match={match.match} />
+        <Actions deckID={deckID} />
         <Stats data={data} />
     </div>
   )
 }
 
-function Actions(props: any) {
-  const history = useHistory()
+function Actions(props: {deckID: string}) {
+  const history: HistType = useHistory()
+
   const practiceDeck = (id: string) => {
     setTimeout(() => history.push(`/duo-cards/practice/${id}`), 100)
   }
@@ -66,14 +74,14 @@ function Actions(props: any) {
 
   return (
     <div className="actions">
-      <button className="practice-deck" onClick={() => {practiceDeck(props.match.params.id)}}>Practice</button>
-      <button className="edit-deck" onClick={() => {editDeck(props.match.params.id)}}>Edit Deck</button>
+      <button className="practice-deck" onClick={() => {practiceDeck(props.deckID)}}>Practice</button>
+      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit Deck</button>
     </div>
   )
 }
 
-function Stats(props: any) {
-  const formatTimestamp = (timestamp: any) => {
+function Stats(props: {data: DeckSchema}) {
+  const formatTimestamp = (timestamp: firebase.firestore.Timestamp | undefined) => {
     if (!timestamp) return "Never"
     const d = timestamp.toDate() as Date
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`

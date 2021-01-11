@@ -1,58 +1,70 @@
 import { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { auth, db } from '../App';
 
 import firebase from 'firebase/app'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
+// Types
+import { HistType } from '../ts/interfaces';
+
 function Header() {
   const [user] = useAuthState(auth)
+  const history: HistType = useHistory()
 
   useEffect(() => {
     async function updateDB() {
       if (!user) { return }
+
       const userSnapshot = db.collection('users').doc(`${user.uid}`)
       const userData = await userSnapshot.get()
 
       if (!userData.exists) {
-        userSnapshot.set({ decks: [], visits: 0 })
+        userSnapshot.set({ visits: 0 })
       } else {
-        userSnapshot.update({ visits: userData.get('visits') + 1 })
+        const prevVisits = await userData.get('visits')
+        userSnapshot.update({ visits: (prevVisits ? prevVisits : -1) + 1 })
       }
     }
+
     updateDB()
   }, [user])
 
+  const goHome = () => {
+    history.push('/duo-cards')
+  }
+
 	return (
 	  <header className="header">
-		<Link to="/duo-cards" style={{textDecoration: 'none'}}>
-		  <div className="title">Duo-cards (ja)</div>
-		</Link>
-		<div></div>
-		<div className="userStatus">
-		  {user ? [
-        <div key={0}>{auth.currentUser?.email}</div>,
-        <div key={1}><SignOut /></div>
-      ] : <div><SignIn /></div>}
-		</div>
+      <div
+        onClick={() => goHome()}
+        className="title"
+      >
+        Duo-cards (ja)
+      </div>
+      <div></div>
+      <div className="userStatus">
+        {user ? [ <div key={0}>{auth.currentUser?.email}</div>, <div key={1}><SignOut history={history} /></div>]
+              : <div><SignIn history={history} /></div>}
+      </div>
 	  </header>
 	)
 }
 
-function SignIn() {
+function SignIn(props: {history: HistType}) {
 	const googleLogin = async () => {
 	  const provider = new firebase.auth.GoogleAuthProvider()
-	  auth.signInWithPopup(provider)
+    await auth.signInWithPopup(provider)
+    props.history.push('/duo-cards')
   }
 
 	return <button className="googleButton" onClick={googleLogin}>Sign In</button>
 }
   
-function SignOut() {
-  const history = useHistory()
+function SignOut(props: {history: HistType}) {
   const signOutAndHome = async () => {
     await auth.signOut()
-    history.push('/duo-cards')
+    props.history.push('/duo-cards')
   }
 
 	return <button className="googleButton" onClick={signOutAndHome}>Sign Out</button>

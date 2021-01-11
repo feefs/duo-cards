@@ -5,30 +5,46 @@ import { auth, db } from '../App';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import firebase from 'firebase/app'
 
-function Practice(match: any) {
+// Types
+import {
+  CardSchema,
+  DeckSchema,
+  PracticeSlidesProps,
+  PracticeCardProps,
+  MatchProps,
+  HistType
+} from '../ts/interfaces';
+
+function Practice(match: MatchProps) {
   const[user] = useAuthState(auth);
 
-  const [deckName, setDeckName] = useState("")
-  const [cardlist, setCardlist] = useState([])
-  const [flipped, setFlipped] = useState(false)
+  const [deckName, setDeckName] = useState<string>("")
+  const [cardlist, setCardlist] = useState<CardSchema[]>([])
+
+  const deckID = match.match.params.id
   
   const fetchCards = async () => {
     if (!user) {
         return
     }
-    const deck = db.collection('decks').doc(match.match.params.id)
+
+    const deck = db.collection('decks').doc(deckID)
     await deck.update({
       last_practiced: firebase.firestore.Timestamp.now()
     })
+
     const doc = await deck.get()
-    const d = doc.data() as any
+    const d = doc.data() as DeckSchema
+
     if (!d || !user || d.creator_uid !== user.uid) {
       return
-  }
-    const cards: any[] = d.cards
+    }
+
+    const cards: CardSchema[] = d.cards
     for (let i = 0; i < cards.length; i++) {
       cards[i].flipped = false;
     }
+
     setDeckName(d.name)
     setCardlist(d.cards)
   }
@@ -41,19 +57,17 @@ function Practice(match: any) {
     <div className="practice-body">
       <PracticeSlides
         deckName={deckName}
-        setCards={setCardlist}
         cards={cardlist}
-        flipped={flipped}
-        setFlipped={setFlipped}
-        dbRef={match.match.params.id}/>
+        setCards={setCardlist}
+        deckID={deckID}/>
     </div>
   )
 }
 
-function PracticeSlides(props: any) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [jaFocus, setJaFocus] = useState(true)
-  const history = useHistory()
+function PracticeSlides(props: PracticeSlidesProps) {
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const [jaFocus, setJaFocus] = useState<boolean>(true)
+  const history: HistType = useHistory()
 
   if (props.cards.length === 0) {
     return <div>Loading...</div>
@@ -63,7 +77,7 @@ function PracticeSlides(props: any) {
   const next = () => { if (currentIndex < props.cards.length - 1) setCurrentIndex(currentIndex + 1) }
 
   const deepCopy = () => {
-    return props.cards.map((c: any) => JSON.parse(JSON.stringify(c)))
+    return props.cards.map((c: CardSchema) => JSON.parse(JSON.stringify(c)))
   }
 
   const flip = (index: number) => {
@@ -89,7 +103,7 @@ function PracticeSlides(props: any) {
     setTimeout(() => history.push(`/duo-cards/edit/${id}`), 100)
   }
 
-  const slides = props.cards.map((c: any, index: number) => {
+  const slides = props.cards.map((c: CardSchema, index: number) => {
     return (
       <div 
         key={c['id']}
@@ -97,7 +111,7 @@ function PracticeSlides(props: any) {
         style={{transform: `translateX(${((currentIndex - index) * -10) + 20}vmin)`}}
         onClick={() => {flip(index)}}
       >
-        <PracticeCard data={c} jaFocus={jaFocus} />
+        <PracticeCard cardData={c} jaFocus={jaFocus} />
       </div>
     )
     }
@@ -111,24 +125,23 @@ function PracticeSlides(props: any) {
       <div className="slider">
         {slides}
       </div>
-      <button className="view-deck" onClick={() => {viewDeck(props.dbRef)}}>View Deck</button>
-      <button className="edit-deck" onClick={() => {editDeck(props.dbRef)}}>Edit Deck</button>
+      <button className="view-deck" onClick={() => {viewDeck(props.deckID)}}>View Deck</button>
+      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit Deck</button>
       <button className="toggle-language" onClick={toggleLanguage}>Toggle Language</button>
-      <button className="edit-deck" onClick={() => {editDeck(props.dbRef)}}>Edit Deck</button>
+      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit Deck</button>
     </div>
   )
 }
 
-function PracticeCard(props: {data: any, jaFocus: boolean}) {
-
+function PracticeCard(props: PracticeCardProps) {
   return (
     <div className="card">
       <div></div>
-      <div>{props.jaFocus ? (props.data.flipped ? props.data.en : props.data.ja) :
-                            (props.data.flipped ? props.data.ja : props.data.en)}
+      <div>{props.jaFocus ? (props.cardData.flipped ? props.cardData.en : props.cardData.ja) :
+                            (props.cardData.flipped ? props.cardData.ja : props.cardData.en)}
       </div>
-      {props.data.flipped ? <div>{props.data.pronunciation}</div> : null}
-      {props.data.flipped ? <div>{props.data.pos}</div> : null}
+      {props.cardData.flipped ? <div>{props.cardData.pronunciation}</div> : null}
+      {props.cardData.flipped ? <div>{props.cardData.pos}</div> : null}
       <div></div>
     </div>
   )

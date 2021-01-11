@@ -25,7 +25,8 @@
 		flex-wrap: wrap;
 		align-items: flex-start;
 		
-		overflow: scroll;
+		overflow-y: scroll;
+		overflow-x: hidden;
 
 		.card-preview {
 			margin: 5.25vmin;

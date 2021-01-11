@@ -1,3 +1,5 @@
+import { CuratedCard } from './interfaces';
+
 const recent = {
     name: "Recently Practiced",
     parameters: JSON.stringify({
@@ -28,6 +30,6 @@ const longLost = {
     num: 15
 }
 
-const curatedList: {name: string, parameters: any, num: number}[] = [recent, weak, longLost]
+const curatedList: CuratedCard[] = [recent, weak, longLost]
 
 export default curatedList
