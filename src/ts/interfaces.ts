@@ -35,12 +35,11 @@ export interface SlideEditorProps {
     user: any
     deckName: string
     setDeckName: Function
-    cards: CardSchema[]
-    setCards: Function
-    ID: number
-    setID: Function
+    cardlist: CardSchema[]
+    setCardlist: Function
+    cardID: number
+    setCardID: Function
     deckID?: string
-    ret?: boolean
 }
 
 export interface CardProps {
@@ -59,8 +58,8 @@ export interface MatchProps extends RouteComponentProps<Match> {}
 
 export interface PracticeSlidesProps {
     deckName: string
-    cards: CardSchema[]
-    setCards: Function
+    cardlist: CardSchema[]
+    setCardlist: Function
     deckID: string
 }
 

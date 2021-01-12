@@ -1,6 +1,6 @@
 @import './mixins';
 
-.create-body {
+.create-edit-body {
 	box-shadow: 0 0 20px 6px rgba(0, 0, 0, 0.4);
 	border-radius: 15px;
 
@@ -47,6 +47,7 @@
 
 		.name {
 			grid-area: x;
+
 			background: unset;
 			border: unset;
 			outline: unset;
@@ -121,62 +122,61 @@
 				cursor: not-allowed;
 			}
 		}
-	}
 
-	.slider {
-	
-		position: relative;
-		overflow: hidden;
-	
-		width: 35vmin;
-		height: 35vmin;
-	
-		display: flex;
-		align-items: center;
-		grid-area: y;
-	}
-	
-	.slide {
-		position: absolute;
-		margin: 0 0 0 -20vmin;
-		width: 30vmin;
-		left: 2.5vmin;
-		opacity: 0;
-		transition: 0.15s;
-	}
-	
-	.slide.active {
-		z-index: 1;
-		opacity: 1;
-		transition: 0.3s;
-	}
-	
-	.card {
-		box-shadow: 0 1vmin 0 $nord3,
-			0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
-		border-radius: 15px;
-	
-		width: 30vmin;
-		height: 30vmin;
-	
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-		background: $nord1;
+		.slider {
+			position: relative;
+			overflow: hidden;
+		
+			width: 35vmin;
+			height: 35vmin;
+		
+			display: flex;
+			align-items: center;
+			grid-area: y;
+		}
 
-		> input {
-			background: unset;
-			border: unset;
-			outline: unset;
+		.slide {
+			position: absolute;
+			margin: 0 0 0 -20vmin;
+			width: 30vmin;
+			left: 2.5vmin;
+			opacity: 0;
+			transition: 0.15s;
+		}
+		
+		.slide.active {
+			z-index: 1;
+			opacity: 1;
+			transition: 0.3s;
+		}
+
+		.card {
+			box-shadow: 0 1vmin 0 $nord3,
+				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
+			border-radius: 15px;
+		
+			width: 30vmin;
+			height: 30vmin;
+		
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+			background: $nord1;
 	
-			width: 85%;
-			text-overflow: ellipsis;
-			text-align: center;
-			color: $nord6;
-	
-			font-family: 'Nunito', sans-serif;
-			font-size: calc(2.5vmin);
+			> input {
+				background: unset;
+				border: unset;
+				outline: unset;
+		
+				width: 85%;
+				text-overflow: ellipsis;
+				text-align: center;
+				color: $nord6;
+		
+				font-family: 'Nunito', sans-serif;
+				font-size: calc(2.5vmin);
+			}
 		}
 	}
 	

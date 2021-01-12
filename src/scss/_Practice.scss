@@ -12,6 +12,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
 	font-size: calc(4vmin);
 
 	.editor {
@@ -49,12 +50,10 @@
 
 			overflow: hidden;
 			width: 150%;
-			height: 75%;
+			height: 65%;
 	
 			text-align: center;
-			color: $nord6;
 	
-			font-family: 'Nunito', sans-serif;
 			font-size: calc(3.5vmin);
 		}
         
@@ -65,9 +64,9 @@
 		}
 
 		.toggle-language {
-			@include styled-button($nord12, $nord3, 30vmin, 6vmin, 0, 3vmin);
+			@include styled-button($nord12, $nord3, 30vmin, 5vmin, 0, 3vmin);
 			grid-area: z;
-			font-size: calc(3vmin);
+			font-size: calc(2.5vmin);
 		}
 
 		.edit-deck {

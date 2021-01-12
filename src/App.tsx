@@ -9,14 +9,14 @@ import Practice from './components/Practice';
 import './scss/App.scss'
 
 import firebase from 'firebase/app'
-import config from './ts/firebase-config';
+import { firebaseConfig } from './ts/firebase-config';
 import 'firebase/auth'
 import 'firebase/firestore'
 
 if (firebase.apps.length) {
   firebase.app()
 } else {
-  firebase.initializeApp(config)
+  firebase.initializeApp(firebaseConfig)
 }
 
 export const auth = firebase.auth()

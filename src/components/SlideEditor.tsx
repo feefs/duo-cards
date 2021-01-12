@@ -13,35 +13,35 @@ function SlideEditor(props: SlideEditorProps) {
   const [deleted, setDeleted] = useState<boolean>(false)
   const history: HistType = useHistory()
 
-  if (props.cards.length === 0) {
+  if (props.cardlist.length === 0) {
     return <div>Loading...</div>
   }
 
   const prev = () => { if (currentIndex > 0) setCurrentIndex(currentIndex - 1) }
-  const next = () => { if (currentIndex < props.cards.length - 1) setCurrentIndex(currentIndex + 1) }
+  const next = () => { if (currentIndex < props.cardlist.length - 1) setCurrentIndex(currentIndex + 1) }
 
   const deepCopy = () => {
-    return props.cards.map((c: CardSchema) => JSON.parse(JSON.stringify(c)))
+    return props.cardlist.map((c: CardSchema) => JSON.parse(JSON.stringify(c)))
   }
 
   const updateCard = (index: number, field: string, value: string) => {
     const dc = deepCopy()
     dc[index][field] = value
-    props.setCards(dc)
+    props.setCardlist(dc)
   }
 
   const newCard = () => {
     const dc = deepCopy()
     dc.splice(currentIndex + 1, 0, {})
-    props.setCards(dc)
+    props.setCardlist(dc)
     setTimeout(() => setCurrentIndex(currentIndex + 1), 100)
   }
 
   const deleteCard = () => {
-    if (props.cards.length > 1) {
+    if (props.cardlist.length > 1) {
       const dc = deepCopy()
       dc.splice(currentIndex, 1)
-      props.setCards(dc)
+      props.setCardlist(dc)
       if (currentIndex === dc.length) {
         setTimeout(() => setCurrentIndex(currentIndex - 1), 100)
       }
@@ -55,7 +55,7 @@ function SlideEditor(props: SlideEditorProps) {
     dcc.pronunciation = ""
     dcc.en = ""
     dcc.pos = ""
-    props.setCards(dc)
+    props.setCardlist(dc)
   }
 
   const submitDeck = async () => {
@@ -78,7 +78,7 @@ function SlideEditor(props: SlideEditorProps) {
       })
     }
 
-    if (props.ret) {
+    if (props.deckID) {
       history.goBack()
     } else {
       history.push('/duo-cards')
@@ -94,10 +94,10 @@ function SlideEditor(props: SlideEditorProps) {
     history.push('/duo-cards')
   }
 
-  const slides = props.cards.map((c: CardSchema, index: number) => {
+  const slides = props.cardlist.map((c: CardSchema, index: number) => {
       if (!c.hasOwnProperty('id')) {
-        c['id'] = props.ID
-        props.setID(props.ID + 1)
+        c['id'] = props.cardID
+        props.setCardID(props.cardID + 1)
       }
       return (
         <div key={c['id']} className={index === currentIndex ? "slide active" : "slide"}
@@ -115,12 +115,10 @@ function SlideEditor(props: SlideEditorProps) {
 
   return (
     <div className="editor">
+      <input className="name" value={props.deckName} placeholder="deck name" onChange={e => props.setDeckName(e.target.value)} />
+      <div className="slider">{slides}</div>
       <button className="nav-button previous" onClick={prev}>Left</button>
       <button className="nav-button next" onClick={next}>Right</button>
-      <input className="name" value={props.deckName} placeholder="deck name" onChange={e => props.setDeckName(e.target.value)} />
-      <div className="slider">
-        {slides}
-      </div>
       <button className="new-card" onClick={newCard}>+</button>
       <button className="delete-card" onClick={deleteCard}>x</button>
       <button className="wipe-card" onClick={wipeCard}>🧹</button>
@@ -132,9 +130,9 @@ function SlideEditor(props: SlideEditorProps) {
         <button
           className={props.user && !deleted ? "delete-deck" : "delete-deck disabled"}
           onClick={props.user && !deleted ? deleteDeck : () => {}}
-        >
-          Delete Deck
-        </button> : null}
+        >Delete Deck</button>
+        : null
+      }
     </div>
   )
 }
