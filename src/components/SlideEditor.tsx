@@ -86,6 +86,10 @@ function SlideEditor(props: SlideEditorProps) {
   }
 
   const deleteDeck = async () => {
+    if (deleted) { return }
+
+    setDeleted(true)
+
     await db.collection('decks').doc(props.deckID).delete()
     history.push('/duo-cards')
   }

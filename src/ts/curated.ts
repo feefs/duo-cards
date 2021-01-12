@@ -30,6 +30,16 @@ const longLost = {
     num: 15
 }
 
-const curatedList: CuratedCard[] = [recent, weak, longLost]
+const justLearned = {
+    name: "Just Learned",
+    parameters: JSON.stringify({
+        start: {"days": 0, "weeks": 1},
+        end: {"days": 0, "weeks": 0},
+        strength: [1, 2]
+    }),
+    num: 10
+}
+
+const curatedList: CuratedCard[] = [recent, weak, longLost, justLearned]
 
 export default curatedList

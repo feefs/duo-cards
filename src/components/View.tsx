@@ -10,44 +10,45 @@ import { DeckSchema, CardSchema, MatchProps, HistType } from '../ts/interfaces';
 
 function View(match: MatchProps) {
   const[user] = useAuthState(auth);
-  const [data, setData] = useState<DeckSchema>({
+  const [deck, setDeck] = useState<DeckSchema>({
     cards: [],
     created: null,
     creator_uid: "",
     name: ""
   })
 
-  const deckID = match.match.params.id
-  
-  const fetchCards = async () => {
-    if (!user) {
-        return
-    }
-
-    const deck = db.collection('decks').doc(deckID)
-    const doc = await deck.get()
-    const d = doc.data() as DeckSchema
-
-    if (!d || !user || d.creator_uid !== user.uid) {
-        return
-    }
-
-    setData(d)
-  }
-
   useEffect(() => {
-      fetchCards()
-  }, [user])
+    async function fetchCards() {
+      if (!user) {
+          return
+      }
+  
+      const deck = db.collection('decks').doc(match.match.params.id)
+      const doc = await deck.get()
+      const d = doc.data() as DeckSchema
+  
+      if (!d || d.creator_uid !== user.uid) {
+          return
+      }
+  
+      setDeck(d)
+    }
 
-  const cardlist = data.cards.map((c: CardSchema) => {
+    fetchCards()
+  }, [user, match.match.params.id])
+
+  const cardlist = deck.cards.map((c: CardSchema) => {
     return (
       <div key={c.id} className="card-preview">
+        <div className="card-preview-text">
           <div></div>
           <div>{c.ja}</div>
           <div>{c.pronunciation}</div>
           <div>{c.en}</div>
           <div>{c.pos}</div>
           <div></div>
+          </div>
+          <div className="gradient"></div>
       </div>
     )
   })
@@ -55,8 +56,8 @@ function View(match: MatchProps) {
   return (
     <div className="view-body">
         <div className="cards">{cardlist}</div>
-        <Actions deckID={deckID} />
-        <Stats data={data} />
+        <Actions deckID={match.match.params.id} />
+        <Stats deck={deck} />
     </div>
   )
 }
@@ -73,48 +74,45 @@ function Actions(props: {deckID: string}) {
   }
 
   return (
-    <div className="actions">
+    <div className="practice-edit-actions">
       <button className="practice-deck" onClick={() => {practiceDeck(props.deckID)}}>Practice</button>
       <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit Deck</button>
     </div>
   )
 }
 
-function Stats(props: {data: DeckSchema}) {
+function Stats(props: {deck: DeckSchema}) {
   const formatTimestamp = (timestamp: firebase.firestore.Timestamp | undefined) => {
     if (!timestamp) return "Never"
     const d = timestamp.toDate() as Date
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`
   }
 
-  const stats = (
-    props.data.created ? 
+  return (
+    props.deck.created ? 
     <div className="stats">
       <div>
-        <div>{props.data.name}</div>
-        <div></div>
+        <div>{props.deck.name}</div>
       </div>
       <div>
         <div># of cards:</div>
-        <div>{props.data.cards.length}</div>
+        <div>{props.deck.cards.length}</div>
       </div>
       <div>
         <div>Last practiced:</div>
-        <div>{formatTimestamp(props.data.last_practiced)}</div>
+        <div>{formatTimestamp(props.deck.last_practiced)}</div>
       </div>
       <div>
         <div>Last edited:</div>
-        <div>{formatTimestamp(props.data.last_edited)}</div>
+        <div>{formatTimestamp(props.deck.last_edited)}</div>
       </div>
       <div>
         <div>Time created:</div>
-        <div>{formatTimestamp(props.data.created)}</div>
+        <div>{formatTimestamp(props.deck.created)}</div>
       </div>
     </div>
     : <div className="stats"></div>
   )
-
-  return stats
 }
 
 export default View

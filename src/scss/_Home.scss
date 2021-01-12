@@ -3,6 +3,7 @@
 .home-body {
 	margin: auto;
 	margin-top: 5vh;
+
 	width: 90vw;
 	height: 75vh;
 
@@ -23,40 +24,41 @@
 
 	.decks {
 		grid-area: a;
-		
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
+
+		position: relative;
+
 		overflow-y: scroll;
 		overflow-x: hidden;
 
 		.text {
-			margin: auto;
+			position: absolute;
+
+			width: 100%;
+			height: 3.5vmin;
+			top: 50%;
+			margin-top: -1.75vmin;
+
+			text-align: center;
 			font-size: calc(2.5vmin);
 		}
 
 		.deck-preview {
-			margin: 5.25vmin;
-			width: 20vmin;
-			height: 20vmin;
-
+			position: relative;
 			background: $nord1;
-			// <offset-x><offset-y><blur-radius><spread-radius>
 			box-shadow: 0 1vmin 0 $nord3,
 				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
 			border-radius: 15px;
 
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			text-align: center;
-			font-size: calc(8px + 2vmin);
+			margin: 7.5vmin;
+			min-width: 20vmin;
+			min-height: 20vmin;
+			width: 20vmin;
+			height: 20vmin;
+
+			display: inline-block;
+			vertical-align: middle;
 
 			transition: 0.05s;
-
-			> div {
-				width: 80%;
-			}
 
 			&:hover {
 				cursor: pointer;
@@ -68,11 +70,44 @@
 				transform: translateY(0.5vmin);
 				transition: 0.05s;
 			}
+
+			.deck-preview-text {
+				position: absolute;
+				overflow: hidden;
+				margin: auto;
+
+				width: 75%;
+				height: 100%;
+				top: 0;
+				left: 12.5%;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+				
+				word-break: break-word;
+				font-size: calc(8px + 2vmin);				
+			}
+
+			.gradient {
+				position: absolute;
+
+				width: 78%;
+				height: 100%;
+				top: 0;
+				left: 11%;
+
+				background: linear-gradient($nord1,
+				transparent, transparent, transparent,
+				$nord1);
+			}
 		}
 	}
 
-	.action-nav {
+	.new-action {
 		grid-area: b;
+
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -87,56 +122,47 @@
 			text-decoration: line-through;
 			color: $nord3;
 
+			&:hover {
+				cursor: not-allowed;
+			}
+
 			&:active {
 				box-shadow: 0 0.5vmin 0 $nord3,
 					0 1vmin 1vmin rgba(0, 0, 0, 0.35);
 				transform: unset;
 				transition: unset;
 			}
-
-			&:hover {
-				cursor: not-allowed;
-			}
 		}
 	}
 
 	.curated {
 		grid-area: c;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
+
 		overflow-y: scroll;
 		overflow-x: hidden;
 
 		.text {
+			margin: auto;
+			width: 100%;
+			text-align: center;
 			font-size: calc(2px + 3vmin);
-			margin-top: 2vmin;
+			margin-top: 3vmin;
 		}
 
-		.curated-previews {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-		}
-
-		.curated-card {
-			margin: 2vmin;
-			width: 15vmin;
-			height: 15vmin;
-
+		.curated-preview {
 			background: $nord1;
-			// <offset-x><offset-y><blur-radius><spread-radius>
 			box-shadow: 0 0.5vmin 0 $nord3,
 				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
 			border-radius: 15px;
 
+			margin: 3vmin auto;
+			width: 15vmin;
+			height: 15vmin;
+
 			display: flex;
+			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			text-align: center;
-			font-size: calc(1px + 2vmin);
 
 			&:hover {
 				cursor: pointer;
@@ -147,6 +173,15 @@
 					0 0.5vmin 0.5vmin rgba(0, 0, 0, 0.35);
 				transform: translateY(0.5vmin);
 				transition: 0.05s;
+			}
+
+			.curated-preview-text {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+	
+				text-align: center;
+				font-size: calc(1px + 2vmin);
 			}
 		}
 	}

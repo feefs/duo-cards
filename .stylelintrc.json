@@ -18,14 +18,18 @@
     "order/properties-alphabetical-order": null,
     "order/properties-order": [
       "position",
-      "margin",
       "overflow",
+      "margin",
       "width",
       "height",
       "top",
       "left",
       "right",
-      "bottom"
+      "bottom",
+      "display",
+      "flex-direction",
+      "justify-content",
+      "align-items"
     ]
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { auth, db } from '../App';
+import github from '../github.svg';
 
 import firebase from 'firebase/app'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -40,13 +41,18 @@ function Header() {
         onClick={() => goHome()}
         className="title"
       >
-        Duo-cards (ja)
+        <div className="logo">Duo-cards (ja)</div>
+        <a href="https:github.com/feefs/duo-cards" rel="noreferrer" target="_blank">
+          <img src={github} className="github-logo" alt="Github" />
+        </a>
       </div>
       <div></div>
-      <div className="userStatus">
+      <div></div>
+      <div className="user-status">
         {user ? [ <div key={0}>{auth.currentUser?.email}</div>, <div key={1}><SignOut history={history} /></div>]
               : <div><SignIn history={history} /></div>}
       </div>
+      
 	  </header>
 	)
 }
@@ -58,7 +64,7 @@ function SignIn(props: {history: HistType}) {
     props.history.push('/duo-cards')
   }
 
-	return <button className="googleButton" onClick={googleLogin}>Sign In</button>
+	return <button className="auth-button" onClick={googleLogin}>Sign In</button>
 }
   
 function SignOut(props: {history: HistType}) {
@@ -67,7 +73,7 @@ function SignOut(props: {history: HistType}) {
     props.history.push('/duo-cards')
   }
 
-	return <button className="googleButton" onClick={signOutAndHome}>Sign Out</button>
+	return <button className="auth-button" onClick={signOutAndHome}>Sign Out</button>
 }
 
 export default Header

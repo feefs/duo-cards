@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import Header from './components/Header';
+import Home from './components/Home';
+import View from './components/View';
+import Create from './components/Create';
+import Edit from './components/Edit';
+import Practice from './components/Practice';
+import './scss/App.scss'
+
 import firebase from 'firebase/app'
 import config from './ts/firebase-config';
 import 'firebase/auth'
 import 'firebase/firestore'
-
-import Header from './components/Header';
-import Home from './components/Home';
-import Create from './components/Create';
-import View from './components/View';
-import Edit from './components/Edit';
-import Practice from './components/Practice';
-import './scss/App.scss'
 
 if (firebase.apps.length) {
   firebase.app()
@@ -28,11 +28,11 @@ function App() {
       <div className="App">
         <Header />
           <Switch>
-            <Route path="/duo-cards" exact component={Home}/>
-            <Route path="/duo-cards/create" exact component={Create}/>
-            <Route path="/duo-cards/view/:id" exact component={View}/>
-            <Route path="/duo-cards/edit/:id" exact component={Edit}/>
-            <Route path="/duo-cards/practice/:id" exact component={Practice}/>
+            <Route path="/duo-cards" exact component={Home} />
+            <Route path="/duo-cards/view/:id" exact component={View} />
+            <Route path="/duo-cards/create" exact component={Create} />
+            <Route path="/duo-cards/edit/:id" exact component={Edit} />
+            <Route path="/duo-cards/practice/:id" exact component={Practice} />
           </Switch>
       </div>
     </Router>

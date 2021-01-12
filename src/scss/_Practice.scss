@@ -10,8 +10,8 @@
 	height: 75vh;
 
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
 	font-size: calc(4vmin);
 
 	.editor {
@@ -20,10 +20,10 @@
 		width: 60vw;
 		height: 50vh;
 		
+		display: grid;
 		align-items: center;
 		justify-items: center;
 
-		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 1fr 1fr 1fr;
 		grid-template-areas:
@@ -46,9 +46,10 @@
 
 		.name {
 			grid-area: x;
-			background: unset;
-			border: unset;
-			outline: unset;
+
+			overflow: hidden;
+			width: 150%;
+			height: 75%;
 	
 			text-align: center;
 			color: $nord6;
@@ -116,8 +117,8 @@
 	}
     
 	.card {
+		position: relative;
 		background: $nord1;
-		// <offset-x><offset-y><blur-radius><spread-radius>
 		box-shadow: 0 1vmin 0 $nord3,
 			0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
 		border-radius: 15px;
@@ -127,19 +128,33 @@
     
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 		justify-content: space-between;
-    
+		align-items: center;
+		
 		> div {
-			background: unset;
-			border: unset;
+			//border: 1px solid red;
 			outline: unset;
-    
+			overflow: hidden;
+	
+			width: 100%;
 			text-align: center;
 			color: $nord6;
     
 			font-family: 'Nunito', sans-serif;
-			font-size: calc(2.5vmin);
+			font-size: calc(3vmin);
+		}
+
+		.gradient {
+			position: absolute;
+			width: 100%;
+			height: 90%;
+			top: 5%;
+			left: 0;
+
+			background: linear-gradient(90deg, $nord1,
+			transparent, transparent, transparent,
+			transparent, transparent, transparent,
+			$nord1);
 		}
 	}
     

@@ -10,8 +10,9 @@
 	height: 75vh;
 
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
+	
 	font-size: calc(4vmin);
 
 	.editor {
@@ -19,11 +20,11 @@
 		margin-top: 7.5vh;
 		width: 60vw;
 		height: 50vh;
-		
+
+		display: grid;
 		align-items: center;
 		justify-items: center;
 
-		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 1fr 1fr 1fr;
 		grid-template-areas:
@@ -49,7 +50,10 @@
 			background: unset;
 			border: unset;
 			outline: unset;
+
+			width: 150%;
 	
+			text-overflow: ellipsis;
 			text-align: center;
 			color: $nord6;
 	
@@ -101,10 +105,25 @@
 			@include styled-button($nord11, $nord3, 30vmin, 5vmin, 0, 3vmin);
 			font-size: calc(2.5vmin);
 		}
+
+		.delete-deck.disabled {
+			text-decoration: line-through;
+			color: $nord3;
+
+			&:active {
+				box-shadow: 0 0.5vmin 0 $nord3,
+					0 1vmin 1vmin rgba(0, 0, 0, 0.35);
+				transform: translate(0, 3vmin);
+				transition: unset;
+			}
+
+			&:hover {
+				cursor: not-allowed;
+			}
+		}
 	}
 
 	.slider {
-		grid-area: y;
 	
 		position: relative;
 		overflow: hidden;
@@ -114,6 +133,7 @@
 	
 		display: flex;
 		align-items: center;
+		grid-area: y;
 	}
 	
 	.slide {
@@ -132,8 +152,6 @@
 	}
 	
 	.card {
-		background: $nord1;
-		// <offset-x><offset-y><blur-radius><spread-radius>
 		box-shadow: 0 1vmin 0 $nord3,
 			0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
 		border-radius: 15px;
@@ -143,14 +161,17 @@
 	
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 		justify-content: space-between;
-	
+		align-items: center;
+		background: $nord1;
+
 		> input {
 			background: unset;
 			border: unset;
 			outline: unset;
 	
+			width: 85%;
+			text-overflow: ellipsis;
 			text-align: center;
 			color: $nord6;
 	

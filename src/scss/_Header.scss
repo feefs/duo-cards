@@ -10,42 +10,54 @@
 	height: 12.5vh;
 
 	display: flex;
-	align-items: center;
 	justify-content: space-around;
+	align-items: center;
 
 	.title {
-		width: 50vmin;
+		display: flex;
+		align-items: center;
 
-		color: #58cc02;
-		font-size: calc(6vmin);
-		text-align: center;
-
-		&:hover {
-			cursor: pointer;
+		> * {
+			margin: 1.5vmin;
 		}
-	}
 
-	.userStatus {
-		width: 45vmin;
+		.logo {
+			color: #58cc02;
+			font-size: calc(6vmin);
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		.github-logo {
+			margin: auto;
+			width: 5vmin;
+			height: 5vmin;
+			display: block;
+		}
+	}	
+
+	.user-status {
 		height: 10vh;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 
 		text-align: center;
 		font-size: calc(8px + 2vmin);
 
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-
 		> div {
 			margin: 0.25vmin;
 			transform: translateY(-0.75vmin);
-		}
 
-		.googleButton {
-			@include styled-button($nord6, $nord3, 15vmin, 3vmin, 0, 0);
-			color: $nord0;
-			font-size: calc(2vmin);
+			.auth-button {
+				@include styled-button($nord6, $nord3, 15vmin, 3vmin, 0, 0);
+				color: $nord0;
+				font-size: calc(2vmin);
+			}
 		}
-	}	
+	}
 }

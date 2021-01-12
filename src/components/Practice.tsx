@@ -45,6 +45,14 @@ function Practice(match: MatchProps) {
       cards[i].flipped = false;
     }
 
+    //Fisher-Yates
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * i)
+      const temp = cards[i]
+      cards[i] = cards[j]
+      cards[j] = temp
+    }
+
     setDeckName(d.name)
     setCardlist(d.cards)
   }
@@ -143,6 +151,7 @@ function PracticeCard(props: PracticeCardProps) {
       {props.cardData.flipped ? <div>{props.cardData.pronunciation}</div> : null}
       {props.cardData.flipped ? <div>{props.cardData.pos}</div> : null}
       <div></div>
+      <div className="gradient"></div>
     </div>
   )
 }

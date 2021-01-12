@@ -26,7 +26,15 @@ function Create() {
       
       words.shift()
 
-      const shuffled = words.sort(() => 0.5 - Math.random()).slice(0, Math.min(words.length, numCards))
+      //Fisher-Yates
+      for (let i = words.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * i)
+        const temp = words[i]
+        words[i] = words[j]
+        words[j] = temp
+      }
+
+      const shuffled = words.slice(0, Math.min(words.length, numCards))
       const translateWords = shuffled.map((word: { [x: string]: string; }) => word['word_string'] )
       const translateParams = JSON.stringify({ word_list: translateWords })
   
