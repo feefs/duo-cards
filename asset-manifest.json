@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/duo-cards/static/css/main.d6f433c7.chunk.css",
-    "main.js": "/duo-cards/static/js/main.5252477a.chunk.js",
-    "main.js.map": "/duo-cards/static/js/main.5252477a.chunk.js.map",
+    "main.css": "/duo-cards/static/css/main.c631202d.chunk.css",
+    "main.js": "/duo-cards/static/js/main.58f97b31.chunk.js",
+    "main.js.map": "/duo-cards/static/js/main.58f97b31.chunk.js.map",
     "runtime-main.js": "/duo-cards/static/js/runtime-main.0b6bd293.js",
     "runtime-main.js.map": "/duo-cards/static/js/runtime-main.0b6bd293.js.map",
-    "static/js/2.d102dfa0.chunk.js": "/duo-cards/static/js/2.d102dfa0.chunk.js",
-    "static/js/2.d102dfa0.chunk.js.map": "/duo-cards/static/js/2.d102dfa0.chunk.js.map",
+    "static/js/2.1e658728.chunk.js": "/duo-cards/static/js/2.1e658728.chunk.js",
+    "static/js/2.1e658728.chunk.js.map": "/duo-cards/static/js/2.1e658728.chunk.js.map",
     "static/js/3.b5289266.chunk.js": "/duo-cards/static/js/3.b5289266.chunk.js",
     "static/js/3.b5289266.chunk.js.map": "/duo-cards/static/js/3.b5289266.chunk.js.map",
     "index.html": "/duo-cards/index.html",
-    "static/css/main.d6f433c7.chunk.css.map": "/duo-cards/static/css/main.d6f433c7.chunk.css.map",
-    "static/js/2.d102dfa0.chunk.js.LICENSE.txt": "/duo-cards/static/js/2.d102dfa0.chunk.js.LICENSE.txt"
+    "static/css/main.c631202d.chunk.css.map": "/duo-cards/static/css/main.c631202d.chunk.css.map",
+    "static/js/2.1e658728.chunk.js.LICENSE.txt": "/duo-cards/static/js/2.1e658728.chunk.js.LICENSE.txt",
+    "static/media/github.22e65707.svg": "/duo-cards/static/media/github.22e65707.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.0b6bd293.js",
-    "static/js/2.d102dfa0.chunk.js",
-    "static/css/main.d6f433c7.chunk.css",
-    "static/js/main.5252477a.chunk.js"
+    "static/js/2.1e658728.chunk.js",
+    "static/css/main.c631202d.chunk.css",
+    "static/js/main.58f97b31.chunk.js"
   ]
 }
