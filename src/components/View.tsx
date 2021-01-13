@@ -47,8 +47,7 @@ function View(match: MatchProps) {
           <div>{c.en}</div>
           <div>{c.pos}</div>
           <div></div>
-          </div>
-          <div className="gradient"></div>
+        </div>
       </div>
     )
   })
@@ -76,7 +75,7 @@ function Actions(props: {deckID: string}) {
   return (
     <div className="practice-edit-actions">
       <button className="practice-deck" onClick={() => {practiceDeck(props.deckID)}}>Practice</button>
-      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit Deck</button>
+      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit</button>
     </div>
   )
 }

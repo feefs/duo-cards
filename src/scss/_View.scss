@@ -26,7 +26,6 @@
 		overflow-x: hidden;
 
 		.card-preview {
-			position: relative;
 			background: $nord1;
 			box-shadow: 0 1vmin 0 $nord3,
 				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
@@ -42,7 +41,6 @@
 			vertical-align: middle;
 
 			.card-preview-text {
-				position: absolute;
 				overflow: hidden;
 				margin: auto;
 
@@ -59,20 +57,6 @@
 				
 				word-break: break-word;
 				font-size: 2vmin;
-			}
-
-			.gradient {
-				position: absolute;
-
-				width: 78%;
-				height: 100%;
-				top: 0%;
-				left: 11%;
-
-				background: linear-gradient($nord1,
-				transparent, transparent, transparent,
-				transparent, transparent, transparent,
-				$nord1);
 			}
 		}
 	}

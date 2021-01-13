@@ -48,6 +48,10 @@
 		.name {
 			grid-area: x;
 
+			align-self: flex-end;
+
+			margin-bottom: 2.5vmin;
+
 			overflow: hidden;
 			width: 150%;
 			height: 65%;

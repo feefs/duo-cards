@@ -62,7 +62,6 @@ function Decks(props: {history: HistType, user: any}) {
         <div className="deck-preview-text">
           {d.name}
         </div>
-        <div className="gradient"></div>
       </div>
     )
   })
@@ -84,7 +83,7 @@ function New(props: {history: HistType, user: any}) {
     <div className="new-action">
       <button
         className={props.user ? "new-deck" : "new-deck disabled"}
-        onClick={props.user ? newDeck : () => {}}>New Deck</button>
+        onClick={props.user ? newDeck : () => {}}>New</button>
     </div>
   )
 }

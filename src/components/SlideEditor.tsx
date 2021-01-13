@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../App';
 
@@ -162,11 +162,44 @@ function Card(props: CardProps) {
 }
 
 function Metadata(props: {data: any, defs: any}) {
+  const [similar, setSimilar] = useState<any[]>([])
+
+  useEffect(() => {
+    const similarDivs: any[] = []
+    if (props.defs && props.defs[0]) {
+      const wordObj = props.defs[0].defs[0]
+      let words = wordObj[Object.keys(wordObj)[0]]
+
+      //Fisher-Yates
+      for (let i = words.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * i)
+        const temp = words[i]
+        words[i] = words[j]
+        words[j] = temp
+      }
+
+      words = words.slice(0, 3)
+      words.forEach((word: string, index: number) => {
+        similarDivs.push(<a
+          key={index}
+          className="similar"
+          href={`https://translate.google.com/?sl=ja&tl=en&text=${word}&op=translate`}
+          rel="noreferrer"
+          target="_blank">{word + (index === words.length - 1 ? "" : ", ")}</a>)
+      })
+    }
+    setSimilar(similarDivs)
+  }, [])
+
   return (
     <div className="metadata">
-      <div>Strength: {(props.data.strength * 100).toFixed(2) + "%"}</div>
-      <div>Lesson: 
+      <div>Strength: {<span className="strength">{(props.data.strength * 100).toFixed(2) + "%"}</span>
+        }
+      </div>
+      {similar.length ? <div>Similar: {similar}</div> : null}
+      <div>Lesson:
         <a
+          className="lesson"
           href={`https://duolingo.com/skill/ja/${props.data.skill_url_title}/practice`}
           rel="noreferrer"
           target="_blank"

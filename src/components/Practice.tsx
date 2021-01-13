@@ -128,10 +128,9 @@ function PracticeSlides(props: PracticeSlidesProps) {
       <div className="slider">{slides}</div>
       <button className="nav-button previous" onClick={prev}>Left</button>
       <button className="nav-button next" onClick={next}>Right</button>
-      <button className="view-deck" onClick={() => {viewDeck(props.deckID)}}>View Deck</button>
-      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit Deck</button>
+      <button className="view-deck" onClick={() => {viewDeck(props.deckID)}}>View</button>
+      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit</button>
       <button className="toggle-language" onClick={toggleLanguage}>Toggle Language</button>
-      <button className="edit-deck" onClick={() => {editDeck(props.deckID)}}>Edit Deck</button>
     </div>
   )
 }
