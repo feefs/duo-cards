@@ -21,7 +21,7 @@ function SlideEditor(props: SlideEditorProps) {
   const next = () => { if (currentIndex < props.cardlist.length - 1) setCurrentIndex(currentIndex + 1) }
 
   const deepCopy = () => {
-    return props.cardlist.map((c: CardSchema) => JSON.parse(JSON.stringify(c)))
+    return props.cardlist.map((card: CardSchema) => JSON.parse(JSON.stringify(card)))
   }
 
   const updateCard = (index: number, field: string, value: string) => {
@@ -63,17 +63,27 @@ function SlideEditor(props: SlideEditorProps) {
 
     setSubmitted(true)
 
+    const processedDeck = deepCopy()
+    processedDeck.forEach((card: any) => {
+      if (card.metadata) {
+        delete card.metadata
+      }
+      if (card.defs) {
+        delete card.defs
+      }
+    });
+
     if (props.deckID) {
       await db.collection('decks').doc(props.deckID).update({
         name: props.deckName,
-        cards: deepCopy(),
+        cards: processedDeck,
         last_edited: firebase.firestore.Timestamp.now()
       })
     } else {
       await db.collection('decks').add({
         creator_uid: props.user.uid,
         name: props.deckName,
-        cards: deepCopy(),
+        cards: processedDeck,
         created: firebase.firestore.Timestamp.now(),
       })
     }
@@ -94,20 +104,21 @@ function SlideEditor(props: SlideEditorProps) {
     history.push('/duo-cards')
   }
 
-  const slides = props.cardlist.map((c: CardSchema, index: number) => {
-      if (!c.hasOwnProperty('id')) {
-        c['id'] = props.cardID
+  const slides = props.cardlist.map((card: CardSchema, index: number) => {
+      if (!card.hasOwnProperty('id')) {
+        card.id = props.cardID
         props.setCardID(props.cardID + 1)
       }
       return (
-        <div key={c['id']} className={index === currentIndex ? "slide active" : "slide"}
+        <div key={card.id} className={index === currentIndex ? "slide active" : "slide"}
             style={{transform: `translateX(${((currentIndex - index) * -10) + 20}vmin)`}}>
-          <Card cardData={c} 
+          <Card cardData={card} 
             setJa={(v: string) => updateCard(index, 'ja', v)}
             setPronunciation={(v: string) => updateCard(index, 'pronunciation', v)}
             setEn={(v: string) => updateCard(index, 'en', v)}
             setPos={(v: string) => updateCard(index, 'pos', v)}
             />
+          {card.metadata ? <Metadata data={card.metadata} defs={card.defs} /> : null}
         </div>
       )
     }
@@ -146,6 +157,23 @@ function Card(props: CardProps) {
       <input value={props.cardData.en} placeholder="en" onChange={e => props.setEn(e.target.value)} />
       <input value={props.cardData.pos} placeholder="grammar" onChange={e => props.setPos(e.target.value)} />
       <div></div>
+    </div>
+  )
+}
+
+function Metadata(props: {data: any, defs: any}) {
+  return (
+    <div className="metadata">
+      <div>Strength: {(props.data.strength * 100).toFixed(2) + "%"}</div>
+      <div>Lesson: 
+        <a
+          href={`https://duolingo.com/skill/ja/${props.data.skill_url_title}/practice`}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {" " + props.data.skill}
+        </a>
+      </div>
     </div>
   )
 }

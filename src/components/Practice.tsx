@@ -123,7 +123,7 @@ function PracticeSlides(props: PracticeSlidesProps) {
   )
 
   return (
-    <div className="editor">
+    <div className="practice-tool">
       <div className="name">{props.deckName}</div>
       <div className="slider">{slides}</div>
       <button className="nav-button previous" onClick={prev}>Left</button>
@@ -146,7 +146,6 @@ function PracticeCard(props: PracticeCardProps) {
       {props.cardData.flipped ? <div>{props.cardData.pronunciation}</div> : null}
       {props.cardData.flipped ? <div>{props.cardData.pos}</div> : null}
       <div></div>
-      <div className="gradient"></div>
     </div>
   )
 }

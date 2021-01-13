@@ -39,7 +39,7 @@
 			margin-top: -1.75vmin;
 
 			text-align: center;
-			font-size: calc(2.5vmin);
+			font-size: 2.5vmin;
 		}
 
 		.deck-preview {
@@ -87,7 +87,7 @@
 				text-align: center;
 				
 				word-break: break-word;
-				font-size: calc(8px + 2vmin);				
+				font-size: 3.25vmin;				
 			}
 
 			.gradient {
@@ -115,7 +115,7 @@
 
 		.new-deck {
 			@include styled-button($nord14, $nord3, 15vmin, 6vmin, 0, 0);
-			font-size: calc(2px + 2vmin);
+			font-size: 2.5vmin;
 		}
 
 		.new-deck.disabled {
@@ -145,7 +145,7 @@
 			margin: auto;
 			width: 100%;
 			text-align: center;
-			font-size: calc(2px + 3vmin);
+			font-size: 3.5vmin;
 			margin-top: 3vmin;
 		}
 
@@ -155,7 +155,7 @@
 				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
 			border-radius: 15px;
 
-			margin: 3vmin auto;
+			margin: 2vmin auto 4vmin;
 			width: 15vmin;
 			height: 15vmin;
 
@@ -176,12 +176,14 @@
 			}
 
 			.curated-preview-text {
+				width: 80%;
+
 				display: flex;
 				justify-content: center;
 				align-items: center;
 	
 				text-align: center;
-				font-size: calc(1px + 2vmin);
+				font-size: 2.5vmin;
 			}
 		}
 	}

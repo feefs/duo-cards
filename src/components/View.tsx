@@ -95,8 +95,7 @@ function Stats(props: {deck: DeckSchema}) {
         <div>{props.deck.name}</div>
       </div>
       <div>
-        <div># of cards:</div>
-        <div>{props.deck.cards.length}</div>
+        <div># of cards: {props.deck.cards.length}</div>
       </div>
       <div>
         <div>Last practiced:</div>

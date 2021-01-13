@@ -58,7 +58,7 @@
 				text-align: center;
 				
 				word-break: break-word;
-				font-size: calc(4px + 2vmin);
+				font-size: 2vmin;
 			}
 
 			.gradient {
@@ -87,12 +87,12 @@
 
 		.practice-deck {
 			@include styled-button($nord10, $nord3, 15vmin, 6vmin, 0, 0);
-			font-size: calc(2.75vmin);
+			font-size: 2.5vmin;
 		}
 
 		.edit-deck {
 			@include styled-button($nord13, $nord3, 15vmin, 6vmin, 0, 0);
-			font-size: calc(2.75vmin);
+			font-size: 2.5vmin;
 		}
 	}
 
@@ -104,24 +104,25 @@
 		justify-content: space-evenly;
 		align-items: center;
 
-		font-size: calc(2vmin);
+		font-size: 2.25vmin;
 
 		> :first-child {
 			overflow: hidden;
+			margin-bottom: -1.5vmin;
 			
 			> :first-child {
-				font-size: calc(8px + 2vmin);
+				font-size: 2.25vmin;
 			}
+		}
+
+		> :last-child {
+			margin-bottom: 1vmin;
 		}
 
 		> div {
 			width: 70%;
 			max-height: 18%;
 			text-align: center;
-
-			> :last-child {
-				font-size: calc(2px + 2vmin);
-			}
 		}
 	}
 }

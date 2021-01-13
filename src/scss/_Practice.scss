@@ -13,9 +13,9 @@
 	justify-content: center;
 	align-items: center;
 
-	font-size: calc(4vmin);
+	font-size: 4vmin;
 
-	.editor {
+	.practice-tool {
 		margin: auto;
 		margin-top: 7.5vh;
 		width: 60vw;
@@ -34,7 +34,7 @@
 
 		.nav-button {
 			@include styled-button($nord2, $nord3, 15vmin, 6vmin, 0, 6vmin);
-			font-size: calc(2.5vmin);
+			font-size: 2.5vmin;
 		}
 
 		.previous {
@@ -54,106 +54,90 @@
 	
 			text-align: center;
 	
-			font-size: calc(3.5vmin);
+			font-size: 3.5vmin;
 		}
         
 		.view-deck {
 			@include styled-button($nord9, $nord3, 15vmin, 6vmin, 0, -6vmin);
 			grid-area: a;
-			font-size: calc(2.5vmin);
+			font-size: 2.5vmin;
 		}
 
 		.toggle-language {
 			@include styled-button($nord12, $nord3, 30vmin, 5vmin, 0, 3vmin);
 			grid-area: z;
-			font-size: calc(2.5vmin);
+			font-size: 2.5vmin;
 		}
 
 		.edit-deck {
 			@include styled-button($nord13, $nord3, 15vmin, 6vmin, 0, -6vmin);
 			grid-area: b;
-			font-size: calc(2.5vmin);
+			font-size: 2.5vmin;
 		}
-	}
-    
-	.slider {
-		grid-area: y;
-    
-		position: relative;
-		overflow: hidden;
-    
-		width: 35vmin;
-		height: 35vmin;
-    
-		display: flex;
-		align-items: center;
-	}
-    
-	.slide {
-		position: absolute;
-		margin: 0 0 0 -20vmin;
-		width: 30vmin;
-		left: 2.5vmin;
-		opacity: 0;
-		transition: 0.15s;
-        
-		&:hover {
-			cursor: pointer;
-		}
-        
-		:active {
-			box-shadow: 0 0.1vmin 0 $nord3,
-				0 0.5vmin 0.5vmin rgba(0, 0, 0, 0.35);
-			transform: translateY(0.5vmin);
-			transition: 0.05s;
-		}
-	}
-    
-	.slide.active {
-		z-index: 1;
-		opacity: 1;
-		transition: 0.3s;
-	}
-    
-	.card {
-		position: relative;
-		background: $nord1;
-		box-shadow: 0 1vmin 0 $nord3,
-			0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
-		border-radius: 15px;
-    
-		width: 30vmin;
-		height: 30vmin;
-    
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
+
+		.slider {
+			grid-area: y;
 		
-		> div {
-			//border: 1px solid red;
-			outline: unset;
+			position: relative;
 			overflow: hidden;
+		
+			width: 35vmin;
+			height: 35vmin;
+		
+			display: flex;
+			align-items: center;
 	
-			width: 100%;
-			text-align: center;
-			color: $nord6;
-    
-			font-family: 'Nunito', sans-serif;
-			font-size: calc(3vmin);
-		}
-
-		.gradient {
-			position: absolute;
-			width: 100%;
-			height: 90%;
-			top: 5%;
-			left: 0;
-
-			background: linear-gradient(90deg, $nord1,
-			transparent, transparent, transparent,
-			transparent, transparent, transparent,
-			$nord1);
+			.slide {
+				position: absolute;
+				margin: 0 0 0 -20vmin;
+				width: 30vmin;
+				left: 2.5vmin;
+				opacity: 0;
+				
+				&:hover {
+					cursor: pointer;
+				}
+				
+				:active {
+					box-shadow: 0 0.1vmin 0 $nord3,
+						0 0.5vmin 0.5vmin rgba(0, 0, 0, 0.35);
+					transform: translateY(0.5vmin);
+					transition: 0.05s;
+				}
+			}
+			
+			.slide.active {
+				z-index: 1;
+				opacity: 1;
+				transition: 0.3s;
+			}
+			
+			.card {
+				background: $nord1;
+				box-shadow: 0 1vmin 0 $nord3,
+					0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
+				border-radius: 15px;
+			
+				width: 30vmin;
+				height: 30vmin;
+			
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+				
+				> div {
+					outline: unset;
+					overflow: hidden;
+			
+					width: 85%;
+					text-align: center;
+					color: $nord6;
+			
+					font-family: 'Nunito', sans-serif;
+					font-size: 3vmin;
+				}
+			}
 		}
 	}
     

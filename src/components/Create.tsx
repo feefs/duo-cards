@@ -31,16 +31,17 @@ function Create() {
           }).then(response => response.json())
 
         words.shift()
-  
-        //Fisher-Yates
-        for (let i = words.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * i)
-          const temp = words[i]
-          words[i] = words[j]
-          words[j] = temp
-        }
-  
+
         const shuffled = words.slice(0, Math.min(words.length, numCards))
+
+        //Fisher-Yates
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * i)
+          const temp = shuffled[i]
+          shuffled[i] = shuffled[j]
+          shuffled[j] = temp
+        }
+
         const translateWords = shuffled.map((word: { [x: string]: string; }) => word['word_string'] )
         const translateParams = JSON.stringify({ word_list: translateWords })
     
@@ -51,6 +52,7 @@ function Create() {
           }).then(response => response.json())
         
         for (let i = 0; i < shuffled.length; i++) {
+          cards[i].metadata = shuffled[i]
           cards[i].id = i
         }
   

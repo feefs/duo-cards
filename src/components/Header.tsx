@@ -42,7 +42,7 @@ function Header() {
         className="title"
       >
         <div className="logo">Duo-cards (ja)</div>
-        <a href="https:github.com/feefs/duo-cards" rel="noreferrer" target="_blank">
+        <a href="https://github.com/feefs/duo-cards" rel="noreferrer" target="_blank">
           <img src={github} className="github-logo" alt="Github" />
         </a>
       </div>

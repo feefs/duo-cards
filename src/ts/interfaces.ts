@@ -14,6 +14,9 @@ export interface CardSchema {
     en: string
     pos: string
     id: number
+    
+    metadata?: any
+    defs?: any
     flipped?: boolean
 }
 
@@ -22,9 +25,10 @@ export interface DeckSchema {
     created: firebase.firestore.Timestamp | null
     creator_uid: string
     name: string
-    docID?: string
     last_edited?: firebase.firestore.Timestamp | undefined
     last_practiced?: firebase.firestore.Timestamp | undefined
+
+    docID?: string
 }
 
 export interface UserSchema {

@@ -13,7 +13,7 @@
 	justify-content: center;
 	align-items: center;
 	
-	font-size: calc(4vmin);
+	font-size: 4vmin;
 
 	.editor {
 		margin: auto;
@@ -26,15 +26,17 @@
 		justify-items: center;
 
 		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 1fr 1fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 		grid-template-areas:
 			'a x b'
 			'a y b'
-			'a z b';
+			'a y b'
+			'a y b'
+			'a y b';
 
 		.nav-button {
 			@include styled-button($nord2, $nord3, 15vmin, 6vmin, 0, 6vmin);
-			font-size: calc(2.5vmin);
+			font-size: 2.5vmin;
 		}
 
 		.previous {
@@ -48,6 +50,10 @@
 		.name {
 			grid-area: x;
 
+			align-self: flex-end;
+
+			margin-bottom: 3.75vmin;
+
 			background: unset;
 			border: unset;
 			outline: unset;
@@ -59,31 +65,31 @@
 			color: $nord6;
 	
 			font-family: 'Nunito', sans-serif;
-			font-size: calc(3.5vmin);
+			font-size: 3.5vmin;
 		}
 
 		.wipe-card {
 			@include styled-button($nord12, $nord3, 5vmin, 5vmin, 5vmin, -6vmin);
 			grid-area: a;
-			font-size: calc(3vmin);
+			font-size: 2.5vmin;
 		}
 
 		.delete-card {
 			@include styled-button($nord11, $nord3, 5vmin, 5vmin, -5vmin, -6vmin);
 			grid-area: a;
-			font-size: calc(2.5vmin);
+			font-size: 2.5vmin;
 		}
 
 		.new-card {
 			@include styled-button($nord14, $nord3, 5vmin, 5vmin, -5vmin, -6vmin);
 			grid-area: b;
-			font-size: calc(3vmin);
+			font-size: 3vmin;
 		}
 
 		.submit-deck {
 			@include styled-button($nord15, $nord3, 5vmin, 5vmin, 5vmin, -6vmin);
 			grid-area: b;
-			font-size: calc(2vmin);
+			font-size: 2vmin;
 		}
 
 		.submit-deck.disabled {
@@ -103,8 +109,9 @@
 		}
 
 		.delete-deck {
-			@include styled-button($nord11, $nord3, 30vmin, 5vmin, 0, 3vmin);
-			font-size: calc(2.5vmin);
+			@include styled-button($nord11, $nord3, 30vmin, 5vmin, 0, 19.25vmin);
+			grid-area: y;
+			font-size: 2.5vmin;
 		}
 
 		.delete-deck.disabled {
@@ -128,54 +135,72 @@
 			overflow: hidden;
 		
 			width: 35vmin;
-			height: 35vmin;
-		
-			display: flex;
-			align-items: center;
-			grid-area: y;
-		}
-
-		.slide {
-			position: absolute;
-			margin: 0 0 0 -20vmin;
-			width: 30vmin;
-			left: 2.5vmin;
-			opacity: 0;
-			transition: 0.15s;
-		}
-		
-		.slide.active {
-			z-index: 1;
-			opacity: 1;
-			transition: 0.3s;
-		}
-
-		.card {
-			box-shadow: 0 1vmin 0 $nord3,
-				0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
-			border-radius: 15px;
-		
-			width: 30vmin;
-			height: 30vmin;
+			height: 50vmin;
 		
 			display: flex;
 			flex-direction: column;
-			justify-content: space-between;
+			justify-content: flex-start;
 			align-items: center;
-			background: $nord1;
+			grid-area: y;
+
+			.slide {
+				position: absolute;
+				margin: 5vmin 0 0 -20vmin;
+				width: 30vmin;
+				left: 2.5vmin;
+				opacity: 0;
+			}
+			
+			.slide.active {
+				z-index: 1;
+				opacity: 1;
+				transition: 0.3s;
+			}
 	
-			> input {
-				background: unset;
-				border: unset;
-				outline: unset;
+			.card {
+				background: $nord1;
+				box-shadow: 0 1vmin 0 $nord3,
+					0 1vmin 1vmin 0.3vmin  rgba(0, 0, 0, 0.35);
+				border-radius: 15px;
+			
+				width: 30vmin;
+				height: 30vmin;
+			
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
 		
-				width: 85%;
-				text-overflow: ellipsis;
+				> input {
+					background: unset;
+					border: unset;
+					outline: unset;
+			
+					width: 85%;
+					text-overflow: ellipsis;
+					text-align: center;
+					color: $nord6;
+			
+					font-family: 'Nunito', sans-serif;
+					font-size: 2.5vmin;
+				}
+			}
+
+			.metadata {
+				position: absolute;
+				width: 100%;
+				margin-top: 6vmin;
 				text-align: center;
-				color: $nord6;
-		
-				font-family: 'Nunito', sans-serif;
-				font-size: calc(2.5vmin);
+				font-size: 2.5vmin;
+
+				> div {
+					margin: 0 0 1.5vmin;
+
+					> a {
+						color: $nord14;
+						text-decoration: none;
+					}
+				}
 			}
 		}
 	}

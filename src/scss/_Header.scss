@@ -23,7 +23,7 @@
 
 		.logo {
 			color: #58cc02;
-			font-size: calc(6vmin);
+			font-size: 6vmin;
 
 			&:hover {
 				cursor: pointer;
@@ -47,7 +47,7 @@
 		align-items: center;
 
 		text-align: center;
-		font-size: calc(8px + 2vmin);
+		font-size: 3vmin;
 
 		> div {
 			margin: 0.25vmin;
@@ -56,7 +56,7 @@
 			.auth-button {
 				@include styled-button($nord6, $nord3, 15vmin, 3vmin, 0, 0);
 				color: $nord0;
-				font-size: calc(2vmin);
+				font-size: 2vmin;
 			}
 		}
 	}

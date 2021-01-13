@@ -117,8 +117,8 @@ function Curated(props: {history: HistType}) {
 
   const curatedDeckList = curatedCards.map((curated: CuratedCard, index: number) => {
     return (
-      <div className="curated-preview">
-        <div key={index} className="curated-preview-text" onClick={() => {curatedDeck(curated)}}>
+      <div key={index} className="curated-preview" onClick={() => {curatedDeck(curated)}}>
+        <div className="curated-preview-text">
           {curated.name}
         </div>
       </div>

@@ -11,7 +11,7 @@
     "selector-class-pattern": ".*",
     "selector-list-comma-newline-after": "always-multi-line",
     "selector-max-id": 5,
-    "selector-max-compound-selectors": 5,
+    "selector-max-compound-selectors": 6,
     "selector-no-qualifying-type": [true, {"ignore": ["attribute"]}],
 
     
