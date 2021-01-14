@@ -9,7 +9,7 @@ import Practice from './components/Practice';
 import './scss/App.scss'
 
 import firebase from 'firebase/app'
-import { firebaseConfig } from './ts/firebase-config';
+import { firebaseConfig } from './ts/configs';
 import 'firebase/auth'
 import 'firebase/firestore'
 

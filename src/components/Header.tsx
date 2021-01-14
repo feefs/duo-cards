@@ -21,10 +21,10 @@ function Header() {
       const userData = await userSnapshot.get()
 
       if (!userData.exists) {
-        userSnapshot.set({ visits: 0 })
+        userSnapshot.set({ visits: 1 })
       } else {
         const prevVisits = await userData.get('visits')
-        userSnapshot.update({ visits: (prevVisits ? prevVisits : -1) + 1 })
+        userSnapshot.update({ visits: (prevVisits ? prevVisits : 0) + 1 })
       }
     }
 

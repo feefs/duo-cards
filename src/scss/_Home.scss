@@ -134,6 +134,19 @@
 			margin-top: 3vmin;
 		}
 
+		.test {
+			margin: auto;
+			width: 80%;
+			text-align: center;
+			font-size: 2.5vmin;
+			margin-top: 14vmin;
+
+			> a {
+				color: $nord11;
+				text-decoration: none;
+			}
+		}
+
 		.curated-preview {
 			background: $nord1;
 			box-shadow: 0 0.5vmin 0 $nord3,

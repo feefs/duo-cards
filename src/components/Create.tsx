@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { auth } from '../App';
 import SlideEditor from './SlideEditor';
+import { CURATED_ENABLED } from '../ts/configs';
 
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -19,7 +20,7 @@ function Create() {
     async function fetchCards() {
       let cards: CardSchema[] = []
   
-      if (location.state) {  
+      if (location.state && CURATED_ENABLED) {  
         const name = location.state.name
         const parameters = location.state.curateParameters
         const numCards = location.state.numCards

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { auth, db } from '../App';
 import curatedList from '../ts/curated';
+import { CURATED_ENABLED } from '../ts/configs';
 
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -127,7 +128,18 @@ function Curated(props: {history: HistType}) {
   return (
     <div className="curated">
       <div className="text">Curated</div>
-        {curatedDeckList}
+      
+      {CURATED_ENABLED
+        ? curatedDeckList
+        : <div className="test">
+            <a className="curated-disabled"
+            href="https://github.com/feefs/duo-cards#local-installation-for-curated-cards"
+            rel="noreferrer"
+            target="_blank"
+            >Feature disabled, click to read why.
+          </a>
+        </div>
+      }
     </div>
   )
 }

@@ -1,5 +1,15 @@
 import { CuratedCard } from './interfaces';
 
+/*
+name: Name of deck
+parameters: {
+    start: Date N days + N weeks ago to start looking for words.
+    end: Date N days + N weeks ago to stop looking for words
+    strength: Range of word strength bars to look for (inclusive)
+}
+num: Number of cards to fetch.
+*/
+
 const recent = {
     name: "Recently Practiced",
     parameters: JSON.stringify({
