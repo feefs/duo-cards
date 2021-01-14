@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/duo-cards/static/css/main.3bfbc0de.chunk.css",
-    "main.js": "/duo-cards/static/js/main.c0929b2b.chunk.js",
-    "main.js.map": "/duo-cards/static/js/main.c0929b2b.chunk.js.map",
+    "main.js": "/duo-cards/static/js/main.905306df.chunk.js",
+    "main.js.map": "/duo-cards/static/js/main.905306df.chunk.js.map",
     "runtime-main.js": "/duo-cards/static/js/runtime-main.0b6bd293.js",
     "runtime-main.js.map": "/duo-cards/static/js/runtime-main.0b6bd293.js.map",
     "static/js/2.1e658728.chunk.js": "/duo-cards/static/js/2.1e658728.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.0b6bd293.js",
     "static/js/2.1e658728.chunk.js",
     "static/css/main.3bfbc0de.chunk.css",
-    "static/js/main.c0929b2b.chunk.js"
+    "static/js/main.905306df.chunk.js"
   ]
 }
