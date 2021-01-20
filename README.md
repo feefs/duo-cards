@@ -1,5 +1,5 @@
 # [Duo-cards](https://feefs.me/duo-cards)
-Duo-cards is a flashcard web app that complements Duolingo with curated decks from a custom API.
+Duo-cards is a flashcard web app that complements Duolingo with curated decks from a custom REST API.
 
 Duolingo discontinued [Tinycards](https://support.duolingo.com/hc/en-us/articles/360043909772-UPDATE-Tinycards-Announcement) in September 2020, and as of recently their Japanese JSON data is still incomplete. I made this app to fix both problems (for me at least).
 
