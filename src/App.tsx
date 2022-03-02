@@ -2,7 +2,21 @@ import React from 'react';
 import logo from './logo.svg';
 import './css/App.css';
 
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from './ts/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+async function googleLogin() {
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider);
+}
+
+async function googleSignOut() {
+  await auth.signOut();
+}
+
 function App() {
+  const [user, ,] = useAuthState(auth);
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +32,9 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={googleLogin}>Sign in!</button>
+        <button onClick={googleSignOut}>Sign out!</button>
+        {user ? user.email : 'Not signed in!'}
       </header>
     </div>
   );
