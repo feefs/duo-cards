@@ -1,7 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx pretty-quick --check --staged --pattern "src/**/*.{ts,tsx,css}"
+npx pretty-quick --check --staged --pattern "src/**/*.{ts,tsx,scss}"
 
 export CI=true
 npm run test
