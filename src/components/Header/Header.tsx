@@ -1,6 +1,8 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../ts/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+
+import { auth } from '../../ts/firebase';
+import './Header.scss';
 
 async function googleLogin() {
   const provider = new GoogleAuthProvider();
@@ -11,10 +13,10 @@ async function googleSignOut() {
   await auth.signOut();
 }
 
-export function Header(): JSX.Element {
+export default function Header(): JSX.Element {
   const [user, ,] = useAuthState(auth);
   return (
-    <header className="header">
+    <header className="Header">
       <button onClick={googleLogin}>Sign in!</button>
       <button onClick={googleSignOut}>Sign out!</button>
       {user ? user.email : 'Not signed in!'}

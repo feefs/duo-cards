@@ -1,0 +1,9 @@
+@use 'node_modules/nord/src/sass/nord.scss' as *;
+@import 'https://fonts.googleapis.com/css2?family=Nunito&display=swap';
+
+.App {
+  background-color: $nord0;
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: $nord6;
+}

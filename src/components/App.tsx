@@ -1,10 +1,12 @@
-import './scss/App.scss';
-import { Header } from './components/Header';
+import './App.scss';
+import Body from './Body';
+import Header from './Header';
 
 function App() {
   return (
     <div className="App">
       <Header />
+      <Body />
     </div>
   );
 }
