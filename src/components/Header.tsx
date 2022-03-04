@@ -14,10 +14,10 @@ async function googleSignOut() {
 export function Header(): JSX.Element {
   const [user, ,] = useAuthState(auth);
   return (
-    <>
+    <header className="header">
       <button onClick={googleLogin}>Sign in!</button>
       <button onClick={googleSignOut}>Sign out!</button>
       {user ? user.email : 'Not signed in!'}
-    </>
+    </header>
   );
 }
