@@ -1,8 +1,18 @@
 .Header {
-  margin: auto;
   width: 90vw;
   height: 12.5vh;
-
-  box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.4);
+  margin: auto;
   border-radius: 15px;
+  box-shadow: 0 0 20px 8px rgb(0 0 0 / 40%);
+
+  .flex-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .logo {
+      color: #58cc02;
+      font-size: 6vmin;
+    }
+  }
 }
