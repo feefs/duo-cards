@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.4",
+    "lint-staged": "^12.3.5",
     "prettier": "^2.5.1",
     "stylelint": "^14.5.3",
     "stylelint-config-prettier-scss": "^0.0.1",
@@ -39,6 +39,11 @@
   "lint-staged": {
     "*.{ts,tsx}": ["prettier --check"],
     "*.scss": ["prettier --check", "stylelint"]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.tsx"
+    ]
   },
   "eslintConfig": {
     "extends": [
