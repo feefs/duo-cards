@@ -1,5 +1,4 @@
-@use 'node_modules/nord/src/sass/nord.scss' as *;
-@import 'https://fonts.googleapis.com/css2?family=Nunito&display=swap';
+@use '../scss/style' as *;
 
 .App {
   min-height: 100vh;

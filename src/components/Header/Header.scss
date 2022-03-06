@@ -1,18 +1,63 @@
+@use '../../scss/style' as *;
+
 .Header {
   width: 90vw;
   height: 12.5vh;
   margin: auto;
-  border-radius: 15px;
+  border-radius: 0 0 15px 15px;
   box-shadow: 0 0 20px 8px rgb(0 0 0 / 40%);
 
   .flex-container {
-    display: flex;
-    align-items: center;
+    > * {
+      margin: auto;
+    }
+
+    display: grid;
+    grid-template-columns: 7fr 5fr 6fr;
     height: 100%;
 
     .logo {
-      color: #58cc02;
-      font-size: 6vmin;
+      display: flex;
+      align-items: center;
+
+      > * {
+        margin: 1.5vmin;
+      }
+
+      .text {
+        color: #58cc02;
+        font-size: 6vmin;
+        line-height: 0.75em;
+      }
+
+      .github {
+        display: block;
+        width: 5vmin;
+        height: 5vmin;
+        transition: filter 0.15s ease-out;
+
+        &:hover {
+          filter: invert(97%) sepia(2%) saturate(533%) hue-rotate(184deg)
+            brightness(97%) contrast(97%);
+        }
+      }
+    }
+
+    .user-auth {
+      button {
+        @include styled-button($nord6, $nord3, 15vmin, 3vmin, 0, 0);
+
+        color: $nord0;
+        font-size: 2vmin;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        transform: translateY(-0.75vmin);
+        font-size: 3vmin;
+      }
     }
   }
 }

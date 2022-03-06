@@ -14,6 +14,6 @@ test('renders learn react link', async () => {
       </Router>
     );
   });
-  const linkElement = screen.getByText(/Not signed in!/i);
+  const linkElement = screen.getByText(/Duo-cards/i);
   expect(linkElement).toBeInTheDocument();
 });

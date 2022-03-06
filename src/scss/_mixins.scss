@@ -1,0 +1,21 @@
+@mixin styled-button($base, $cross-section, $width, $height, $X, $Y) {
+  width: $width;
+  height: $height;
+  transform: translate($X, $Y);
+  transition: 0.05s;
+  border: unset;
+  border-radius: 15px;
+  background: $base;
+  box-shadow: 0 0.5vmin 0 $cross-section, 0 1vmin 1vmin rgb(0 0 0 / 35%);
+  font-family: Nunito, sans-serif;
+
+  &:active {
+    transform: translate($X, $Y + 0.5vmin);
+    transition: 0.05s;
+    box-shadow: 0 0.1vmin 0 $cross-section, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
