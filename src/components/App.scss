@@ -4,5 +4,8 @@
   min-height: 100vh;
   background-color: $nord0;
   color: $nord6;
-  font-family: Nunito, sans-serif;
+
+  * {
+    font-family: Nunito, sans-serif;
+  }
 }

@@ -26,7 +26,7 @@ export default function Header(): JSX.Element {
   const [user, loading] = useAuthState(auth);
   return (
     <header className="Header">
-      <div className="flex-container">
+      <div className="grid-container">
         <div className="logo">
           <span className="text">Duo-cards</span>
           <a
