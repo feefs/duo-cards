@@ -34,7 +34,7 @@ export default function Header(): JSX.Element {
             rel="noreferrer"
             target="_blank"
           >
-            <img src={github} className="github" alt="Github" />
+            <img className="github" src={github} alt="Github" />
           </a>
         </div>
         <div />

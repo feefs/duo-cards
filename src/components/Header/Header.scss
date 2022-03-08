@@ -28,6 +28,7 @@
         color: #58cc02;
         font-size: 6vmin;
         line-height: 0.75em;
+        user-select: none;
       }
 
       .github {
@@ -45,7 +46,7 @@
 
     .user-auth {
       button {
-        @include styled-button($nord6, $nord3, 15vmin, 3vmin, 0, 0);
+        @include styled-box($nord6, 15vmin, 3vmin, 0.5vmin);
 
         color: $nord0;
         font-size: 2vmin;

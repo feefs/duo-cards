@@ -1,3 +1,5 @@
+@use '../../../scss/style' as *;
+
 .Decks {
   display: grid;
   grid-template:
@@ -19,7 +21,28 @@
   }
 
   .decks {
+    display: flex;
     grid-area: a;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+
+    .deck-preview {
+      @include styled-box($nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+
+      margin: 7.5vmin;
+
+      .name {
+        display: flex;
+        align-items: center;
+        width: 75%;
+        height: 100%;
+        margin: auto;
+        font-size: 3.25vmin;
+        text-align: center;
+        word-break: break-all;
+        user-select: none;
+      }
+    }
   }
 
   .new {

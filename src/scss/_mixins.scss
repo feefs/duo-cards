@@ -1,4 +1,14 @@
-@mixin styled-button($base, $cross-section, $width, $height, $X, $Y) {
+@use '../../node_modules/nord/src/sass/nord.scss' as *;
+
+@mixin styled-box(
+  $base,
+  $width,
+  $height,
+  $depth,
+  $spread-radius: 0,
+  $X: 0,
+  $Y: 0
+) {
   width: $width;
   height: $height;
   transform: translate($X, $Y);
@@ -6,12 +16,12 @@
   border: unset;
   border-radius: 15px;
   background: $base;
-  box-shadow: 0 0.5vmin 0 $cross-section, 0 1vmin 1vmin rgb(0 0 0 / 35%);
+  box-shadow: 0 $depth 0 $nord3, 0 1vmin 1vmin $spread-radius rgb(0 0 0 / 35%);
 
   &:active {
     transform: translate($X, $Y + 0.5vmin);
     transition: 0.05s;
-    box-shadow: 0 0.1vmin 0 $cross-section, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
+    box-shadow: 0 0.1vmin 0 $nord3, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
   }
 
   &:hover {
