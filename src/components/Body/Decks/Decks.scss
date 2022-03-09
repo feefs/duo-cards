@@ -39,14 +39,33 @@
         margin: auto;
         font-size: 3.25vmin;
         text-align: center;
-        word-break: break-all;
+        overflow-wrap: anywhere;
         user-select: none;
       }
+    }
+
+    .deck-text {
+      margin: auto;
+      font-size: 2.5vmin;
     }
   }
 
   .new {
+    display: flex;
     grid-area: b;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      @include styled-box($nord14, 15vmin, 6vmin, 0.5vmin);
+
+      font-size: 2.5vmin;
+    }
+
+    .disabled {
+      color: $nord3;
+      text-decoration: line-through;
+    }
   }
 
   .curated {

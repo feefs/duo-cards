@@ -38,8 +38,7 @@
         transition: filter 0.15s ease-out;
 
         &:hover {
-          filter: invert(97%) sepia(2%) saturate(533%) hue-rotate(184deg)
-            brightness(97%) contrast(97%);
+          filter: invert(97%) sepia(2%) saturate(533%) hue-rotate(184deg) brightness(97%) contrast(97%);
         }
       }
     }

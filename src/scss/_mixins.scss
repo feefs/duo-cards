@@ -1,14 +1,6 @@
 @use '../../node_modules/nord/src/sass/nord.scss' as *;
 
-@mixin styled-box(
-  $base,
-  $width,
-  $height,
-  $depth,
-  $spread-radius: 0,
-  $X: 0,
-  $Y: 0
-) {
+@mixin styled-box($base, $width, $height, $depth, $spread-radius: 0, $X: 0, $Y: 0) {
   width: $width;
   height: $height;
   transform: translate($X, $Y);

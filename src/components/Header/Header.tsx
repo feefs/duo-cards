@@ -29,11 +29,7 @@ export default function Header(): JSX.Element {
       <div className="grid-container">
         <div className="logo">
           <span className="text">Duo-cards</span>
-          <a
-            href="https://github.com/feefs/duo-cards"
-            rel="noreferrer"
-            target="_blank"
-          >
+          <a href="https://github.com/feefs/duo-cards" rel="noreferrer" target="_blank">
             <img className="github" src={github} alt="Github" />
           </a>
         </div>
