@@ -1,4 +1,5 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,6 +27,16 @@ function SignOut(): JSX.Element {
 export default function Header(): JSX.Element {
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loading || !navigate) {
+      return;
+    }
+    if (!user) {
+      navigate('/duo-cards');
+    }
+  }, [loading, navigate, user]);
+
   return (
     <header className="Header">
       <div className="grid-container">

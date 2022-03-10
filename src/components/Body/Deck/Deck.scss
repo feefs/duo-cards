@@ -1,8 +1,59 @@
+@use '../../../scss/style' as *;
+
 .Deck {
+  display: grid;
+  grid-template:
+    'a a a a a a b'
+    'a a a a a a c'
+    'a a a a a a c';
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24vmin;
+  grid-template-rows: 1fr 1fr 1fr;
   width: 90vw;
   height: 75vh;
   margin: auto;
   margin-top: 5vh;
-  border-radius: 15px;
-  box-shadow: 0 0 20px 6px rgb(0 0 0 / 40%);
+  gap: 3vmin 4vmin;
+
+  > div {
+    @include styled-border;
+  }
+
+  .cards {
+    display: flex;
+    grid-area: a;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+
+    .card {
+      @include styled-box($nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+
+      margin: 7.5vmin;
+
+      .card-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 75%;
+        height: 100%;
+        margin: auto;
+        font-size: 2vmin;
+        text-align: center;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    .invalid-text {
+      margin: auto;
+      font-size: 2.5vmin;
+    }
+  }
+
+  .deck-actions {
+    grid-area: b;
+  }
+
+  .deck-info {
+    grid-area: c;
+  }
 }

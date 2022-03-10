@@ -10,6 +10,7 @@ import './Decks.scss';
 function Decks(): JSX.Element {
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
+
   const [decks, setDecks] = useState<DeckSchema[]>([]);
   const [empty, setEmpty] = useState<boolean>(false);
 

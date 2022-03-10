@@ -20,3 +20,8 @@
     cursor: pointer;
   }
 }
+
+@mixin styled-border {
+  border-radius: 15px;
+  box-shadow: 0 0 20px 6px rgb(0 0 0 / 40%);
+}
