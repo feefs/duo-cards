@@ -1,5 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../../ts/firebase';
 import './Header.scss';
@@ -24,11 +25,14 @@ function SignOut(): JSX.Element {
 
 export default function Header(): JSX.Element {
   const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
   return (
     <header className="Header">
       <div className="grid-container">
         <div className="logo">
-          <span className="text">Duo-cards</span>
+          <span className="text" onClick={() => navigate('/duo-cards')}>
+            Duo-cards
+          </span>
           <a href="https://github.com/feefs/duo-cards" rel="noreferrer" target="_blank">
             <img className="github" src={github} alt="Github" />
           </a>

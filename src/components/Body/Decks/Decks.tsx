@@ -1,6 +1,7 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 
 import { auth, firestore } from '../../../ts/firebase';
 import { DeckSchema } from '../../../ts/interfaces';
@@ -8,6 +9,7 @@ import './Decks.scss';
 
 function Decks(): JSX.Element {
   const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
   const [decks, setDecks] = useState<DeckSchema[]>([]);
   const [empty, setEmpty] = useState<boolean>(false);
 
@@ -39,7 +41,7 @@ function Decks(): JSX.Element {
       <div className="decks">
         {loading || (user && !empty) ? (
           decks.map((deck) => (
-            <div className="deck-preview" key={deck.id}>
+            <div className="deck-preview" key={deck.id} onClick={() => navigate(`./deck/${deck.id}`)}>
               <div className="name">{deck.name}</div>
             </div>
           ))
