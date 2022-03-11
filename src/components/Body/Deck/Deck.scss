@@ -25,7 +25,7 @@
     overflow-y: scroll;
 
     .card {
-      @include styled-box($nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+      @include styled-box(false, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
 
       margin: 7.5vmin;
 

@@ -26,7 +26,7 @@
     overflow-y: scroll;
 
     .deck-preview {
-      @include styled-box($nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+      @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
 
       margin: 7.5vmin;
 
@@ -56,7 +56,7 @@
     justify-content: center;
 
     button {
-      @include styled-box($nord14, 15vmin, 6vmin, 0.5vmin);
+      @include styled-box(true, $nord14, 15vmin, 6vmin, 0.5vmin);
 
       font-size: 2.5vmin;
     }

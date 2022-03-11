@@ -46,7 +46,7 @@
 
     .user-auth {
       button {
-        @include styled-box($nord6, 15vmin, 3vmin, 0.5vmin);
+        @include styled-box(true, $nord6, 15vmin, 3vmin, 0.5vmin);
 
         color: $nord0;
         font-size: 2vmin;
