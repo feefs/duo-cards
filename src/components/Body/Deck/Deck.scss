@@ -69,6 +69,32 @@
   }
 
   .deck-info {
+    display: flex;
     grid-area: c;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5vmin;
+    overflow: hidden;
+
+    > * {
+      text-align: center;
+    }
+
+    .info-name {
+      width: 70%;
+      max-height: 30%;
+      overflow: hidden;
+      font-size: 3vmin;
+      text-overflow: ellipsis;
+    }
+
+    > hr {
+      width: 80%;
+    }
+
+    > div {
+      margin: auto;
+      font-size: 2.25vmin;
+    }
   }
 }

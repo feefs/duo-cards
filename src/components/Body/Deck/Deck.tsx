@@ -7,6 +7,10 @@ import { auth, firestore } from '../../../ts/firebase';
 import { DeckSchema } from '../../../ts/interfaces';
 import './Deck.scss';
 
+function formatDate(timestamp: Timestamp): String {
+  return timestamp.toDate().toLocaleString();
+}
+
 function Deck(): JSX.Element {
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
@@ -66,7 +70,27 @@ function Deck(): JSX.Element {
           Edit
         </button>
       </div>
-      <div className="deck-info">INFO</div>
+      <div className="deck-info">
+        {deck.name ? (
+          <>
+            <div className="info-name">{deck.name}</div>
+            <hr />
+            <div># of cards: {deck.cards.length}</div>
+            <div>
+              <div>Last practiced:</div>
+              <div>{deck.last_practiced ? formatDate(deck.last_practiced) : 'Never'}</div>
+            </div>
+            <div>
+              <div>Last edited:</div>
+              <div>{formatDate(deck.last_edited)}</div>
+            </div>
+            <div>
+              <div>Time created:</div>
+              <div>{formatDate(deck.created)}</div>
+            </div>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }
