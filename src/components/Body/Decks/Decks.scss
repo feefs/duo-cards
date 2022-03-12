@@ -3,12 +3,11 @@
 .Decks {
   display: grid;
   grid-template:
-    'a a a a a a b'
-    'a a a a a a c'
-    'a a a a a a c'
-    'a a a a a a c';
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24vmin;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+    'a a b'
+    'a a c'
+    'a a c';
+  grid-template-columns: 5fr 5fr 2fr;
+  grid-template-rows: 1fr 2fr 2fr;
   width: 90vw;
   height: 75vh;
   margin: auto;
@@ -20,15 +19,15 @@
   }
 
   .decks {
-    display: flex;
+    display: grid;
     grid-area: a;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fit, minmax(20vmin, 1fr));
+    padding: 7.5vmin;
     overflow-y: scroll;
+    gap: 7.5vmin;
 
     .deck-preview {
       @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
-
-      margin: 7.5vmin;
 
       .name {
         display: flex;
@@ -36,7 +35,7 @@
         width: 75%;
         height: 100%;
         margin: auto;
-        font-size: 3.25vmin;
+        font-size: 3vmin;
         text-align: center;
         overflow-wrap: anywhere;
         user-select: none;

@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, Timestamp } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { auth, firestore } from '../../../ts/firebase';
 import { DeckSchema } from '../../../ts/interfaces';
@@ -9,6 +9,7 @@ import './Deck.scss';
 
 function Deck(): JSX.Element {
   const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
   const params = useParams();
 
   const [deck, setDeck] = useState<DeckSchema>({
@@ -57,7 +58,14 @@ function Deck(): JSX.Element {
           <div className="invalid-text">Deck doesn't exist!</div>
         )}
       </div>
-      <div className="deck-actions">ACTIONS</div>
+      <div className="deck-actions">
+        <button className="practice-button" onClick={() => navigate(`/duo-cards/practice/${params.deckId}`)}>
+          Practice
+        </button>
+        <button className="edit-button" onClick={() => navigate(`/duo-cards/edit/${params.deckId}`)}>
+          Edit
+        </button>
+      </div>
       <div className="deck-info">INFO</div>
     </div>
   );
