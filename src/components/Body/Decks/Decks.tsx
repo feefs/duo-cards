@@ -51,7 +51,9 @@ function Decks(): JSX.Element {
         )}
       </div>
       <div className="new">
-        <button className={user ? '' : 'disabled'}>New</button>
+        <button className={user ? '' : 'disabled'} onClick={() => navigate('./new')}>
+          New
+        </button>
       </div>
       <div className="curated">Curated</div>
     </div>

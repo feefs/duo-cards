@@ -1,0 +1,10 @@
+@use '../../../scss/style' as *;
+
+.Editor {
+  @include styled-border;
+
+  width: 90vw;
+  height: 75vh;
+  margin: auto;
+  margin-top: 5vh;
+}

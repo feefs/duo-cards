@@ -24,7 +24,7 @@ function SignOut(): JSX.Element {
   return <button onClick={googleSignOut}>Sign Out</button>;
 }
 
-export default function Header(): JSX.Element {
+function Header(): JSX.Element {
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
@@ -63,3 +63,5 @@ export default function Header(): JSX.Element {
     </header>
   );
 }
+
+export default Header;
