@@ -56,15 +56,17 @@
     justify-content: space-evenly;
 
     > button {
+      @include styled-box(true, $nord0, 15vmin, 6vmin, 0.5vmin);
+
       font-size: 2.5vmin;
     }
 
     .practice-button {
-      @include styled-box(true, $nord10, 15vmin, 6vmin, 0.5vmin);
+      background: $nord10;
     }
 
     .edit-button {
-      @include styled-box(true, $nord13, 15vmin, 6vmin, 0.5vmin);
+      background: $nord13;
     }
   }
 

@@ -7,7 +7,7 @@ import { auth, firestore } from '../../../ts/firebase';
 import { DeckSchema } from '../../../ts/interfaces';
 import './Deck.scss';
 
-function formatDate(timestamp: Timestamp): String {
+function formatDate(timestamp: Timestamp): string {
   return timestamp.toDate().toLocaleString();
 }
 
