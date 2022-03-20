@@ -30,6 +30,7 @@
     }
 
     > button {
+      z-index: 2;
       grid-area: b;
       margin: auto;
       font-size: 2.5vmin;
@@ -76,7 +77,33 @@
     }
 
     .cards {
+      position: relative;
       grid-area: b;
+
+      .card {
+        @include styled-box(false, $nord1, 30vmin, 30vmin, 1vmin, 0.3vmin);
+
+        display: flex;
+        position: absolute;
+        left: 50%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: auto;
+
+        > input {
+          width: 85%;
+          border: unset;
+          outline: unset;
+          background: unset;
+          font-size: 2.5vmin;
+          text-align: center;
+        }
+      }
+
+      .active {
+        z-index: 1;
+      }
     }
   }
 }

@@ -7,23 +7,6 @@ import { auth } from '../../ts/firebase';
 import './Header.scss';
 import github from './github.svg';
 
-async function googleSignIn() {
-  const provider = new GoogleAuthProvider();
-  await signInWithPopup(auth, provider);
-}
-
-async function googleSignOut() {
-  await auth.signOut();
-}
-
-function SignIn(): JSX.Element {
-  return <button onClick={googleSignIn}>Sign In</button>;
-}
-
-function SignOut(): JSX.Element {
-  return <button onClick={googleSignOut}>Sign Out</button>;
-}
-
 function Header(): JSX.Element {
   const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
@@ -53,10 +36,17 @@ function Header(): JSX.Element {
           {loading ? null : user ? (
             <div>
               {user.email}
-              <SignOut />
+              <button onClick={async () => await auth.signOut()}>Sign Out</button>
             </div>
           ) : (
-            <SignIn />
+            <button
+              onClick={async () => {
+                const provider = new GoogleAuthProvider();
+                await signInWithPopup(auth, provider);
+              }}
+            >
+              Sign In
+            </button>
           )}
         </div>
       </div>
