@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { CardField, CardSchema } from '../../../ts/interfaces';
 import './Editor.scss';
 
-function emptyCard(): CardSchema {
-  return { en: '', ja: '', pos: '', pronunciation: '' };
-}
-
 function Editor(): JSX.Element {
   const [name, setName] = useState<string>('');
-  const [cards, setCards] = useState<CardSchema[]>([emptyCard()]);
+  const [cards, setCards] = useState<CardSchema[]>([{ en: '', ja: '', pos: '', pronunciation: '', id: 0 }]);
   const [index, setIndex] = useState<number>(0);
+  const [nextID, setID] = useState<number>(1);
+
+  const newCard = useCallback(() => {
+    const result = { en: '', ja: '', pos: '', pronunciation: '', id: nextID };
+    setID(nextID + 1);
+    return result;
+  }, [nextID]);
 
   return (
     <div className="Editor">
@@ -19,15 +22,17 @@ function Editor(): JSX.Element {
         <button
           className="interact-button delete-card"
           onClick={() => {
-            setCards([...cards.slice(0, index), ...cards.slice(index + 1)]);
-            setIndex(Math.min(Math.max(0, index - 1), cards.length - 1));
+            if (cards.length > 1) {
+              setCards([...cards.slice(0, index), ...cards.slice(index + 1)]);
+              setIndex(Math.min(Math.max(0, index - 1), cards.length - 1));
+            }
           }}
         >
           x
         </button>
         <button
           className="interact-button wipe-card"
-          onClick={() => setCards([...cards.slice(0, index), emptyCard(), ...cards.slice(index + 1)])}
+          onClick={() => setCards([...cards.slice(0, index), newCard(), ...cards.slice(index + 1)])}
         >
           🧹
         </button>
@@ -37,8 +42,8 @@ function Editor(): JSX.Element {
         <button
           className="interact-button new-card"
           onClick={() => {
-            setCards([...cards, emptyCard()]);
-            setIndex(cards.length);
+            setCards([...cards.slice(0, index + 1), newCard(), ...cards.slice(index + 1)]);
+            setTimeout(() => setIndex(index + 1), 100);
           }}
         >
           +
@@ -57,7 +62,7 @@ function Editor(): JSX.Element {
             return (
               <div
                 className={'card' + (i === index ? ' active' : '')}
-                key={i}
+                key={card.id}
                 style={{ transform: `translateX(calc(-50% + ${(i - index) * 10}vmin))` }}
               >
                 <input value={card.ja} placeholder="ja" onChange={update(CardField.ja)} />

@@ -90,6 +90,7 @@
         align-items: center;
         justify-content: space-evenly;
         margin: auto;
+        opacity: 0;
 
         > input {
           width: 85%;
@@ -103,6 +104,8 @@
 
       .active {
         z-index: 1;
+        transition: 0.3s;
+        opacity: 1;
       }
     }
   }

@@ -5,10 +5,11 @@ export enum CardField {
   ja = 'ja',
   pos = 'pos',
   pronunciation = 'pronunciation',
+  id = 'id',
 }
 
 export type CardSchema = {
-  [key in CardField]: string;
+  [key in CardField]: string | number;
 };
 
 export interface DeckSchema {
