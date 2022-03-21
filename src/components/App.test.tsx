@@ -9,7 +9,7 @@ test('renders learn react link', async () => {
   await act(async () => {
     const history = createMemoryHistory();
     render(
-      <Router location={'/duo-cards'} navigator={history}>
+      <Router location={'/'} navigator={history}>
         <App />
       </Router>
     );

@@ -1,9 +1,16 @@
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { useCallback, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 
+import { auth, firestore } from '../../../ts/firebase';
 import { CardField, CardSchema } from '../../../ts/interfaces';
 import './Editor.scss';
 
 function Editor(): JSX.Element {
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
+
   const [name, setName] = useState<string>('');
   const [cards, setCards] = useState<CardSchema[]>([{ en: '', ja: '', pos: '', pronunciation: '', id: 0 }]);
   const [index, setIndex] = useState<number>(0);
@@ -14,6 +21,28 @@ function Editor(): JSX.Element {
     setID(nextID + 1);
     return result;
   }, [nextID]);
+
+  const canSubmit = useCallback(() => {
+    return user && name;
+  }, [user, name]);
+
+  const submitDeck = useCallback(async () => {
+    const copy = [...cards] as any[];
+    copy.forEach((card) => {
+      if (card.id) {
+        delete card.id;
+      }
+    });
+    const currentTimestamp = Timestamp.now();
+    const doc = await addDoc(collection(firestore, 'decks'), {
+      creator_uid: user ? user.uid : '',
+      name,
+      cards: copy,
+      created: currentTimestamp,
+      last_edited: currentTimestamp,
+    });
+    navigate(`/deck/${doc.id}`);
+  }, [user, navigate, name, cards]);
 
   return (
     <div className="Editor">
@@ -48,7 +77,14 @@ function Editor(): JSX.Element {
         >
           +
         </button>
-        <button className="interact-button submit-deck">✓</button>
+        <button
+          className={'interact-button submit-deck' + (canSubmit() ? '' : ' disabled')}
+          onClick={() => {
+            if (canSubmit()) submitDeck();
+          }}
+        >
+          ✓
+        </button>
         <button className="nav-button next" onClick={() => setIndex(Math.min(cards.length - 1, index + 1))}>
           Right
         </button>

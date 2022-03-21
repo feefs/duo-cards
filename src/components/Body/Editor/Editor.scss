@@ -40,6 +40,15 @@
       @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
     }
 
+    .disabled {
+      color: $nord3;
+      text-decoration: line-through;
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
     .delete-card {
       @include translate-styled-box(-40vmin, -15vmin);
 

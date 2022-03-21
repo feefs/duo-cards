@@ -8,7 +8,7 @@ import reportWebVitals from './ts/reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/duo-cards">
       <App />
     </BrowserRouter>
   </React.StrictMode>,

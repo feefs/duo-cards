@@ -63,10 +63,10 @@ function Deck(): JSX.Element {
         )}
       </div>
       <div className="deck-actions">
-        <button className="practice-button" onClick={() => navigate(`/duo-cards/practice/${params.deckId}`)}>
+        <button className="practice-button" onClick={() => navigate(`/practice/${params.deckId}`)}>
           Practice
         </button>
-        <button className="edit-button" onClick={() => navigate(`/duo-cards/edit/${params.deckId}`)}>
+        <button className="edit-button" onClick={() => navigate(`/edit/${params.deckId}`)}>
           Edit
         </button>
       </div>

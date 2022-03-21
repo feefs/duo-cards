@@ -16,7 +16,7 @@ function Header(): JSX.Element {
       return;
     }
     if (!user) {
-      navigate('/duo-cards');
+      navigate('/');
     }
   }, [loading, navigate, user]);
 
@@ -24,7 +24,7 @@ function Header(): JSX.Element {
     <header className="Header">
       <div className="grid-container">
         <div className="logo">
-          <span className="text" onClick={() => navigate('/duo-cards')}>
+          <span className="text" onClick={() => navigate('/')}>
             Duo-cards
           </span>
           <a href="https://github.com/feefs/duo-cards" rel="noreferrer" target="_blank">

@@ -42,7 +42,7 @@ function Decks(): JSX.Element {
       <div className="decks">
         {loading || (user && !empty) ? (
           decks.map((deck) => (
-            <div className="deck-preview" key={deck.id} onClick={() => navigate(`./deck/${deck.id}`)}>
+            <div className="deck-preview" key={deck.id} onClick={() => navigate(`/deck/${deck.id}`)}>
               <div className="name">{deck.name}</div>
             </div>
           ))
@@ -51,7 +51,7 @@ function Decks(): JSX.Element {
         )}
       </div>
       <div className="new">
-        <button className={user ? '' : 'disabled'} onClick={() => navigate('./new')}>
+        <button className={user ? '' : 'disabled'} onClick={() => navigate('/new')}>
           New
         </button>
       </div>
