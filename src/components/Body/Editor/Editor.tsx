@@ -15,6 +15,7 @@ function Editor(): JSX.Element {
   const [cards, setCards] = useState<CardSchema[]>([{ en: '', ja: '', pos: '', pronunciation: '', id: 0 }]);
   const [index, setIndex] = useState<number>(0);
   const [nextID, setID] = useState<number>(1);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const newCard = useCallback(() => {
     const result = { en: '', ja: '', pos: '', pronunciation: '', id: nextID };
@@ -23,10 +24,11 @@ function Editor(): JSX.Element {
   }, [nextID]);
 
   const canSubmit = useCallback(() => {
-    return user && name;
-  }, [user, name]);
+    return user && name && !submitted;
+  }, [user, name, submitted]);
 
   const submitDeck = useCallback(async () => {
+    setSubmitted(true);
     const copy = [...cards] as any[];
     copy.forEach((card) => {
       if (card.id) {
