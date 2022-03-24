@@ -1,121 +1,111 @@
 @use '../../../scss/style' as *;
 
 .Editor {
-  @include styled-border;
-
-  display: flex;
-  width: 90vw;
-  height: 75vh;
+  display: grid;
+  grid-template:
+    'a'
+    'b';
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 4fr;
+  width: 80%;
+  height: 80%;
   margin: auto;
-  margin-top: 5vh;
 
-  .ui {
-    display: grid;
-    grid-template:
-      'a'
-      'b';
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 4fr;
-    width: 80%;
-    height: 80%;
+  .name {
+    grid-area: a;
+    border: unset;
+    outline: unset;
+    background: unset;
+    font-size: 3.5vmin;
+    text-align: center;
+  }
+
+  > button {
+    z-index: 2;
+    grid-area: b;
     margin: auto;
+    font-size: 2.5vmin;
+  }
 
-    .name {
-      grid-area: a;
-      border: unset;
-      outline: unset;
-      background: unset;
-      font-size: 3.5vmin;
-      text-align: center;
+  .interact-button {
+    @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
+  }
+
+  .disabled {
+    color: $nord3;
+    text-decoration: line-through;
+
+    &:hover {
+      cursor: not-allowed;
     }
+  }
 
-    > button {
-      z-index: 2;
-      grid-area: b;
+  .delete-card {
+    @include translate-styled-box(-40vmin, -15vmin);
+
+    background: $nord11;
+  }
+
+  .wipe-card {
+    @include translate-styled-box(-30vmin, -15vmin);
+
+    background: $nord12;
+  }
+
+  .new-card {
+    @include translate-styled-box(30vmin, -15vmin);
+
+    background: $nord14;
+  }
+
+  .submit-deck {
+    @include translate-styled-box(40vmin, -15vmin);
+
+    background: $nord15;
+  }
+
+  .nav-button {
+    @include styled-box(true, $nord2, 15vmin, 6vmin, 0.5vmin);
+  }
+
+  .previous {
+    @include translate-styled-box(-35vmin, -3vmin);
+  }
+
+  .next {
+    @include translate-styled-box(35vmin, -3vmin);
+  }
+
+  .cards {
+    position: relative;
+    grid-area: b;
+
+    .card {
+      @include styled-box(false, $nord1, 30vmin, 30vmin, 1vmin, 0.3vmin);
+
+      display: flex;
+      position: absolute;
+      left: 50%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
       margin: auto;
-      font-size: 2.5vmin;
-    }
+      opacity: 0;
 
-    .interact-button {
-      @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
-    }
-
-    .disabled {
-      color: $nord3;
-      text-decoration: line-through;
-
-      &:hover {
-        cursor: not-allowed;
+      > input {
+        width: 85%;
+        border: unset;
+        outline: unset;
+        background: unset;
+        font-size: 2.5vmin;
+        text-align: center;
       }
     }
 
-    .delete-card {
-      @include translate-styled-box(-40vmin, -15vmin);
-
-      background: $nord11;
-    }
-
-    .wipe-card {
-      @include translate-styled-box(-30vmin, -15vmin);
-
-      background: $nord12;
-    }
-
-    .new-card {
-      @include translate-styled-box(30vmin, -15vmin);
-
-      background: $nord14;
-    }
-
-    .submit-deck {
-      @include translate-styled-box(40vmin, -15vmin);
-
-      background: $nord15;
-    }
-
-    .nav-button {
-      @include styled-box(true, $nord2, 15vmin, 6vmin, 0.5vmin);
-    }
-
-    .previous {
-      @include translate-styled-box(-35vmin, -3vmin);
-    }
-
-    .next {
-      @include translate-styled-box(35vmin, -3vmin);
-    }
-
-    .cards {
-      position: relative;
-      grid-area: b;
-
-      .card {
-        @include styled-box(false, $nord1, 30vmin, 30vmin, 1vmin, 0.3vmin);
-
-        display: flex;
-        position: absolute;
-        left: 50%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        margin: auto;
-        opacity: 0;
-
-        > input {
-          width: 85%;
-          border: unset;
-          outline: unset;
-          background: unset;
-          font-size: 2.5vmin;
-          text-align: center;
-        }
-      }
-
-      .active {
-        z-index: 1;
-        transition: 0.3s;
-        opacity: 1;
-      }
+    .active {
+      z-index: 1;
+      transition: 0.3s;
+      opacity: 1;
     }
   }
 }

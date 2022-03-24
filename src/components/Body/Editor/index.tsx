@@ -1,1 +1,2 @@
-export { default } from './Editor';
+export { Edit } from './Edit';
+export { New } from './New';
