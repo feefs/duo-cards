@@ -47,7 +47,7 @@ function Decks(): JSX.Element {
             </div>
           ))
         ) : (
-          <div className="deck-text">{empty ? 'No decks, make one!' : 'User not signed in, decks not available!'}</div>
+          <div className="text">{empty ? 'No decks, make one!' : 'User not signed in, decks not available!'}</div>
         )}
       </div>
       <div className="new">

@@ -12,10 +12,12 @@ function formatDate(timestamp: Timestamp): string {
 }
 
 function Deck(): JSX.Element {
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const params = useParams();
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [exists, setExists] = useState<boolean>(true);
   const [deck, setDeck] = useState<DeckSchema>({
     cards: [],
     created: Timestamp.fromMillis(0),
@@ -24,7 +26,6 @@ function Deck(): JSX.Element {
     name: '',
     id: '',
   });
-  const [exists, setExists] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchCards() {
@@ -37,6 +38,7 @@ function Deck(): JSX.Element {
       } else {
         setDeck(d.data() as DeckSchema);
       }
+      setLoading(false);
     }
 
     fetchCards();
@@ -45,7 +47,9 @@ function Deck(): JSX.Element {
   return (
     <div className="Deck">
       <div className="cards">
-        {loading || (user && exists) ? (
+        {loading ? (
+          <div className="text">Loading...</div>
+        ) : exists ? (
           deck.cards.map((card, index) => (
             <div className="card" key={index}>
               <div className="card-text">
@@ -59,7 +63,7 @@ function Deck(): JSX.Element {
             </div>
           ))
         ) : (
-          <div className="invalid-text">Deck doesn't exist!</div>
+          <div className="text">Deck doesn't exist!</div>
         )}
       </div>
       <div className="deck-actions">
