@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, Timestamp } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, Timestamp } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,6 +18,7 @@ function Deck(): JSX.Element {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [exists, setExists] = useState<boolean>(true);
+  const [deleted, setDeleted] = useState<boolean>(false);
   const [deck, setDeck] = useState<DeckSchema>({
     cards: [],
     created: Timestamp.fromMillis(0),
@@ -92,6 +93,18 @@ function Deck(): JSX.Element {
               <div>Time created:</div>
               <div>{formatDate(deck.created)}</div>
             </div>
+            <button
+              className={'delete-deck' + (deleted ? ' disabled' : '')}
+              onClick={async () => {
+                if (!deleted) {
+                  setDeleted(true);
+                  await deleteDoc(doc(collection(firestore, 'decks'), params.deckId));
+                  navigate('/');
+                }
+              }}
+            >
+              Delete Deck
+            </button>
           </>
         ) : null}
       </div>

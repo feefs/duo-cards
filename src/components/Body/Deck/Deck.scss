@@ -98,5 +98,21 @@
       margin: auto;
       font-size: 2.25vmin;
     }
+
+    .delete-deck {
+      @include styled-box(true, $nord11, 30vmin, 5vmin, 0.5vmin);
+
+      margin: auto;
+      font-size: 2.5vmin;
+    }
+
+    .disabled {
+      color: $nord3;
+      text-decoration: line-through;
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
   }
 }

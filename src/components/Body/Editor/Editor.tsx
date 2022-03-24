@@ -33,9 +33,7 @@ function Editor(props: EditorProps): JSX.Element {
     setSubmitted(true);
     const cardsCopy = [...cards] as any[];
     cardsCopy.forEach((card) => {
-      if (card.id) {
-        delete card.id;
-      }
+      delete card.id;
     });
     const currentTimestamp = Timestamp.now();
     const collectionRef = collection(firestore, 'decks');
