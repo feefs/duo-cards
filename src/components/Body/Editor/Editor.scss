@@ -79,6 +79,7 @@
   .cards {
     position: relative;
     grid-area: b;
+    overflow: hidden;
 
     .card {
       @include styled-box(false, $nord1, 30vmin, 30vmin, 1vmin, 0.3vmin);
