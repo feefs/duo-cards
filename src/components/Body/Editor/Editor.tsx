@@ -4,7 +4,8 @@ import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { firestore } from '../../../ts/firebase';
-import { CardField, CardSchema } from '../../../ts/interfaces';
+import { CardSchema } from '../../../ts/interfaces';
+import EditableSlider from '../../Sliders/EditableSlider';
 import './Editor.scss';
 
 interface EditorProps {
@@ -76,9 +77,6 @@ function Editor(props: EditorProps): JSX.Element {
       >
         🧹
       </button>
-      <button className="nav-button previous" onClick={() => setIndex(Math.max(0, index - 1))}>
-        Left
-      </button>
       <button
         className="interact-button new-card"
         onClick={() => {
@@ -96,30 +94,7 @@ function Editor(props: EditorProps): JSX.Element {
       >
         ✓
       </button>
-      <button className="nav-button next" onClick={() => setIndex(Math.min(cards.length - 1, index + 1))}>
-        Right
-      </button>
-      <div className="cards">
-        {cards.map((card, i) => {
-          const update = (field: CardField) => (e: React.ChangeEvent<HTMLInputElement>) => {
-            const copy = [...cards];
-            copy[i][field] = e.target.value;
-            setCards(copy);
-          };
-          return (
-            <div
-              className={'card' + (i === index ? ' active' : '')}
-              key={card.id}
-              style={{ transform: `translateX(calc(-50% + ${(i - index) * 10}vmin))` }}
-            >
-              <input value={card.ja} placeholder="ja" onChange={update(CardField.ja)} />
-              <input value={card.pronunciation} placeholder="romaji" onChange={update(CardField.pronunciation)} />
-              <input value={card.en} placeholder="en" onChange={update(CardField.en)} />
-              <input value={card.pos} placeholder="grammar" onChange={update(CardField.pos)} />
-            </div>
-          );
-        })}
-      </div>
+      <EditableSlider {...{ cards, setCards, index, setIndex }} />
     </div>
   );
 }
