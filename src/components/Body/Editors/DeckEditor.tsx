@@ -7,7 +7,7 @@ import { auth, firestore } from '../../../ts/firebase';
 import { CardSchema } from '../../../ts/interfaces';
 import Editor from './Editor';
 
-export function Edit(): JSX.Element {
+export function DeckEditor(): JSX.Element {
   const [user] = useAuthState(auth);
   const params = useParams();
 
@@ -42,7 +42,7 @@ export function Edit(): JSX.Element {
   }, [nextID]);
 
   return (
-    <div className="NewEdit">
+    <div className="Editor">
       {loading ? (
         <div className="text">Loading...</div>
       ) : exists ? (

@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Deck from './Deck';
 import Decks from './Decks';
-import { New, Edit } from './Editor';
+import { NewEditor, DeckEditor } from './Editors';
 import Practice from './Practice';
 
 function Body(): JSX.Element {
@@ -13,10 +13,10 @@ function Body(): JSX.Element {
         <Route path="" element={<Deck />} />
         <Route path=":deckId" element={<Deck />} />
       </Route>
-      <Route path="new" element={<New />} />
+      <Route path="new" element={<NewEditor />} />
       <Route path="edit">
-        <Route path="" element={<Edit />} />
-        <Route path=":deckId" element={<Edit />} />
+        <Route path="" element={<DeckEditor />} />
+        <Route path=":deckId" element={<DeckEditor />} />
       </Route>
       <Route path="practice">
         <Route path="" element={<Practice />} />

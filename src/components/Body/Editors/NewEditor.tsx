@@ -4,9 +4,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../../ts/firebase';
 import { CardSchema } from '../../../ts/interfaces';
 import Editor from './Editor';
-import './NewEdit.scss';
+import './Editor.scss';
 
-export function New(): JSX.Element {
+export function NewEditor(): JSX.Element {
   const [user] = useAuthState(auth);
 
   const [name, setName] = useState<string>('');
@@ -20,7 +20,7 @@ export function New(): JSX.Element {
   }, [nextID]);
 
   return (
-    <div className="NewEdit">
+    <div className="Editor">
       <Editor {...{ user, name, setName, cards, setCards, newCard }} />
     </div>
   );

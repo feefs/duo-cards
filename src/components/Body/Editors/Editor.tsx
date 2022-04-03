@@ -58,7 +58,7 @@ function Editor(props: EditorProps): JSX.Element {
   }, [cards, params.deckId, user, name, navigate]);
 
   return (
-    <div className="Editor">
+    <div className="editor-layout">
       <input className="name" value={name} placeholder="Deck name" onChange={(e) => setName(e.target.value)} />
       <button
         className="interact-button delete-card"
