@@ -13,7 +13,7 @@ function Practice(): JSX.Element {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [exists, setExists] = useState<boolean>(true);
-  const [cards, setCards] = useState<CardSchema[]>([]);
+  const [, setCards] = useState<CardSchema[]>([]);
 
   useEffect(() => {
     async function fetchCards() {
@@ -29,7 +29,7 @@ function Practice(): JSX.Element {
       setLoading(false);
     }
     fetchCards();
-  });
+  }, [user, params.deckId]);
 
   return (
     <div className="Practice">
