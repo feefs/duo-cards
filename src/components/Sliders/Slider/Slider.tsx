@@ -1,5 +1,4 @@
 import { CardSchema } from '../../../ts/interfaces';
-import './Slider.scss';
 
 export interface SliderProps {
   children?: JSX.Element[];
