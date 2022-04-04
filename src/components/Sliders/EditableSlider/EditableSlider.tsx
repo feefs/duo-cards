@@ -1,5 +1,5 @@
 import { CardField } from '../../../ts/interfaces';
-import { Slider, SliderProps } from '../Slider/Slider';
+import { Slider, SliderProps } from '../Slider';
 
 interface EditableSliderProps extends SliderProps {
   setCards: Function;

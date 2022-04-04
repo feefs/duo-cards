@@ -15,31 +15,7 @@
   }
 
   .editor-layout {
-    display: grid;
-    grid-template:
-      'a'
-      'b';
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 4fr;
-    width: 80%;
-    height: 80%;
-    margin: auto;
-
-    .name {
-      grid-area: a;
-      border: unset;
-      outline: unset;
-      background: unset;
-      font-size: 3.5vmin;
-      text-align: center;
-    }
-
-    > button {
-      z-index: 2;
-      grid-area: b;
-      margin: auto;
-      font-size: 2.5vmin;
-    }
+    @include slider-layout;
 
     .interact-button {
       @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);

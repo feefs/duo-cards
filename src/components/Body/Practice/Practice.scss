@@ -13,4 +13,8 @@
     margin: auto;
     font-size: 2.5vmin;
   }
+
+  .practice-layout {
+    @include slider-layout;
+  }
 }

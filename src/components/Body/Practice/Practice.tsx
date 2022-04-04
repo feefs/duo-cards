@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import { auth, firestore } from '../../../ts/firebase';
 import { CardSchema } from '../../../ts/interfaces';
+import PracticeSlider from '../../Sliders/PracticeSlider';
 import './Practice.scss';
 
 function Practice(): JSX.Element {
@@ -13,7 +14,8 @@ function Practice(): JSX.Element {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [exists, setExists] = useState<boolean>(true);
-  const [, setCards] = useState<CardSchema[]>([]);
+  const [cards, setCards] = useState<CardSchema[]>([]);
+  const [index, setIndex] = useState<number>(0);
 
   useEffect(() => {
     async function fetchCards() {
@@ -24,7 +26,7 @@ function Practice(): JSX.Element {
       if (!d.exists()) {
         setExists(false);
       } else {
-        setCards(d.data().cards as CardSchema[]);
+        setCards((d.data().cards as CardSchema[]).map((c: CardSchema, index) => ({ ...c, id: index })));
       }
       setLoading(false);
     }
@@ -36,7 +38,9 @@ function Practice(): JSX.Element {
       {loading ? (
         <div className="text">Loading...</div>
       ) : exists ? (
-        <div className="text">Exists!</div>
+        <div className="practice-layout">
+          <PracticeSlider {...{ cards, index, setIndex }} />
+        </div>
       ) : (
         <div className="text">Deck to edit doesn't exist!</div>
       )}
