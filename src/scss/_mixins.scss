@@ -1,30 +1,110 @@
-@mixin styled-button($base, $cross-section, $width, $height, $X, $Y) {
-	// <offset-x><offset-y><blur-radius><spread-radius>
-	box-shadow: 0 0.5vmin 0 $cross-section,
-		0 1vmin 1vmin rgba(0, 0, 0, 0.35);
-	border: unset;
-	border-radius: 15px;
-	background: $base;
+@use '../../node_modules/nord/src/sass/nord.scss' as *;
 
-	width: $width;
-	height: $height;
+@mixin styled-box($animated, $base, $width, $height, $depth, $spread-radius: 0) {
+  width: $width;
+  height: $height;
+  transition: 0.05s;
+  border: unset;
+  border-radius: 15px;
+  background: $base;
+  box-shadow: 0 $depth 0 $nord3, 0 1vmin 1vmin $spread-radius rgb(0 0 0 / 35%);
 
-	font-family: 'Nunito', sans-serif;
-	font-size: 18pt;
-	color: $nord6;
+  &:active {
+    @if $animated {
+      transform: translateY(0.5vmin);
+      transition: 0.05s;
+      box-shadow: 0 0.1vmin 0 $nord3, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
+    }
+  }
 
-	transition: 0.05s;
+  &:hover {
+    cursor: pointer;
+  }
+}
 
-	transform: translate($X, $Y);
+@mixin translate-styled-box($X, $Y) {
+  transform: translate($X, $Y);
 
-	&:active {
-		box-shadow: 0 0.1vmin 0 $cross-section,
-			0 0.5vmin 0.5vmin rgba(0, 0, 0, 0.35);
-		transform: translate($X, $Y + 0.5vmin);
-		transition: 0.05s;
-	}
+  &:active {
+    transform: translate($X, $Y + 0.5vmin);
+  }
+}
 
-	&:hover {
-		cursor: pointer;
-	}
+@mixin styled-border {
+  border-radius: 15px;
+  box-shadow: 0 0 20px 6px rgb(0 0 0 / 40%);
+}
+
+@mixin slider-layout {
+  display: grid;
+  grid-template:
+    'a'
+    'b';
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 4fr;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+
+  .name {
+    grid-area: a;
+    border: unset;
+    outline: unset;
+    background: unset;
+    font-size: 3.5vmin;
+    text-align: center;
+  }
+
+  > button {
+    z-index: 2;
+    grid-area: b;
+    margin: auto;
+    font-size: 2.5vmin;
+  }
+
+  .nav-button {
+    @include styled-box(true, $nord2, 15vmin, 6vmin, 0.5vmin);
+  }
+
+  .previous {
+    @include translate-styled-box(-35vmin, -3vmin);
+  }
+
+  .next {
+    @include translate-styled-box(35vmin, -3vmin);
+  }
+
+  .slider-cards {
+    position: relative;
+    grid-area: b;
+    overflow: hidden;
+
+    .slider-card {
+      @include styled-box(false, $nord1, 30vmin, 30vmin, 1vmin, 0.3vmin);
+
+      display: flex;
+      position: absolute;
+      left: 50%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      margin: auto;
+      opacity: 0;
+
+      > * {
+        width: 85%;
+        border: unset;
+        outline: unset;
+        background: unset;
+        font-size: 2.5vmin;
+        text-align: center;
+      }
+    }
+
+    .active {
+      z-index: 1;
+      transition: 0.3s;
+      opacity: 1;
+    }
+  }
 }

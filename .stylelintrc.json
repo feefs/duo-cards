@@ -1,35 +1,10 @@
 {
-  "extends": "stylelint-config-sass-guidelines",
-  "plugins": [
-    "stylelint-order"
-  ],
-  "rules": {
-    "indentation": "tab",
-
-    "max-nesting-depth": 5,
-    "rule-empty-line-before": ["always-multi-line", {"ignore": ["first-nested"]}],
-    "selector-class-pattern": ".*",
-    "selector-list-comma-newline-after": "always-multi-line",
-    "selector-max-id": 5,
-    "selector-max-compound-selectors": 6,
-    "selector-no-qualifying-type": [true, {"ignore": ["attribute"]}],
-
-    
-    "order/properties-alphabetical-order": null,
-    "order/properties-order": [
-      "position",
-      "overflow",
-      "margin",
-      "width",
-      "height",
-      "top",
-      "left",
-      "right",
-      "bottom",
-      "display",
-      "flex-direction",
-      "justify-content",
-      "align-items"
-    ]
-  }
+    "extends": [
+        "stylelint-config-standard-scss",
+        "stylelint-config-property-sort-order-smacss",
+        "stylelint-config-prettier-scss"
+    ],
+    "rules": {
+        "selector-class-pattern": null
+    }
 }

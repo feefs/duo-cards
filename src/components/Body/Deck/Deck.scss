@@ -1,0 +1,118 @@
+@use '../../../scss/style' as *;
+
+.Deck {
+  display: grid;
+  grid-template:
+    'a a b'
+    'a a c'
+    'a a c';
+  grid-template-columns: 4fr 4fr 3fr;
+  grid-template-rows: 1fr 2fr 2fr;
+  width: 90vw;
+  height: 75vh;
+  margin: auto;
+  margin-top: 5vh;
+  gap: 3vmin 4vmin;
+
+  > div {
+    @include styled-border;
+  }
+
+  .cards {
+    display: grid;
+    grid-area: a;
+    grid-template-columns: repeat(auto-fit, minmax(20vmin, 1fr));
+    padding: 7.5vmin;
+    overflow-y: scroll;
+    gap: 7.5vmin;
+
+    .card {
+      @include styled-box(false, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+
+      .card-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 75%;
+        height: 100%;
+        margin: auto;
+        font-size: 2vmin;
+        text-align: center;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+
+  .text {
+    margin: auto;
+    font-size: 2.5vmin;
+  }
+
+  .deck-actions {
+    display: flex;
+    grid-area: b;
+    align-items: center;
+    justify-content: space-evenly;
+
+    > button {
+      @include styled-box(true, $nord0, 15vmin, 6vmin, 0.5vmin);
+
+      font-size: 2.5vmin;
+    }
+
+    .practice-button {
+      background: $nord10;
+    }
+
+    .edit-button {
+      background: $nord13;
+    }
+  }
+
+  .deck-info {
+    display: flex;
+    grid-area: c;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5vmin 1.5vmin 3vmin;
+    overflow: hidden;
+
+    > * {
+      text-align: center;
+    }
+
+    .info-name {
+      width: 70%;
+      max-height: 30%;
+      overflow: hidden;
+      font-size: 3vmin;
+      text-overflow: ellipsis;
+    }
+
+    > hr {
+      width: 80%;
+    }
+
+    > div {
+      margin: auto;
+      font-size: 2.25vmin;
+    }
+
+    .delete-deck {
+      @include styled-box(true, $nord11, 30vmin, 5vmin, 0.5vmin);
+
+      margin: auto;
+      font-size: 2.5vmin;
+    }
+
+    .disabled {
+      color: $nord3;
+      text-decoration: line-through;
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+  }
+}

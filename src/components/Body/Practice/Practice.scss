@@ -1,0 +1,20 @@
+@use '../../../scss/style' as *;
+
+.Practice {
+  @include styled-border;
+
+  display: flex;
+  width: 90vw;
+  height: 75vh;
+  margin: auto;
+  margin-top: 5vh;
+
+  .text {
+    margin: auto;
+    font-size: 2.5vmin;
+  }
+
+  .practice-layout {
+    @include slider-layout;
+  }
+}
