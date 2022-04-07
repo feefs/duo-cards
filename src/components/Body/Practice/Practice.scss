@@ -16,5 +16,19 @@
 
   .practice-layout {
     @include slider-layout;
+
+    .shuffle {
+      @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
+      @include translate-styled-box(-40vmin, -15vmin);
+
+      background: $nord12;
+    }
+
+    .flip {
+      @include styled-box(true, $nord0, 15vmin, 6vmin, 0.5vmin);
+      @include translate-styled-box(35vmin, -15vmin);
+
+      background: $nord9;
+    }
   }
 }

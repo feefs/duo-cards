@@ -1,0 +1,26 @@
+@use '../../../scss/style' as *;
+
+.practice-layout {
+  .toggle-language {
+    @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
+    @include translate-styled-box(-30vmin, -15vmin);
+
+    background: $nord9;
+  }
+
+  .show-pronunciation {
+    @include styled-box(true, $nord0, 30vmin, 5vmin, 0.5vmin);
+    @include translate-styled-box(0, 14vmin);
+
+    background: $nord9;
+  }
+
+  .disabled {
+    color: $nord3;
+    text-decoration: line-through;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}

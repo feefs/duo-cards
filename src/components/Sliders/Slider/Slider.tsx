@@ -1,7 +1,7 @@
 import { CardSchema } from '../../../ts/interfaces';
 
 export interface SliderProps {
-  children?: JSX.Element[];
+  children?: React.ReactNode;
   cards: CardSchema[];
   index: number;
   setIndex: Function;
@@ -9,6 +9,7 @@ export interface SliderProps {
 
 export function Slider(props: SliderProps): JSX.Element {
   const { cards, index, setIndex } = props;
+
   return (
     <>
       <button className="nav-button previous" onClick={() => setIndex(Math.max(0, index - 1))}>

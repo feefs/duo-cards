@@ -7,6 +7,7 @@ interface EditableSliderProps extends SliderProps {
 
 function EditableSlider(props: EditableSliderProps): JSX.Element {
   const { cards, index, setIndex, setCards } = props;
+
   return (
     <Slider {...{ cards, index, setIndex }}>
       {cards.map((card, i) => {
