@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/duo-cards/static/css/main.3a1ff275.css",
-    "main.js": "/duo-cards/static/js/main.ad884348.js",
+    "main.css": "/duo-cards/static/css/main.7c51a518.css",
+    "main.js": "/duo-cards/static/js/main.4b16fd1d.js",
     "static/js/787.7efd31bd.chunk.js": "/duo-cards/static/js/787.7efd31bd.chunk.js",
     "index.html": "/duo-cards/index.html",
     "static/media/github.svg": "/duo-cards/static/media/github.22e65707326e3e1e37afd21c5334995a.svg",
-    "main.3a1ff275.css.map": "/duo-cards/static/css/main.3a1ff275.css.map",
-    "main.ad884348.js.map": "/duo-cards/static/js/main.ad884348.js.map",
+    "main.7c51a518.css.map": "/duo-cards/static/css/main.7c51a518.css.map",
+    "main.4b16fd1d.js.map": "/duo-cards/static/js/main.4b16fd1d.js.map",
     "787.7efd31bd.chunk.js.map": "/duo-cards/static/js/787.7efd31bd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3a1ff275.css",
-    "static/js/main.ad884348.js"
+    "static/css/main.7c51a518.css",
+    "static/js/main.4b16fd1d.js"
   ]
 }
