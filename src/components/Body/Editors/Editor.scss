@@ -53,5 +53,10 @@
 
       background: $nord15;
     }
+
+    .end {
+      @include styled-box(true, $nord1, 5vmin, 5vmin, 0.5vmin);
+      @include translate-styled-box(50vmin, -9.5vmin);
+    }
   }
 }

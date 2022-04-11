@@ -94,6 +94,9 @@ function Editor(props: EditorProps): JSX.Element {
       >
         ✓
       </button>
+      <button className="end" onClick={() => setIndex(cards.length - 1)}>
+        →
+      </button>
       <EditableSlider {...{ cards, setCards, index, setIndex }} />
     </div>
   );

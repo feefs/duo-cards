@@ -31,6 +31,7 @@ function Decks(): JSX.Element {
       if (decks.length === 0) {
         setEmpty(true);
       }
+      decks.sort((a, b) => b.created.toMillis() - a.created.toMillis());
       setDecks(decks);
     }
 
