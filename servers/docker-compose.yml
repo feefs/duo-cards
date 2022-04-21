@@ -1,9 +1,9 @@
 services:
   nginx:
     build: ./nginx
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 8000:80
   duolingo:
     build: ./duolingo
+    volumes:
+      - ./duolingo/src/app.py:/code/src/app.py
