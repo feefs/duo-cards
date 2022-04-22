@@ -1,0 +1,8 @@
+[style]
+column_limit=100
+blank_lines_around_top_level_definition=1
+blank_line_before_nested_class_or_def=false
+dedent_closing_brackets=true
+indent_width=2
+split_all_comma_separated_values=true
+split_before_logical_operator=false

@@ -6,4 +6,4 @@ services:
   duolingo:
     build: ./duolingo
     volumes:
-      - ./duolingo/src/app.py:/code/src/app.py
+      - ./duolingo/src:/code/src
