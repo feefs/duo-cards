@@ -1,4 +1,4 @@
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
@@ -24,10 +24,14 @@ function Practice(): JSX.Element {
       if (!user) {
         return;
       }
-      const d = await getDoc(doc(collection(firestore, 'decks'), params.deckId));
+      const documentRef = doc(collection(firestore, 'decks'), params.deckId);
+      const d = await getDoc(documentRef);
       if (!d.exists()) {
         setExists(false);
       } else {
+        updateDoc(documentRef, {
+          last_practiced: Timestamp.now(),
+        });
         setName(d.data().name);
         setCards((d.data().cards as CardSchema[]).map((c: CardSchema, index) => ({ ...c, id: index })));
       }
