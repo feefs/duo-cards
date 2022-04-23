@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/duo-cards/static/css/main.7c51a518.css",
-    "main.js": "/duo-cards/static/js/main.ce0f8a9c.js",
+    "main.js": "/duo-cards/static/js/main.71c6e9ff.js",
     "static/js/787.7efd31bd.chunk.js": "/duo-cards/static/js/787.7efd31bd.chunk.js",
     "index.html": "/duo-cards/index.html",
     "static/media/github.svg": "/duo-cards/static/media/github.22e65707326e3e1e37afd21c5334995a.svg",
     "main.7c51a518.css.map": "/duo-cards/static/css/main.7c51a518.css.map",
-    "main.ce0f8a9c.js.map": "/duo-cards/static/js/main.ce0f8a9c.js.map",
+    "main.71c6e9ff.js.map": "/duo-cards/static/js/main.71c6e9ff.js.map",
     "787.7efd31bd.chunk.js.map": "/duo-cards/static/js/787.7efd31bd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7c51a518.css",
-    "static/js/main.ce0f8a9c.js"
+    "static/js/main.71c6e9ff.js"
   ]
 }
