@@ -56,7 +56,17 @@ function Decks(): JSX.Element {
           New
         </button>
       </div>
-      <div className="curated">Curated</div>
+      <div className="curated">
+        <div className="curated-title">Curated</div>
+        <hr />
+        <a
+          href="https://github.com/feefs/duo-cards#local-installation-for-curated-cards"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Feature disabled, click to learn more
+        </a>
+      </div>
     </div>
   );
 }
