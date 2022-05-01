@@ -3,14 +3,7 @@ from dotenv import dotenv_values
 from duolingo import Duolingo
 
 ENV_VARS = dict(dotenv_values())
-VOCAB_KEYS = [
-    'word_string',
-    'strength',
-    'strength_bars',
-    'last_practiced_ms',
-    'skill',
-    'skill_url_title'
-]
+VOCAB_KEYS = ['word_string', 'strength', 'last_practiced_ms', 'skill', 'skill_url_title']
 
 class DuoTranslator():
   def __init__(self):
@@ -21,7 +14,7 @@ class DuoTranslator():
 
     self.vocab = vocab
 
-  def query_words(self, start_days_ago, end_days_ago, low_threshold=1, high_threshold=4):
+  def query_words(self, start_days_ago, end_days_ago, low_threshold=0, high_threshold=1):
     current_time = time()
     start_ms = (current_time - (start_days_ago * 24 * 60 * 60)) * 1000
     end_ms = (current_time - (end_days_ago * 24 * 60 * 60)) * 1000
@@ -29,7 +22,7 @@ class DuoTranslator():
     return list(
         filter(
             lambda entry: (start_ms <= entry['last_practiced_ms'] <= end_ms) and
-            (low_threshold <= entry['strength_bars'] <= high_threshold),
+            (low_threshold <= entry['strength'] <= high_threshold),
             self.vocab
         )
     )
