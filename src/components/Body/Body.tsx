@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Deck from './Deck';
 import Decks from './Decks';
-import { NewEditor, DeckEditor } from './Editors';
+import { NewEditor, DeckEditor, CuratedEditor } from './Editors';
 import Practice from './Practice';
 
 function Body(): JSX.Element {
@@ -18,6 +18,7 @@ function Body(): JSX.Element {
         <Route path="" element={<DeckEditor />} />
         <Route path=":deckId" element={<DeckEditor />} />
       </Route>
+      <Route path="curated" element={<CuratedEditor />} />
       <Route path="practice">
         <Route path="" element={<Practice />} />
         <Route path=":deckId" element={<Practice />} />

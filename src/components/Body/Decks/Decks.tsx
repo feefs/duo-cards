@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { auth, firestore } from '../../../ts/firebase';
 import { DeckSchema } from '../../../ts/interfaces';
+import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../ts/local';
 import './Decks.scss';
 
 function Decks(): JSX.Element {
@@ -59,13 +60,27 @@ function Decks(): JSX.Element {
       <div className="curated">
         <div className="curated-title">Curated</div>
         <hr />
-        <a
-          href="https://github.com/feefs/duo-cards#local-installation-for-curated-cards"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Feature disabled, click to learn more
-        </a>
+        {CURATED_ENABLED ? (
+          <div className="curated-previews">
+            {CURATED_CONFIGURATIONS.map((config) => (
+              <div
+                className="curated-preview-card"
+                key={config.name}
+                onClick={() => navigate(`/curated`, { state: { config } })}
+              >
+                <div className="name">{config.name}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <a
+            href="https://github.com/feefs/duo-cards#local-installation-for-curated-cards"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Feature disabled, click to learn more
+          </a>
+        )}
       </div>
     </div>
   );

@@ -73,12 +73,14 @@
     flex-direction: column;
     justify-content: center;
     padding: 1.5vmin 0 0;
+    overflow-y: scroll;
 
     > * {
       text-align: center;
     }
 
     .curated-title {
+      margin-top: 18vmin;
       font-size: 3vmin;
     }
 
@@ -92,6 +94,29 @@
       color: $nord11;
       font-size: 2.5vmin;
       text-decoration: none;
+    }
+
+    .curated-previews {
+      margin: auto;
+
+      .curated-preview-card {
+        @include styled-box(true, $nord1, 18vmin, 18vmin, 1vmin, 0.3vmin);
+
+        margin: 2vmin 0 4vmin;
+
+        .name {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 75%;
+          height: 100%;
+          margin: auto;
+          font-size: 2.5vmin;
+          text-align: center;
+          overflow-wrap: anywhere;
+          user-select: none;
+        }
+      }
     }
   }
 }

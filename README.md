@@ -10,22 +10,20 @@ Built with React, TypeScript, Flask, Firebase, [duolingo-api](https://github.com
 <p>
 
 ## Local installation for curated cards
-Curated cards are not available on the website, since part of the curation uses an unofficial Duolingo API called [duolingo-api](https://github.com/KartikTalwar/Duolingo). With no API key offered by Duolingo, a hard-coded username and password in a .env file is necessary for the curator webserver to work.
+Curated cards are not available on the website, since a part of curation uses an unofficial Duolingo API called [duolingo-api](https://github.com/KartikTalwar/Duolingo).
 
-Even so, you can try the feature by installing and running the React app + Flask webserver locally:
+Regardless, you can try the feature by installing and running the React app + servers locally:
 
-Make a .env file like the [example](.env.example), set CURATED_ENABLED to `true` in [configs.ts](src/ts/configs.ts), and configure a curated deck of your own in [curated.ts](src/ts/curated.ts)
+Make a .env file like the [example](servers/duolingo/.env.example), set CURATED_ENABLED to `true` in [local.ts](src/ts/local.ts), and configure a curated deck of your own in [local.ts](src/ts/local.ts)
 
 ---
 
-Create a virtual environment, enter it, and install the requirements with
+Start the react app with
 ```
-~ python3 -m venv env
-~ source env/bin/activate
-~ pip3 install -r requirements.txt
+npm run start
 ```
-Then, start the webserver using
+Start the webservers with Docker by running
 ```
-~ python3 server/server.py
+cd servers
+./dev.sh
 ```
-To start the React app, install the packages and run the `start` script with either yarn or npm.

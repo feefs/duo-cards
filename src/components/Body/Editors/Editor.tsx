@@ -17,6 +17,14 @@ interface EditorProps {
   newCard: Function;
 }
 
+interface FirebaseCardSchema {
+  en: string;
+  ja: string;
+  pos: string;
+  pronunciation: string;
+  id?: string;
+}
+
 function Editor(props: EditorProps): JSX.Element {
   const { user, name, setName, cards, setCards, newCard } = props;
 
@@ -32,7 +40,7 @@ function Editor(props: EditorProps): JSX.Element {
 
   const submitDeck = useCallback(async () => {
     setSubmitted(true);
-    const cardsCopy = [...cards] as any[];
+    const cardsCopy = [...cards] as FirebaseCardSchema[];
     cardsCopy.forEach((card) => {
       delete card.id;
     });
