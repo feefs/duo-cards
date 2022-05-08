@@ -22,7 +22,7 @@ export function CuratedEditor(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [name, setName] = useState<string>('');
   const [cards, setCards] = useState<CardSchema[]>([]);
-  const [nextID, setID] = useState<number>(0);
+  const [nextID, setNextID] = useState<number>(0);
 
   useEffect(() => {
     async function fetchCards() {
@@ -37,15 +37,21 @@ export function CuratedEditor(): JSX.Element {
         );
         const words = (await response.json()) as CuratedCard[];
 
-        setCards(
-          words.map((curatedCard, index) => ({
-            en: '',
-            ja: curatedCard.word_string,
-            pos: '',
-            pronunciation: '',
-            id: index,
-          }))
-        );
+        if (words.length) {
+          setCards(
+            words.map((curatedCard, index) => ({
+              en: '',
+              ja: curatedCard.word_string,
+              pos: '',
+              pronunciation: '',
+              id: index,
+            }))
+          );
+          setNextID(words.length);
+        } else {
+          setCards([{ en: '', ja: '', pos: '', pronunciation: '', id: 0 }]);
+          setNextID(1);
+        }
 
         setName(name);
         setLoading(false);
@@ -57,7 +63,7 @@ export function CuratedEditor(): JSX.Element {
 
   const newCard = useCallback(() => {
     const result = { en: '', ja: '', pos: '', pronunciation: '', id: nextID };
-    setID(nextID + 1);
+    setNextID(nextID + 1);
     return result;
   }, [nextID]);
 

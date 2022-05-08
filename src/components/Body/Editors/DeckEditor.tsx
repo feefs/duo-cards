@@ -15,7 +15,7 @@ export function DeckEditor(): JSX.Element {
   const [exists, setExists] = useState<boolean>(true);
   const [name, setName] = useState<string>('');
   const [cards, setCards] = useState<CardSchema[]>([]);
-  const [nextID, setID] = useState<number>(0);
+  const [nextID, setNextID] = useState<number>(0);
 
   useEffect(() => {
     async function fetchCards() {
@@ -27,6 +27,7 @@ export function DeckEditor(): JSX.Element {
         const data = d.data();
         setName(data.name);
         setCards((data.cards as CardSchema[]).map((c: CardSchema, index) => ({ ...c, id: index })));
+        setNextID(data.cards.length);
       } else {
         setExists(false);
       }
@@ -37,7 +38,7 @@ export function DeckEditor(): JSX.Element {
 
   const newCard = useCallback(() => {
     const result = { en: '', ja: '', pos: '', pronunciation: '', id: nextID };
-    setID(nextID + 1);
+    setNextID(nextID + 1);
     return result;
   }, [nextID]);
 
