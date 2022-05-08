@@ -73,13 +73,15 @@ function Decks(): JSX.Element {
             ))}
           </div>
         ) : (
-          <a
-            href="https://github.com/feefs/duo-cards#local-installation-for-curated-cards"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Feature disabled, click to learn more
-          </a>
+          <div className="curated-warning">
+            <a
+              href="https://github.com/feefs/duo-cards#local-installation-for-curated-cards"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Disabled, click to learn more
+            </a>
+          </div>
         )}
       </div>
     </div>
