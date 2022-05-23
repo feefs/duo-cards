@@ -25,5 +25,5 @@ npm run start
 Start the webservers with Docker by running
 ```
 cd servers
-./dev.sh
+./run.sh
 ```
