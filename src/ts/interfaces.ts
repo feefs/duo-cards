@@ -8,9 +8,23 @@ export enum CardField {
   id = 'id',
 }
 
-export type CardSchema = {
-  [key in CardField]: string | number;
-};
+export interface CardSchema {
+  en: string;
+  ja: string;
+  pos: string;
+  pronunciation: string;
+
+  id?: number;
+
+  metadata?: MetadataSchema;
+}
+
+export interface MetadataSchema {
+  strength: number;
+  skill: string;
+  skill_url_title: string;
+  similar_translations: string[];
+}
 
 export interface DeckSchema {
   cards: CardSchema[];

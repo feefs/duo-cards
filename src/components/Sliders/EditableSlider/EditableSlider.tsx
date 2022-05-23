@@ -1,4 +1,5 @@
 import { CardField } from '../../../ts/interfaces';
+import { Metadata } from '../Metadata';
 import { Slider, SliderProps } from '../Slider';
 
 interface EditableSliderProps extends SliderProps {
@@ -12,8 +13,21 @@ function EditableSlider(props: EditableSliderProps): JSX.Element {
     <Slider {...{ cards, index, setIndex }}>
       {cards.map((card, i) => {
         const update = (field: CardField) => (e: React.ChangeEvent<HTMLInputElement>) => {
+          const value = e.target.value;
           const copy = [...cards];
-          copy[i][field] = e.target.value;
+          switch (field) {
+            case 'en':
+              copy[i].en = value;
+              break;
+            case 'ja':
+              copy[i].ja = value;
+              break;
+            case 'pos':
+              copy[i].pos = value;
+              break;
+            case 'pronunciation':
+              copy[i].pronunciation = value;
+          }
           setCards(copy);
         };
         return (
@@ -26,6 +40,7 @@ function EditableSlider(props: EditableSliderProps): JSX.Element {
             <input value={card.pronunciation} placeholder="romaji" onChange={update(CardField.pronunciation)} />
             <input value={card.en} placeholder="en" onChange={update(CardField.en)} />
             <input value={card.pos} placeholder="grammar" onChange={update(CardField.pos)} />
+            {card.metadata ? <Metadata data={card.metadata} /> : null}
           </div>
         );
       })}

@@ -17,6 +17,38 @@
   .editor-layout {
     @include slider-layout;
 
+    .slider-cards {
+      .slider-card {
+        .metadata {
+          &:hover {
+            cursor: default;
+          }
+
+          position: absolute;
+          width: 300%;
+          margin-top: 52.5vmin;
+          font-size: 2.5vmin;
+          text-align: center;
+
+          > div {
+            margin: 0 0 1.5vmin;
+
+            > a {
+              text-decoration: none;
+            }
+
+            .similar {
+              color: $nord14;
+            }
+
+            .lesson {
+              color: $nord8;
+            }
+          }
+        }
+      }
+    }
+
     .interact-button {
       @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
     }

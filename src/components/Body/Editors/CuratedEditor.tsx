@@ -3,16 +3,16 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useLocation } from 'react-router-dom';
 
 import { auth } from '../../../ts/firebase';
-import { CardSchema, CuratedConfig } from '../../../ts/interfaces';
+import { CardSchema, CuratedConfig, MetadataSchema } from '../../../ts/interfaces';
 import { DUOLINGO_URL } from '../../../ts/local';
 import Editor from './Editor';
 
 interface CuratedCard {
-  word_string: string;
-  strength: number;
-  last_practiced_ms: number;
-  skill: string;
-  skill_url_title: string;
+  en: string;
+  ja: string;
+  pos: string;
+  pronunciation: string;
+  metadata: MetadataSchema;
 }
 
 export function CuratedEditor(): JSX.Element {
@@ -38,15 +38,7 @@ export function CuratedEditor(): JSX.Element {
         const words = (await response.json()) as CuratedCard[];
 
         if (words.length) {
-          setCards(
-            words.map((curatedCard, index) => ({
-              en: '',
-              ja: curatedCard.word_string,
-              pos: '',
-              pronunciation: '',
-              id: index,
-            }))
-          );
+          setCards(words.map((curatedCard, index) => ({ ...curatedCard, id: index })));
           setNextID(words.length);
         } else {
           setCards([{ en: '', ja: '', pos: '', pronunciation: '', id: 0 }]);
