@@ -55,11 +55,12 @@ function Editor(props: EditorProps): JSX.Element {
       navigate(`/deck/${params.deckId}`);
     } else {
       const d = await addDoc(collectionRef, {
-        creator_uid: user ? user.uid : '',
-        name,
         cards: cardsCopy,
+        creator_uid: user ? user.uid : '',
         created: currentTimestamp,
         last_edited: currentTimestamp,
+        linked_collections: [],
+        name,
       });
       navigate(`/deck/${d.id}`);
     }
