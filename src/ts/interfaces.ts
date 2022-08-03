@@ -26,11 +26,36 @@ export interface MetadataSchema {
   similar_translations: string[];
 }
 
+export interface CollectionSchema {
+  entities: CollectionEntitySchema[];
+  linked_collections: ConnectionLinkSchema[];
+  name: string;
+
+  id: string;
+}
+
+export enum CollectionEntityType {
+  Collection = 'c',
+  Deck = 'd',
+}
+
+export interface CollectionEntitySchema {
+  type: CollectionEntityType;
+  name: string;
+  entity_id: string;
+}
+
+export interface ConnectionLinkSchema {
+  collection_id: string;
+  collection_name: string;
+}
+
 export interface DeckSchema {
   cards: CardSchema[];
   created: Timestamp;
   last_edited: Timestamp;
   last_practiced?: Timestamp;
+  linked_collections: ConnectionLinkSchema[];
   name: string;
 
   id: string;

@@ -24,6 +24,7 @@ function Deck(): JSX.Element {
     created: Timestamp.fromMillis(0),
     last_edited: Timestamp.fromMillis(0),
     last_practiced: Timestamp.fromMillis(0),
+    linked_collections: [],
     name: '',
     id: '',
   });
