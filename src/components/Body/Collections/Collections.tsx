@@ -8,8 +8,8 @@ import { CollectionSchema } from '../../../ts/interfaces';
 import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../ts/local';
 import './Collections.scss';
 
-const NOT_COLLECTED_ID = 'Uncollected';
-const uncollectedCollection = { entities: [], linked_collections: [], name: 'Not Collected', id: NOT_COLLECTED_ID };
+const UNCOLLECTED_ID = 'Uncollected';
+const uncollectedCollection = { entities: [], linked_collections: [], name: 'Not Collected', id: UNCOLLECTED_ID };
 
 function Collections(): JSX.Element {
   const [user, userLoading] = useAuthState(auth);
@@ -35,8 +35,8 @@ function Collections(): JSX.Element {
           id: doc.id,
         } as CollectionSchema)
       );
-      setLoading(false);
       setCollections([...collections, uncollectedCollection]);
+      setLoading(false);
     }
 
     fetchCollections();
@@ -57,7 +57,7 @@ function Collections(): JSX.Element {
               className="collection-preview"
               key={collection.id}
               onClick={() =>
-                navigate(collection.id === NOT_COLLECTED_ID ? '/uncollected' : `/collection/${collection.id}`)
+                navigate(collection.id === UNCOLLECTED_ID ? '/uncollected' : `/collection/${collection.id}`)
               }
             >
               <div className="name">{collection.name}</div>

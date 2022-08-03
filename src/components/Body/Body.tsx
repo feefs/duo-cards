@@ -4,11 +4,13 @@ import Collections from './Collections';
 import Deck from './Deck';
 import { NewEditor, DeckEditor, CuratedEditor } from './Editors';
 import Practice from './Practice';
+import Uncollected from './Uncollected';
 
 function Body(): JSX.Element {
   return (
     <Routes>
       <Route path="" element={<Collections />} />
+      <Route path="uncollected" element={<Uncollected />} />
       <Route path="deck">
         <Route path="" element={<Deck />} />
         <Route path=":deckId" element={<Deck />} />
