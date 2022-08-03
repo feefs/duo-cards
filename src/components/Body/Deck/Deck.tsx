@@ -31,7 +31,12 @@ function Deck(): JSX.Element {
 
   useEffect(() => {
     async function fetchCards() {
-      if (!user || !params.deckId) {
+      if (!user) {
+        return;
+      }
+      if (!params.deckId) {
+        setExists(false);
+        setLoading(false);
         return;
       }
       const d = await getDoc(doc(collection(firestore, 'decks'), params.deckId));
