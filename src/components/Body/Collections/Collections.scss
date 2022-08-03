@@ -1,6 +1,6 @@
 @use '../../../scss/style' as *;
 
-.Decks {
+.Collections {
   display: grid;
   grid-template:
     'a a b'
@@ -18,7 +18,7 @@
     @include styled-border;
   }
 
-  .decks {
+  .collections {
     display: grid;
     grid-area: a;
     grid-template-columns: repeat(auto-fit, minmax(20vmin, 1fr));
@@ -26,7 +26,7 @@
     overflow-y: scroll;
     gap: 7.5vmin;
 
-    .deck-preview {
+    .collection-preview {
       @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
 
       .name {

@@ -1,14 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 
+import Collections from './Collections';
 import Deck from './Deck';
-import Decks from './Decks';
 import { NewEditor, DeckEditor, CuratedEditor } from './Editors';
 import Practice from './Practice';
 
 function Body(): JSX.Element {
   return (
     <Routes>
-      <Route path="" element={<Decks />} />
+      <Route path="" element={<Collections />} />
       <Route path="deck">
         <Route path="" element={<Deck />} />
         <Route path=":deckId" element={<Deck />} />
