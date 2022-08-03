@@ -22,6 +22,11 @@ export function DeckEditor(): JSX.Element {
       if (!user) {
         return;
       }
+      if (!params.deckId) {
+        setExists(false);
+        setLoading(false);
+        return;
+      }
       const d = await getDoc(doc(collection(firestore, 'decks'), params.deckId));
       if (d.exists()) {
         const data = d.data();
