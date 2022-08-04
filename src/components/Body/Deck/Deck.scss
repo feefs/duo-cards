@@ -18,6 +18,7 @@
     @include styled-border;
   }
 
+  // TODO: refactor to mixin
   .cards {
     display: grid;
     grid-area: a;
@@ -98,6 +99,17 @@
       font-size: 2.25vmin;
     }
 
+    > hr:last-of-type {
+      margin-bottom: 1.5vmin;
+    }
+
+    .add-to-collection {
+      @include styled-box(true, $nord12, 30vmin, 5vmin, 0.5vmin);
+
+      margin: auto;
+      font-size: 2.5vmin;
+    }
+
     .delete-deck {
       @include styled-box(true, $nord11, 30vmin, 5vmin, 0.5vmin);
 
@@ -112,6 +124,52 @@
       &:hover {
         cursor: not-allowed;
       }
+    }
+  }
+}
+
+.modal {
+  width: 100vmin;
+  height: 75vmin;
+
+  // TODO: refactor to mixin
+  .collections {
+    display: flex;
+    grid-template-columns: repeat(auto-fit, minmax(20vmin, 1fr));
+    width: 100%;
+    padding: 7.5vmin;
+    overflow-y: scroll;
+    gap: 7.5vmin;
+
+    .collection-preview {
+      @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+
+      .name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 75%;
+        height: 100%;
+        margin: auto;
+        font-size: 2.5vmin;
+        text-align: center;
+        overflow-wrap: anywhere;
+        user-select: none;
+      }
+    }
+
+    .collection-disabled {
+      color: $nord3;
+      text-decoration: line-through;
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
+    .text {
+      margin: auto;
+      font-size: 2.5vmin;
     }
   }
 }

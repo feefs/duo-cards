@@ -40,9 +40,10 @@ export enum CollectionEntityType {
 }
 
 export interface CollectionEntitySchema {
-  type: CollectionEntityType;
-  name: string;
   entity_id: string;
+  name: string;
+  time_added: Timestamp;
+  type: CollectionEntityType;
 }
 
 export interface ConnectionLinkSchema {
