@@ -9,3 +9,11 @@
     font-family: Nunito, sans-serif;
   }
 }
+
+.modal {
+  @include styled-border;
+
+  display: flex;
+  background: $nord0;
+  color: $nord6;
+}

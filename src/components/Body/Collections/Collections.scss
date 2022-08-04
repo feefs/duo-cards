@@ -18,6 +18,7 @@
     @include styled-border;
   }
 
+  // TODO: refactor to mixin
   .collections {
     display: grid;
     grid-area: a;
