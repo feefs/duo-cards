@@ -7,12 +7,10 @@ const StyledModal = styled(MaterialModal)({
   justifyContent: 'center',
 }) as typeof Modal;
 
-function Modal(props: ModalProps) {
+export function Modal(props: ModalProps) {
   return (
     <StyledModal {...props}>
       <div className="modal">{props.children}</div>
     </StyledModal>
   );
 }
-
-export default Modal;
