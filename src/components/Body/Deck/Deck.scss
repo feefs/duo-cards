@@ -99,14 +99,10 @@
       font-size: 2.25vmin;
     }
 
-    > hr:last-of-type {
-      margin-bottom: 1.5vmin;
-    }
-
     .add-to-collection {
       @include styled-box(true, $nord12, 30vmin, 5vmin, 0.5vmin);
 
-      margin: auto;
+      margin: 1.5vmin auto 2vmin;
       font-size: 2.5vmin;
     }
 

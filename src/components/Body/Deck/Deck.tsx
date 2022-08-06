@@ -175,7 +175,9 @@ function Deck(): JSX.Element {
         <div className="cards">
           {loading ? (
             <div className="text">Loading...</div>
-          ) : exists ? (
+          ) : !exists ? (
+            <div className="text">Deck doesn't exist!</div>
+          ) : (
             deck.cards.map((card, index) => (
               <div className="card" key={index}>
                 <div className="card-text">
@@ -188,8 +190,6 @@ function Deck(): JSX.Element {
                 </div>
               </div>
             ))
-          ) : (
-            <div className="text">Deck doesn't exist!</div>
           )}
         </div>
         <div className="deck-actions">

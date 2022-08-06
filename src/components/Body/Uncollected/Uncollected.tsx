@@ -46,7 +46,7 @@ function Uncollected(): JSX.Element {
   }, [user]);
 
   return (
-    <div className="Decks">
+    <div className="Uncollected">
       <div className="decks">
         {loading ? (
           <div className="text">Loading...</div>
