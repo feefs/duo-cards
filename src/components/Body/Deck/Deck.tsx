@@ -1,11 +1,11 @@
-import { collection, deleteDoc, doc, getDoc, Timestamp } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { CollectionModal, Modal } from '../../Modals';
 import { auth, firestore } from '../../../ts/firebase';
-import { DeckSchema } from '../../../ts/interfaces';
+import { DeckSchema, Link, Parent } from '../../../ts/interfaces';
 import './Deck.scss';
 
 function formatDate(timestamp: Timestamp): string {
@@ -25,7 +25,8 @@ function Deck(): JSX.Element {
     created: Timestamp.fromMillis(0),
     last_edited: Timestamp.fromMillis(0),
     last_practiced: Timestamp.fromMillis(0),
-    linked_collections: [],
+    linked: false,
+    parent: null,
     name: '',
     id: '',
   });
@@ -42,11 +43,24 @@ function Deck(): JSX.Element {
         setLoading(false);
         return;
       }
-      const d = await getDoc(doc(collection(firestore, 'decks'), params.deckId));
-      if (!d.exists()) {
+      const deckDoc = await getDoc(doc(collection(firestore, 'decks'), params.deckId));
+      if (!deckDoc.exists()) {
         setExists(false);
       } else {
-        setDeck({ ...d.data(), id: d.id } as DeckSchema);
+        let parent: Parent | null = null;
+        const result = await getDocs(
+          query(
+            collection(firestore, 'links'),
+            where('creator_uid', '==', user.uid),
+            where('child_id', '==', deckDoc.id)
+          )
+        );
+        const doc = result.docs.map((doc) => doc).shift();
+        if (doc?.exists()) {
+          const link = doc.data() as Link;
+          parent = { id: link.parent_id, name: link.parent_name };
+        }
+        setDeck({ ...deckDoc.data(), parent, id: deckDoc.id } as DeckSchema);
       }
       setLoading(false);
     }

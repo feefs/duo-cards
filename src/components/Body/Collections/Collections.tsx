@@ -9,7 +9,12 @@ import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../ts/local';
 import './Collections.scss';
 
 const UNCOLLECTED_ID = 'Uncollected';
-const uncollectedCollection = { entities: [], linked_collections: [], name: 'Not Collected', id: UNCOLLECTED_ID };
+const uncollectedCollection: CollectionSchema = {
+  name: 'Not Collected',
+  parent: null,
+  children: [],
+  id: UNCOLLECTED_ID,
+};
 
 function Collections(): JSX.Element {
   const [user, userLoading] = useAuthState(auth);

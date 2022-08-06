@@ -26,39 +26,15 @@ export interface MetadataSchema {
   similar_translations: string[];
 }
 
-export interface CollectionSchema {
-  entities: CollectionEntitySchema[];
-  linked_collections: ConnectionLinkSchema[];
-  name: string;
-
-  id: string;
-}
-
-export enum CollectionEntityType {
-  Collection = 'c',
-  Deck = 'd',
-}
-
-export interface CollectionEntitySchema {
-  entity_id: string;
-  name: string;
-  time_added: Timestamp;
-  type: CollectionEntityType;
-}
-
-export interface ConnectionLinkSchema {
-  collection_id: string;
-  collection_name: string;
-}
-
 export interface DeckSchema {
   cards: CardSchema[];
   created: Timestamp;
   last_edited: Timestamp;
   last_practiced?: Timestamp;
-  linked_collections: ConnectionLinkSchema[];
+  linked: boolean;
   name: string;
 
+  parent: Parent | null;
   id: string;
 }
 
@@ -69,4 +45,38 @@ export interface CuratedConfig {
   lowThreshold: number;
   highThreshold: number;
   numCards: number;
+}
+
+export interface Parent {
+  id: string;
+  name: string;
+}
+
+export enum ChildKind {
+  Collection = 'c',
+  Deck = 'd',
+}
+
+export interface Child {
+  id: string;
+  name: string;
+  time_added: Timestamp;
+  type: ChildKind;
+}
+
+export interface CollectionSchema {
+  name: string;
+
+  parent: Parent | null;
+  children: Child[];
+  id: string;
+}
+
+export interface Link {
+  child_id: string;
+  child_kind: ChildKind;
+  child_name: string;
+  created: Timestamp;
+  parent_id: string;
+  parent_name: string;
 }
