@@ -39,6 +39,9 @@ function Editor(props: EditorProps): JSX.Element {
   }, [user, name, submitted]);
 
   const submitDeck = useCallback(async () => {
+    if (!user || !name) {
+      return;
+    }
     setSubmitted(true);
     const cardsCopy = [...cards] as FirebaseCardSchema[];
     cardsCopy.forEach((card) => {
@@ -56,10 +59,10 @@ function Editor(props: EditorProps): JSX.Element {
     } else {
       const d = await addDoc(collectionRef, {
         cards: cardsCopy,
-        creator_uid: user ? user.uid : '',
         created: currentTimestamp,
+        creator_uid: user.uid,
         last_edited: currentTimestamp,
-        linked_collections: [],
+        linked: false,
         name,
       });
       navigate(`/deck/${d.id}`);

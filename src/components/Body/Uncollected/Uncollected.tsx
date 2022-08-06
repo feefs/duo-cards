@@ -22,11 +22,7 @@ function Uncollected(): JSX.Element {
       }
       const decks: DeckSchema[] = [];
       const docs = await getDocs(
-        query(
-          collection(firestore, 'decks'),
-          where('creator_uid', '==', user.uid),
-          where('linked_collections', '==', [])
-        )
+        query(collection(firestore, 'decks'), where('creator_uid', '==', user.uid), where('linked', '==', false))
       );
       docs.forEach((doc) =>
         decks.push({
