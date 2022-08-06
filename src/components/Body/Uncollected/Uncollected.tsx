@@ -66,11 +66,13 @@ function Uncollected(): JSX.Element {
         </button>
       </div>
       <div className="uncollected-info">
-        <>
-          <div className="info-name">Uncollected Decks</div>
-          <hr />
-          <div># of decks: {decks.length}</div>
-        </>
+        {!loading ? (
+          <>
+            <div className="info-name">Uncollected Decks</div>
+            <hr />
+            <div># of decks: {decks.length}</div>
+          </>
+        ) : null}
       </div>
     </div>
   );

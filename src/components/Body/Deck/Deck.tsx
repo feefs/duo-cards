@@ -86,7 +86,7 @@ function Deck(): JSX.Element {
           </button>
         </div>
         <div className="deck-info">
-          {deck.name ? (
+          {!loading ? (
             <>
               <div className="info-name">{deck.name}</div>
               <hr />
