@@ -61,10 +61,11 @@ export interface Child {
   id: string;
   name: string;
   time_added: Timestamp;
-  type: ChildKind;
+  kind: ChildKind;
 }
 
 export interface CollectionSchema {
+  linked: boolean;
   name: string;
 
   parent: Parent | null;
