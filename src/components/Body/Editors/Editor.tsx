@@ -1,5 +1,5 @@
 import { User } from 'firebase/auth';
-import { addDoc, collection, doc, Timestamp, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, Timestamp, where, writeBatch } from 'firebase/firestore';
 import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -49,15 +49,30 @@ function Editor(props: EditorProps): JSX.Element {
     });
     const currentTimestamp = Timestamp.now();
     const collectionRef = collection(firestore, 'decks');
+
+    const batch = writeBatch(firestore);
+    const newDocRef = doc(collectionRef);
     if (params.deckId) {
-      await updateDoc(doc(collectionRef, params.deckId), {
+      batch.update(doc(collectionRef, params.deckId), {
         name,
         cards: cardsCopy,
         last_edited: currentTimestamp,
       });
+      const result = await getDocs(
+        query(
+          collection(firestore, 'links'),
+          where('creator_uid', '==', user.uid),
+          where('child_id', '==', params.deckId)
+        )
+      );
+      const d = result.docs.map((doc) => doc).shift();
+      if (d?.exists()) {
+        batch.update(d.ref, { child_name: name });
+      }
+      await batch.commit();
       navigate(`/deck/${params.deckId}`);
     } else {
-      const d = await addDoc(collectionRef, {
+      batch.set(newDocRef, {
         cards: cardsCopy,
         created: currentTimestamp,
         creator_uid: user.uid,
@@ -65,7 +80,8 @@ function Editor(props: EditorProps): JSX.Element {
         linked: false,
         name,
       });
-      navigate(`/deck/${d.id}`);
+      await batch.commit();
+      navigate(`/deck/${newDocRef.id}`);
     }
   }, [cards, params.deckId, user, name, navigate]);
 
