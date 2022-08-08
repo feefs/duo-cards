@@ -5,12 +5,18 @@ const StyledModal = styled(MaterialModal)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-}) as typeof Modal;
+}) as typeof MaterialModal;
 
-export function Modal(props: ModalProps) {
+export function Modal(props: ModalProps & { innerClassName: string }) {
+  const { innerClassName, ...modalProps } = props;
   return (
-    <StyledModal {...props}>
-      <div className="modal">{props.children}</div>
+    <StyledModal {...modalProps}>
+      <div className={innerClassName}>{props.children}</div>
     </StyledModal>
   );
+}
+
+export interface BaseModalProps {
+  open: boolean;
+  onClose: () => void;
 }

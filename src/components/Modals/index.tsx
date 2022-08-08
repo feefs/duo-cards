@@ -1,2 +1,2 @@
-export { Modal } from './Modal';
-export { CollectionModal } from './CollectionModal';
+export { CollectionModal } from './Collection/CollectionModal';
+export { InputModal } from './Input/InputModal';

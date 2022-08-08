@@ -1,6 +1,6 @@
 @use '../../../scss/style' as *;
 
-.Deck {
+.Collection {
   display: grid;
   grid-template:
     'a a b'
@@ -18,7 +18,7 @@
   }
 
   // TODO: refactor to mixin
-  .cards {
+  .entries {
     display: grid;
     grid-area: a;
     grid-template-columns: repeat(auto-fit, minmax(20vmin, 1fr));
@@ -26,20 +26,20 @@
     overflow-y: scroll;
     gap: 7.5vmin;
 
-    .card {
-      @include styled-box(false, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+    .entity-preview {
+      @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
 
-      .card-text {
+      .name {
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: center;
         width: 75%;
         height: 100%;
         margin: auto;
-        font-size: 2vmin;
+        font-size: 2.5vmin;
         text-align: center;
         overflow-wrap: anywhere;
+        user-select: none;
       }
     }
 
@@ -49,28 +49,24 @@
     }
   }
 
-  .deck-actions {
+  .collection-actions {
     display: flex;
     grid-area: b;
     align-items: center;
     justify-content: space-evenly;
 
     > button {
-      @include styled-box(true, $nord0, 15vmin, 6vmin, 0.5vmin);
+      @include styled-box(true, $nord0, 30vmin, 6vmin, 0.5vmin);
 
       font-size: 2.5vmin;
     }
 
-    .practice-button {
-      background: $nord10;
-    }
-
-    .edit-button {
-      background: $nord13;
+    .new-subcollection-button {
+      background: $nord14;
     }
   }
 
-  .deck-info {
+  .collection-info {
     display: flex;
     grid-area: c;
     flex-direction: column;
@@ -98,27 +94,11 @@
       font-size: 2.25vmin;
     }
 
-    .add-to-collection {
-      @include styled-box(true, $nord12, 30vmin, 5vmin, 0.5vmin);
-
-      margin: 1.5vmin auto 2vmin;
-      font-size: 2.5vmin;
-    }
-
-    .delete-deck {
+    .delete-collection {
       @include styled-box(true, $nord11, 30vmin, 5vmin, 0.5vmin);
 
       margin: auto;
       font-size: 2.5vmin;
-    }
-
-    .disabled {
-      color: $nord3;
-      text-decoration: line-through;
-
-      &:hover {
-        cursor: not-allowed;
-      }
     }
   }
 }

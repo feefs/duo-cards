@@ -2,19 +2,19 @@ import { User } from 'firebase/auth';
 import { addDoc, collection, doc, getDocs, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 
-import { firestore } from '../../ts/firebase';
-import { ChildKind, CollectionSchema, DeckSchema } from '../../ts/interfaces';
+import { firestore } from '../../../ts/firebase';
+import { ChildKind, CollectionSchema, DeckSchema } from '../../../ts/interfaces';
+import { BaseModalProps, Modal } from '../Modal';
 import './CollectionModal.scss';
 
-interface CollectionModalProps {
+type CollectionModalProps = BaseModalProps & {
   user: User | null | undefined;
-  closeModal: Function;
   deck: DeckSchema;
   setDeck: (value: React.SetStateAction<DeckSchema>) => void;
-}
+};
 
 export function CollectionModal(props: CollectionModalProps): JSX.Element {
-  const { user, closeModal, deck, setDeck } = props;
+  const { open, onClose, user, deck, setDeck } = props;
 
   const [loading, setLoading] = useState<boolean>(true);
   const [empty, setEmpty] = useState<boolean>(false);
@@ -61,36 +61,37 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
         creator_uid: user.uid,
       });
       await updateDoc(doc(firestore, 'decks', deck.id), { linked: true });
-      // TODO see if removing breaks things
       setDeck({ ...deck, parent: { id: c.id, name: c.name } });
     },
     [user, deck, setDeck]
   );
 
   return (
-    <div className="collections">
-      {!user || loading ? (
-        <div className="text">Loading...</div>
-      ) : deck.parent ? (
-        <div className="text">This deck is already part of the collection {deck.parent.name}!</div>
-      ) : empty ? (
-        <div className="text">No collections, make one!</div>
-      ) : (
-        collections.map((collection) => (
-          <div
-            className={'collection-preview' + (disabled ? ' collection-disabled' : '')}
-            key={collection.id}
-            onClick={async () => {
-              if (!disabled) {
-                await addCollectionLink(collection);
-                closeModal();
-              }
-            }}
-          >
-            <div className="name">{collection.name}</div>
-          </div>
-        ))
-      )}
-    </div>
+    <Modal innerClassName="collection-modal" {...{ open, onClose }}>
+      <div className="collections">
+        {!user || loading ? (
+          <div className="text">Loading...</div>
+        ) : deck.parent ? (
+          <div className="text">This deck is already part of the collection {deck.parent.name}!</div>
+        ) : empty ? (
+          <div className="text">No collections, make one!</div>
+        ) : (
+          collections.map((collection) => (
+            <div
+              className={'collection-preview' + (disabled ? ' collection-disabled' : '')}
+              key={collection.id}
+              onClick={async () => {
+                if (!disabled) {
+                  await addCollectionLink(collection);
+                  onClose();
+                }
+              }}
+            >
+              <div className="name">{collection.name}</div>
+            </div>
+          ))
+        )}
+      </div>
+    </Modal>
   );
 }

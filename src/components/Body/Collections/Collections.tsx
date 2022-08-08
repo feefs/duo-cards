@@ -10,6 +10,7 @@ import './Collections.scss';
 
 const UNCOLLECTED_ID = 'Uncollected';
 const uncollectedCollection: CollectionSchema = {
+  linked: false,
   name: 'Not Collected',
   parent: null,
   children: [],
@@ -33,7 +34,9 @@ function Collections(): JSX.Element {
         return;
       }
       const collections: CollectionSchema[] = [];
-      const result = await getDocs(query(collection(firestore, 'collections'), where('creator_uid', '==', user.uid)));
+      const result = await getDocs(
+        query(collection(firestore, 'collections'), where('creator_uid', '==', user.uid), where('linked', '==', false))
+      );
       result.forEach((doc) =>
         collections.push({
           ...doc.data(),

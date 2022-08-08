@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
+import Collection from './Collection';
 import Collections from './Collections';
 import Deck from './Deck';
 import { NewEditor, DeckEditor, CuratedEditor } from './Editors';
@@ -11,6 +12,10 @@ function Body(): JSX.Element {
     <Routes>
       <Route path="" element={<Collections />} />
       <Route path="uncollected" element={<Uncollected />} />
+      <Route path="collection" element={<Collection />}>
+        <Route path="" element={<Collection />} />
+        <Route path=":collectionId" element={<Collection />} />
+      </Route>
       <Route path="deck">
         <Route path="" element={<Deck />} />
         <Route path=":deckId" element={<Deck />} />

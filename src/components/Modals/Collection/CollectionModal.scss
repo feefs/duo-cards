@@ -1,6 +1,8 @@
-@use '../../scss/style' as *;
+@use '../../../scss/style' as *;
 
-.modal {
+.collection-modal {
+  @include modal;
+
   width: 100vmin;
   height: 75vmin;
 

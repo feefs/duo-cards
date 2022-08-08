@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { CollectionModal, Modal } from '../../Modals';
+import { CollectionModal } from '../../Modals';
 import { auth, firestore } from '../../../ts/firebase';
 import { DeckSchema, Link, Parent } from '../../../ts/interfaces';
 import './Deck.scss';
@@ -31,7 +31,7 @@ function Deck(): JSX.Element {
     id: '',
   });
 
-  const [addOpen, setAddOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchCards() {
@@ -118,7 +118,7 @@ function Deck(): JSX.Element {
                 <div>{formatDate(deck.created)}</div>
               </div>
               <hr />
-              <button className="add-to-collection" onClick={() => setAddOpen(true)}>
+              <button className="add-to-collection" onClick={() => setOpen(true)}>
                 Add to Collection
               </button>
               <button
@@ -137,9 +137,7 @@ function Deck(): JSX.Element {
           ) : null}
         </div>
       </div>
-      <Modal open={addOpen} onClose={() => setAddOpen(false)}>
-        <CollectionModal {...{ user, deck, setDeck }} closeModal={() => setAddOpen(false)} />
-      </Modal>
+      <CollectionModal {...{ open, onClose: () => setOpen(false), user, deck, setDeck }} />
     </>
   );
 }
