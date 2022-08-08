@@ -30,6 +30,12 @@
     .collection-preview {
       @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
 
+      position: relative;
+
+      .type-icon {
+        @include type-icon;
+      }
+
       .name {
         display: flex;
         align-items: center;

@@ -1,3 +1,4 @@
+import file from 'bootstrap-icons/icons/file.svg';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -51,6 +52,7 @@ function Uncollected(): JSX.Element {
         ) : (
           decks.map((deck) => (
             <div className="deck-preview" key={deck.id} onClick={() => navigate(`/deck/${deck.id}`)}>
+              <img className="type-icon" src={file} alt="type-icon" />
               <div className="name">{deck.name}</div>
             </div>
           ))
