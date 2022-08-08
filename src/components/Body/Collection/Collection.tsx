@@ -1,3 +1,5 @@
+import file from 'bootstrap-icons/icons/file.svg';
+import files from 'bootstrap-icons/icons/files.svg';
 import {
   collection as firestoreCollection,
   doc,
@@ -102,7 +104,7 @@ function Collection(): JSX.Element {
           ) : (
             collection.children.map((child) => (
               <div
-                className="entity-preview"
+                className="entry-preview"
                 key={child.id}
                 onClick={() => {
                   switch (child.kind) {
@@ -115,6 +117,7 @@ function Collection(): JSX.Element {
                   }
                 }}
               >
+                <img className="type-icon" src={child.kind === ChildKind.Collection ? files : file} alt="type-icon" />
                 <div className="name">{child.name}</div>
               </div>
             ))

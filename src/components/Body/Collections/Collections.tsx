@@ -1,3 +1,4 @@
+import files from 'bootstrap-icons/icons/files.svg';
 import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -69,6 +70,7 @@ function Collections(): JSX.Element {
                 navigate(collection.id === UNCOLLECTED_ID ? '/uncollected' : `/collection/${collection.id}`)
               }
             >
+              <img className="type-icon" src={files} alt="type-icon" />
               <div className="name">{collection.name}</div>
             </div>
           ))

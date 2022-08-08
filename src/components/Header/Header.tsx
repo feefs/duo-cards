@@ -1,3 +1,4 @@
+import github from 'bootstrap-icons/icons/github.svg';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -5,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../../ts/firebase';
 import './Header.scss';
-import github from './github.svg';
 
 function Header(): JSX.Element {
   const [user, loading] = useAuthState(auth);
@@ -28,7 +28,7 @@ function Header(): JSX.Element {
             Duo-cards
           </span>
           <a href="https://github.com/feefs/duo-cards" rel="noreferrer" target="_blank">
-            <img className="github" src={github} alt="Github" />
+            <img className="github" src={github} alt="GitHub" />
           </a>
         </div>
         <div />
