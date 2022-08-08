@@ -31,6 +31,8 @@ export function InputModal(props: InputModalProps): JSX.Element {
               setSubmitted(true);
               await submitText(text);
               onClose();
+              setSubmitted(false);
+              setText('');
             }
           }}
         >

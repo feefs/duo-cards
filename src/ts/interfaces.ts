@@ -65,6 +65,7 @@ export interface Child {
 }
 
 export interface CollectionSchema {
+  created: Timestamp;
   linked: boolean;
   name: string;
 
