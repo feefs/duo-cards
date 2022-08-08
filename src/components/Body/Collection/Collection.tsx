@@ -26,6 +26,7 @@ function Collection(): JSX.Element {
   const [exists, setExists] = useState<boolean>(true);
   const [empty, setEmpty] = useState<boolean>(false);
   const [collection, setCollection] = useState<CollectionSchema>({
+    created: Timestamp.fromMillis(0),
     linked: false,
     name: '',
     parent: null,
@@ -79,7 +80,7 @@ function Collection(): JSX.Element {
         } else {
           setEmpty(false);
         }
-        children.sort((a, b) => b.time_added.toMillis() - a.time_added.toMillis());
+        children.sort((a, b) => a.name.localeCompare(b.name));
         setCollection({ ...collectionDoc.data(), parent, children, id: collectionDoc.id } as CollectionSchema);
       }
       setLoading(false);
@@ -157,6 +158,7 @@ function Collection(): JSX.Element {
             const timestamp = Timestamp.now();
             const collectionRef = doc(firestoreCollection(firestore, 'collections'));
             batch.set(collectionRef, {
+              created: timestamp,
               creator_uid: user.uid,
               linked: true,
               name: text,
@@ -172,6 +174,9 @@ function Collection(): JSX.Element {
               creator_uid: user.uid,
             });
             await batch.commit();
+            if (empty) {
+              setEmpty(false);
+            }
             setCollection({
               ...collection,
               children: [
@@ -182,7 +187,7 @@ function Collection(): JSX.Element {
                   time_added: timestamp,
                   kind: ChildKind.Collection,
                 },
-              ],
+              ].sort((a, b) => a.name.localeCompare(b.name)),
             });
           },
         }}

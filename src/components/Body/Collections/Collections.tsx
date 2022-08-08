@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import './Collections.scss';
 
 const UNCOLLECTED_ID = 'Uncollected';
 const uncollectedCollection: CollectionSchema = {
+  created: Timestamp.fromMillis(0),
   linked: false,
   name: 'Not Collected',
   parent: null,
