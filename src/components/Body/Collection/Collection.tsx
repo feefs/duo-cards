@@ -68,21 +68,31 @@ function Collection(): JSX.Element {
             where('parent_id', '==', collectionDoc.id)
           )
         );
-        const children: Child[] = linksResult.docs
+        const collectionChildren: Child[] = [];
+        const deckChildren: Child[] = [];
+        linksResult.docs
           .map((doc) => doc.data() as Link)
-          .map((link) => ({
-            id: link.child_id,
-            name: link.child_name,
-            time_added: link.created,
-            kind: link.child_kind,
-          }));
-
+          .forEach((link) => {
+            const child = {
+              id: link.child_id,
+              name: link.child_name,
+              time_added: link.created,
+              kind: link.child_kind,
+            };
+            if (link.child_kind === ChildKind.Collection) {
+              collectionChildren.push(child);
+            } else {
+              deckChildren.push(child);
+            }
+          });
+        collectionChildren.sort((a, b) => a.name.localeCompare(b.name));
+        deckChildren.sort((a, b) => a.name.localeCompare(b.name));
+        const children = [...collectionChildren, ...deckChildren];
         if (children.length === 0) {
           setEmpty(true);
         } else {
           setEmpty(false);
         }
-        children.sort((a, b) => a.name.localeCompare(b.name));
         setCollection({ ...collectionDoc.data(), parent, children, id: collectionDoc.id } as CollectionSchema);
       }
       setLoading(false);
@@ -134,6 +144,10 @@ function Collection(): JSX.Element {
               <div className="info-name">{collection.name}</div>
               <hr />
               <div># of entries: {collection.children.length}</div>
+              <div>
+                # of subcollections: {collection.children.filter((child) => child.kind === ChildKind.Collection).length}
+              </div>
+              <div># of decks: {collection.children.filter((child) => child.kind === ChildKind.Deck).length}</div>
               <hr />
               <button
                 className="delete-collection"
