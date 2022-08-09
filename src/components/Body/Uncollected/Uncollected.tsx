@@ -59,7 +59,12 @@ function Uncollected(): JSX.Element {
         )}
       </div>
       <div className="new">
-        <button className={user ? '' : 'disabled'} onClick={() => navigate('/new')}>
+        <button
+          className={user ? '' : 'disabled'}
+          onClick={() => {
+            if (user) navigate('/new');
+          }}
+        >
           New
         </button>
       </div>
