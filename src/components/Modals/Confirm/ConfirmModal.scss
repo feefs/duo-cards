@@ -12,17 +12,26 @@
     color: $nord6;
   }
 
-  .text {
-    width: 80%;
-    margin: 6vmin auto 3vmin;
-    border: unset;
-    outline: unset;
-    background: unset;
-    font-size: 3.5vmin;
-    text-align: center;
-  }
+  .confirm-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 
-  .confirm {
-    @include styled-box(true, $nord14, 5vmin, 5vmin, 0.5vmin);
+    .text {
+      width: 80%;
+      margin-bottom: 2vmin;
+      border: unset;
+      outline: unset;
+      background: unset;
+      font-size: 3.5vmin;
+      text-align: center;
+    }
+
+    .confirm {
+      @include styled-box(true, $nord14, 5vmin, 5vmin, 0.5vmin);
+    }
   }
 }
