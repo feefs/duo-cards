@@ -16,8 +16,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { auth, firestore } from '../../../ts/firebase';
 import { Child, ChildKind, CollectionSchema, Link, Parent } from '../../../ts/interfaces';
-import { InputModal } from '../../Modals';
-import { ConfirmModal } from '../../Modals/Confirm/ConfirmModal';
+import { ConfirmModal, InputModal } from '../../Modals';
 import './Collection.scss';
 
 function Collection(): JSX.Element {

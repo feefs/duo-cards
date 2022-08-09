@@ -15,7 +15,7 @@ export function ConfirmModal(props: ConfirmModalProps): JSX.Element {
 
   return (
     <Modal innerClassName="confirm-modal" {...{ open, onClose }}>
-      <>
+      <div className="confirm-container">
         <div className="text">{text}</div>
         <button
           className="confirm"
@@ -29,7 +29,7 @@ export function ConfirmModal(props: ConfirmModalProps): JSX.Element {
         >
           →
         </button>
-      </>
+      </div>
     </Modal>
   );
 }

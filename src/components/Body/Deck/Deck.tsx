@@ -1,9 +1,9 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, query, Timestamp, where, writeBatch } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { CollectionModal } from '../../Modals';
+import { ConfirmModal, CollectionModal } from '../../Modals';
 import { auth, firestore } from '../../../ts/firebase';
 import { DeckSchema, Link, Parent } from '../../../ts/interfaces';
 import './Deck.scss';
@@ -31,10 +31,11 @@ function Deck(): JSX.Element {
     id: '',
   });
 
-  const [open, setOpen] = useState<boolean>(false);
+  const [addOpen, setAddOpen] = useState<boolean>(false);
+  const [unlinkOpen, setUnlinkOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    async function fetchCards() {
+    async function fetchDeck() {
       if (!user) {
         return;
       }
@@ -65,7 +66,7 @@ function Deck(): JSX.Element {
       setLoading(false);
     }
 
-    fetchCards();
+    fetchDeck();
   }, [user, params.deckId]);
 
   return (
@@ -118,9 +119,15 @@ function Deck(): JSX.Element {
                 <div>{formatDate(deck.created)}</div>
               </div>
               <hr />
-              <button className="add-to-collection" onClick={() => setOpen(true)}>
-                Add to Collection
-              </button>
+              {deck.linked ? (
+                <button className="collection" onClick={() => setUnlinkOpen(true)}>
+                  Unlink from Collection
+                </button>
+              ) : (
+                <button className="collection" onClick={() => setAddOpen(true)}>
+                  Add to Collection
+                </button>
+              )}
               <button
                 className={'delete-deck' + (deleted ? ' disabled' : '')}
                 onClick={async () => {
@@ -137,7 +144,36 @@ function Deck(): JSX.Element {
           ) : null}
         </div>
       </div>
-      <CollectionModal {...{ open, onClose: () => setOpen(false), user, deck, setDeck }} />
+      <CollectionModal {...{ open: addOpen, onClose: () => setAddOpen(false), user, deck, setDeck }} />
+      <ConfirmModal
+        {...{
+          open: unlinkOpen,
+          onClose: () => setUnlinkOpen(false),
+          text: `Unlink collection from ${deck.parent?.name}?`,
+          confirmAction: async () => {
+            if (!user) {
+              return;
+            }
+            const batch = writeBatch(firestore);
+            batch.update(doc(collection(firestore, 'decks'), params.deckId), {
+              linked: false,
+            });
+            const result = await getDocs(
+              query(
+                collection(firestore, 'links'),
+                where('creator_uid', '==', user.uid),
+                where('child_id', '==', deck.id)
+              )
+            );
+            const d = result.docs.map((doc) => doc).shift();
+            if (d?.exists()) {
+              batch.delete(d.ref);
+            }
+            await batch.commit();
+            setDeck({ ...deck, linked: false, parent: null });
+          },
+        }}
+      />
     </>
   );
 }
