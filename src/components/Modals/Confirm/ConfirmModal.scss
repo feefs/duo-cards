@@ -1,0 +1,28 @@
+@use '../../../scss/style' as *;
+
+.confirm-modal {
+  @include modal;
+
+  flex-direction: column;
+  align-items: center;
+  width: 60vmin;
+  height: 25vmin;
+
+  * {
+    color: $nord6;
+  }
+
+  .text {
+    width: 80%;
+    margin: 6vmin auto 3vmin;
+    border: unset;
+    outline: unset;
+    background: unset;
+    font-size: 3.5vmin;
+    text-align: center;
+  }
+
+  .confirm {
+    @include styled-box(true, $nord14, 5vmin, 5vmin, 0.5vmin);
+  }
+}

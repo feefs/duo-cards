@@ -17,6 +17,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { auth, firestore } from '../../../ts/firebase';
 import { Child, ChildKind, CollectionSchema, Link, Parent } from '../../../ts/interfaces';
 import { InputModal } from '../../Modals';
+import { ConfirmModal } from '../../Modals/Confirm/ConfirmModal';
 import './Collection.scss';
 
 function Collection(): JSX.Element {
@@ -36,7 +37,8 @@ function Collection(): JSX.Element {
     id: '',
   });
 
-  const [open, setOpen] = useState<boolean>(false);
+  const [subcollectionOpen, setSubcollectionOpen] = useState<boolean>(false);
+  const [deleteCollectionOpen, setDeleteCollectionOpen] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchCollection() {
@@ -134,7 +136,7 @@ function Collection(): JSX.Element {
           )}
         </div>
         <div className="collection-actions">
-          <button className="new-subcollection-button" onClick={() => setOpen(true)}>
+          <button className="new-subcollection-button" onClick={() => setSubcollectionOpen(true)}>
             New subcollection
           </button>
         </div>
@@ -150,9 +152,9 @@ function Collection(): JSX.Element {
               <div># of decks: {collection.children.filter((child) => child.kind === ChildKind.Deck).length}</div>
               <hr />
               <button
-                className="delete-collection"
+                className={'delete-collection' + (collection.children.length === 0 ? '' : ' disabled')}
                 onClick={() => {
-                  // TODO: Delete collection
+                  if (collection.children.length === 0) setDeleteCollectionOpen(true);
                 }}
               >
                 Delete collection
@@ -163,8 +165,8 @@ function Collection(): JSX.Element {
       </div>
       <InputModal
         {...{
-          open,
-          onClose: () => setOpen(false),
+          open: subcollectionOpen,
+          onClose: () => setSubcollectionOpen(false),
           user,
           placeholderText: 'Subcollection name',
           submitText: async (text) => {
@@ -209,6 +211,33 @@ function Collection(): JSX.Element {
           },
         }}
       ></InputModal>
+      <ConfirmModal
+        {...{
+          open: deleteCollectionOpen,
+          onClose: () => setDeleteCollectionOpen(false),
+          text: 'Delete collection ?',
+          confirmAction: async () => {
+            if (!user) {
+              return;
+            }
+            const batch = writeBatch(firestore);
+            batch.delete(doc(firestoreCollection(firestore, 'collections'), collection.id));
+            const result = await getDocs(
+              query(
+                firestoreCollection(firestore, 'links'),
+                where('creator_uid', '==', user.uid),
+                where('child_id', '==', collection.id)
+              )
+            );
+            const d = result.docs.map((doc) => doc).shift();
+            if (d?.exists()) {
+              batch.delete(d.ref);
+            }
+            batch.commit();
+            navigate('/');
+          },
+        }}
+      />
     </>
   );
 }
