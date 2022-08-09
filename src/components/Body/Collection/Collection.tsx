@@ -38,6 +38,7 @@ function Collection(): JSX.Element {
   });
 
   const [subcollectionOpen, setSubcollectionOpen] = useState<boolean>(false);
+  const [renameCollectionOpen, setRenameCollectionOpen] = useState<boolean>(false);
   const [deleteCollectionOpen, setDeleteCollectionOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -151,6 +152,9 @@ function Collection(): JSX.Element {
               </div>
               <div># of decks: {collection.children.filter((child) => child.kind === ChildKind.Deck).length}</div>
               <hr />
+              <button className="rename-collection" onClick={() => setRenameCollectionOpen(true)}>
+                Rename collection
+              </button>
               <button
                 className={'delete-collection' + (collection.children.length === 0 ? '' : ' disabled')}
                 onClick={() => {
@@ -168,6 +172,7 @@ function Collection(): JSX.Element {
           open: subcollectionOpen,
           onClose: () => setSubcollectionOpen(false),
           user,
+          initialText: '',
           placeholderText: 'Subcollection name',
           submitText: async (text) => {
             if (!user) {
@@ -210,12 +215,43 @@ function Collection(): JSX.Element {
             });
           },
         }}
-      ></InputModal>
+      />
+      <InputModal
+        {...{
+          open: renameCollectionOpen,
+          onClose: () => setRenameCollectionOpen(false),
+          user,
+          initialText: collection.name,
+          placeholderText: 'Collection name',
+          submitText: async (text) => {
+            if (!user) {
+              return;
+            }
+            const batch = writeBatch(firestore);
+            batch.update(doc(firestoreCollection(firestore, 'collections'), params.collectionId), {
+              name: text,
+            });
+            const result = await getDocs(
+              query(
+                firestoreCollection(firestore, 'links'),
+                where('creator_uid', '==', user.uid),
+                where('parent_id', '==', collection.id)
+              )
+            );
+            const d = result.docs.map((doc) => doc).shift();
+            if (d?.exists()) {
+              batch.update(d.ref, { name: text });
+            }
+            await batch.commit();
+            setCollection({ ...collection, name: text });
+          },
+        }}
+      />
       <ConfirmModal
         {...{
           open: deleteCollectionOpen,
           onClose: () => setDeleteCollectionOpen(false),
-          text: 'Delete collection ?',
+          text: 'Delete collection?',
           confirmAction: async () => {
             if (!user) {
               return;

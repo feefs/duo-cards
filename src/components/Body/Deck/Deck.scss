@@ -66,7 +66,7 @@
     }
 
     .edit-button {
-      background: $nord13;
+      background: $nord15;
     }
   }
 
@@ -98,18 +98,20 @@
       font-size: 2.25vmin;
     }
 
-    .add-to-collection {
-      @include styled-box(true, $nord12, 30vmin, 5vmin, 0.5vmin);
+    > button {
+      @include styled-box(true, $nord0, 30vmin, 5vmin, 0.5vmin);
 
-      margin: 1.5vmin auto 2vmin;
       font-size: 2.5vmin;
     }
 
-    .delete-deck {
-      @include styled-box(true, $nord11, 30vmin, 5vmin, 0.5vmin);
+    .add-to-collection {
+      margin: 1.5vmin auto 2vmin;
+      background: $nord12;
+    }
 
+    .delete-deck {
       margin: auto;
-      font-size: 2.5vmin;
+      background: $nord11;
     }
 
     .disabled {

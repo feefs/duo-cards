@@ -100,11 +100,20 @@
       font-size: 2.25vmin;
     }
 
-    .delete-collection {
-      @include styled-box(true, $nord11, 30vmin, 5vmin, 0.5vmin);
+    > button {
+      @include styled-box(true, $nord0, 30vmin, 5vmin, 0.5vmin);
 
-      margin: auto;
       font-size: 2.5vmin;
+    }
+
+    .rename-collection {
+      margin: auto;
+      background: $nord15;
+    }
+
+    .delete-collection {
+      margin: auto;
+      background: $nord11;
     }
 
     .disabled {
