@@ -61,7 +61,7 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
         creator_uid: user.uid,
       });
       await updateDoc(doc(firestore, 'decks', deck.id), { linked: true });
-      setDeck({ ...deck, parent: { id: c.id, name: c.name } });
+      setDeck({ ...deck, linked: true, parent: { id: c.id, name: c.name } });
     },
     [user, deck, setDeck]
   );
