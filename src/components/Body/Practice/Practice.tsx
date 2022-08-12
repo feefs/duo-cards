@@ -1,9 +1,10 @@
-import { collection, doc, getDoc, Timestamp, updateDoc } from 'firebase/firestore';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
 
-import { auth, firestore } from '../../../ts/firebase';
+import { fetchDeck } from '../../../data/queries/deck';
+import { auth } from '../../../ts/firebase';
 import { CardSchema } from '../../../ts/interfaces';
 import PracticeSlider from '../../Sliders/PracticeSlider';
 import './Practice.scss';
@@ -12,41 +13,29 @@ function Practice(): JSX.Element {
   const [user] = useAuthState(auth);
   const params = useParams();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [exists, setExists] = useState<boolean>(true);
-  const [name, setName] = useState<string>('');
+  const { isLoading, isError, data } = useQuery(['deck', params.deckId], () => fetchDeck(params.deckId!), {
+    enabled: !!user && !!params.deckId,
+  });
+
   const [cards, setCards] = useState<CardSchema[]>([]);
   const [index, setIndex] = useState<number>(0);
   const [flipped, setFlipped] = useState<boolean>(false);
 
   useEffect(() => {
-    async function fetchCards() {
-      if (!user) {
-        return;
-      }
-      const documentRef = doc(collection(firestore, 'decks'), params.deckId);
-      const d = await getDoc(documentRef);
-      if (!d.exists()) {
-        setExists(false);
-      } else {
-        updateDoc(documentRef, {
-          last_practiced: Timestamp.now(),
-        });
-        setName(d.data().name);
-        setCards((d.data().cards as CardSchema[]).map((c: CardSchema, index) => ({ ...c, id: index })));
-      }
-      setLoading(false);
+    if (data) {
+      setCards(data.cards);
     }
-    fetchCards();
-  }, [user, params.deckId]);
+  }, [data]);
 
   return (
     <div className="Practice">
-      {loading ? (
+      {isLoading ? (
         <div className="text">Loading...</div>
-      ) : exists ? (
+      ) : isError ? (
+        <div className="text">Deck to practice doesn't exist!</div>
+      ) : (
         <div className="practice-layout">
-          <div className="name">{name}</div>
+          <div className="name">{data.name}</div>
           <PracticeSlider {...{ cards, index, setIndex, flipped }} />
           <button
             className="shuffle"
@@ -66,8 +55,6 @@ function Practice(): JSX.Element {
             Flip
           </button>
         </div>
-      ) : (
-        <div className="text">Deck to edit doesn't exist!</div>
       )}
     </div>
   );
