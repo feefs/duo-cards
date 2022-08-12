@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import objectHash from 'object-hash';
 
 import { Slider, SliderProps } from '../Slider';
 import './PracticeSlider.scss';
@@ -16,28 +17,26 @@ function PracticeSlider(props: PracticeSliderProps): JSX.Element {
   return (
     <>
       <Slider {...{ cards, index, setIndex }}>
-        {cards.map((card, i) => {
-          return (
-            <div
-              className={'slider-card' + (i === index ? ' active' : '')}
-              key={card.id}
-              style={{ transform: `translateX(calc(-50% + ${(i - index) * 10}vmin))` }}
-            >
-              {flipped ? (
-                <>
-                  <div>{jaFocus ? card.en : card.ja}</div>
-                  <div>{card.pronunciation}</div>
-                  <div>{card.pos}</div>
-                </>
-              ) : (
-                <>
-                  <div>{jaFocus ? card.ja : card.en}</div>
-                  {pronunciation ? <div>{card.pronunciation}</div> : null}
-                </>
-              )}
-            </div>
-          );
-        })}
+        {cards.map((card, i) => (
+          <div
+            className={'slider-card' + (i === index ? ' active' : '')}
+            key={objectHash(card)}
+            style={{ transform: `translateX(calc(-50% + ${(i - index) * 10}vmin))` }}
+          >
+            {flipped ? (
+              <>
+                <div>{jaFocus ? card.en : card.ja}</div>
+                <div>{card.pronunciation}</div>
+                <div>{card.pos}</div>
+              </>
+            ) : (
+              <>
+                <div>{jaFocus ? card.ja : card.en}</div>
+                {pronunciation ? <div>{card.pronunciation}</div> : null}
+              </>
+            )}
+          </div>
+        ))}
       </Slider>
       <button
         className="toggle-language"
