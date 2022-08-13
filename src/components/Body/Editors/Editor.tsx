@@ -1,9 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
 import { User } from 'firebase/auth';
-import { collection, doc, getDocs, query, Timestamp, where, writeBatch } from 'firebase/firestore';
 import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { firestore } from '../../../ts/firebase';
+import { submitDeck } from '../../../data/mutations';
 import { CardSchema } from '../../../ts/interfaces';
 import EditableSlider from '../../Sliders/EditableSlider';
 import './Editor.scss';
@@ -35,55 +35,27 @@ function Editor(props: EditorProps): JSX.Element {
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const canSubmit = useCallback(() => {
-    return user && name && !submitted;
+    return !!(user && name && !submitted);
   }, [user, name, submitted]);
 
-  const submitDeck = useCallback(async () => {
-    if (!user || !name) {
-      return;
-    }
-    setSubmitted(true);
-    const cardsCopy = [...cards] as FirebaseCardSchema[];
-    cardsCopy.forEach((card) => {
-      delete card.id;
-    });
-    const currentTimestamp = Timestamp.now();
-    const collectionRef = collection(firestore, 'decks');
-
-    const batch = writeBatch(firestore);
-    const newDocRef = doc(collectionRef);
-    if (params.deckId) {
-      batch.update(doc(collectionRef, params.deckId), {
-        name,
-        cards: cardsCopy,
-        last_edited: currentTimestamp,
-      });
-      const result = await getDocs(
-        query(
-          collection(firestore, 'links'),
-          where('creator_uid', '==', user.uid),
-          where('child_id', '==', params.deckId)
-        )
-      );
-      const d = result.docs.map((doc) => doc).shift();
-      if (d?.exists()) {
-        batch.update(d.ref, { child_name: name });
+  const mutation = useMutation(
+    () => {
+      if (!canSubmit()) {
+        throw new Error();
       }
-      await batch.commit();
-      navigate(`/deck/${params.deckId}`);
-    } else {
-      batch.set(newDocRef, {
-        cards: cardsCopy,
-        created: currentTimestamp,
-        creator_uid: user.uid,
-        last_edited: currentTimestamp,
-        linked: false,
-        name,
+      setSubmitted(true);
+      const cardsCopy = cards.map((card) => ({ ...card })) as FirebaseCardSchema[];
+      cardsCopy.forEach((card) => {
+        delete card.id;
       });
-      await batch.commit();
-      navigate(`/deck/${newDocRef.id}`);
+      return submitDeck({ cards: cardsCopy, name }, user?.uid!, params.deckId);
+    },
+    {
+      onSuccess: (docRef) => {
+        navigate(`/deck/${docRef.id}`);
+      },
     }
-  }, [cards, params.deckId, user, name, navigate]);
+  );
 
   return (
     <div className="editor-layout">
@@ -117,7 +89,7 @@ function Editor(props: EditorProps): JSX.Element {
       <button
         className={'interact-button submit-deck' + (canSubmit() ? '' : ' disabled')}
         onClick={() => {
-          if (canSubmit()) submitDeck();
+          if (canSubmit()) mutation.mutate();
         }}
       >
         ✓

@@ -1,45 +1,32 @@
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
+import { fetchDeck } from '../../../data/queries/deck';
 
-import { auth, firestore } from '../../../ts/firebase';
-import { CardSchema } from '../../../ts/interfaces';
 import Editor from './Editor';
+import { auth } from '../../../ts/firebase';
+import { CardSchema } from '../../../ts/interfaces';
 
 export function DeckEditor(): JSX.Element {
   const [user] = useAuthState(auth);
   const params = useParams();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [exists, setExists] = useState<boolean>(true);
+  const { isLoading, isError, data } = useQuery(['deck', params.deckId], () => fetchDeck(params.deckId!), {
+    enabled: !!user && !!params.deckId,
+  });
+
   const [name, setName] = useState<string>('');
   const [cards, setCards] = useState<CardSchema[]>([]);
   const [nextID, setNextID] = useState<number>(0);
 
   useEffect(() => {
-    async function fetchCards() {
-      if (!user) {
-        return;
-      }
-      if (!params.deckId) {
-        setExists(false);
-        setLoading(false);
-        return;
-      }
-      const d = await getDoc(doc(collection(firestore, 'decks'), params.deckId));
-      if (d.exists()) {
-        const data = d.data();
-        setName(data.name);
-        setCards((data.cards as CardSchema[]).map((c: CardSchema, index) => ({ ...c, id: index })));
-        setNextID(data.cards.length);
-      } else {
-        setExists(false);
-      }
-      setLoading(false);
+    if (data) {
+      setName(data.name);
+      setCards(data.cards.map((card, index) => ({ ...card, id: index })));
+      setNextID(data.cards.length);
     }
-    fetchCards();
-  }, [user, params.deckId]);
+  }, [data]);
 
   const newCard = useCallback(() => {
     const result = { en: '', ja: '', pos: '', pronunciation: '', id: nextID };
@@ -49,12 +36,12 @@ export function DeckEditor(): JSX.Element {
 
   return (
     <div className="Editor">
-      {loading ? (
+      {isLoading ? (
         <div className="text">Loading...</div>
-      ) : exists ? (
-        <Editor {...{ user, name, setName, cards, setCards, newCard }} />
-      ) : (
+      ) : isError ? (
         <div className="text">Deck to edit doesn't exist!</div>
+      ) : (
+        <Editor {...{ user, name, setName, cards, setCards, newCard }} />
       )}
     </div>
   );

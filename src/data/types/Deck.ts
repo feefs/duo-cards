@@ -5,6 +5,7 @@ import { Card } from './Card';
 export interface Deck {
   cards: Card[];
   created: Timestamp;
+  creator_uid: string;
   last_edited: Timestamp;
   last_practiced?: Timestamp;
   linked: boolean;

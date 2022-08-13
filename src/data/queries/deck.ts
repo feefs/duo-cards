@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { decksCollection } from '../firestore';
-import { Deck } from '../types/Deck';
+import { Deck } from '../types';
 
 export async function fetchDeck(id: string): Promise<Deck> {
   const response = await getDoc(doc(decksCollection, id));

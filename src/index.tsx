@@ -8,7 +8,15 @@ import './index.scss';
 import App from './components/App';
 import reportWebVitals from './ts/reportWebVitals';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      retryDelay: 300,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
