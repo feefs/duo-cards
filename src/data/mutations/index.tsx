@@ -1,0 +1,1 @@
+export { submitDeck } from './deck';
