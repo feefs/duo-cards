@@ -1,11 +1,13 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, query, Timestamp, where, writeBatch } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { collection, deleteDoc, doc, Timestamp } from 'firebase/firestore';
+import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { ConfirmModal, CollectionModal } from '../../Modals';
+import { unlinkDeck } from '../../../data/mutations';
+import { fetchDeck, fetchParent } from '../../../data/queries';
 import { auth, firestore } from '../../../ts/firebase';
-import { DeckSchema, Link, Parent } from '../../../ts/interfaces';
+import { ConfirmModal, CollectionModal } from '../../Modals';
 import './Deck.scss';
 
 function formatDate(timestamp: Timestamp): string {
@@ -16,66 +18,44 @@ function Deck(): JSX.Element {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const params = useParams();
+  const queryClient = useQueryClient();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [exists, setExists] = useState<boolean>(true);
-  const [deleted, setDeleted] = useState<boolean>(false);
-  const [deck, setDeck] = useState<DeckSchema>({
-    cards: [],
-    created: Timestamp.fromMillis(0),
-    last_edited: Timestamp.fromMillis(0),
-    last_practiced: Timestamp.fromMillis(0),
-    linked: false,
-    parent: null,
-    name: '',
-    id: '',
+  const {
+    isLoading: isDeckLoading,
+    isError,
+    data: deck,
+  } = useQuery(['deck', params.deckId], () => fetchDeck(params.deckId!), {
+    enabled: !!user && !!params.deckId,
   });
+
+  const {
+    isLoading: isParentLoading,
+    isFetching: isParentFetching,
+    data: parent,
+  } = useQuery(['parent', params.deckId], () => fetchParent(user?.uid!, params.deckId!), {
+    enabled: !!user && !!params.deckId,
+  });
+
+  const [deleted, setDeleted] = useState<boolean>(false);
 
   const [addOpen, setAddOpen] = useState<boolean>(false);
   const [unlinkOpen, setUnlinkOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchDeck() {
-      if (!user) {
-        return;
-      }
-      if (!params.deckId) {
-        setExists(false);
-        setLoading(false);
-        return;
-      }
-      const deckDoc = await getDoc(doc(collection(firestore, 'decks'), params.deckId));
-      if (!deckDoc.exists()) {
-        setExists(false);
-      } else {
-        let parent: Parent | null = null;
-        const result = await getDocs(
-          query(
-            collection(firestore, 'links'),
-            where('creator_uid', '==', user.uid),
-            where('child_id', '==', deckDoc.id)
-          )
-        );
-        const doc = result.docs.map((doc) => doc).shift();
-        if (doc?.exists()) {
-          const link = doc.data() as Link;
-          parent = { id: link.parent_id, name: link.parent_name };
-        }
-        setDeck({ ...deckDoc.data(), parent, id: deckDoc.id } as DeckSchema);
-      }
-      setLoading(false);
-    }
-
-    fetchDeck();
-  }, [user, params.deckId]);
+  const unlinkMutation = useMutation(() => unlinkDeck(user?.uid!, params.deckId!), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['deck']);
+      queryClient.invalidateQueries(['parent']);
+      setUnlinkOpen(false);
+    },
+  });
 
   return (
     <>
       <div className="Deck">
         <div className="cards">
-          {loading ? (
+          {isDeckLoading ? (
             <div className="text">Loading...</div>
-          ) : !exists ? (
+          ) : isError ? (
             <div className="text">Deck doesn't exist!</div>
           ) : (
             deck.cards.map((card, index) => (
@@ -101,7 +81,7 @@ function Deck(): JSX.Element {
           </button>
         </div>
         <div className="deck-info">
-          {!loading ? (
+          {isDeckLoading || isError || isParentLoading ? null : (
             <>
               <div className="info-name">{deck.name}</div>
               <hr />
@@ -141,39 +121,36 @@ function Deck(): JSX.Element {
                 Delete Deck
               </button>
             </>
-          ) : null}
+          )}
         </div>
       </div>
-      <CollectionModal {...{ open: addOpen, onClose: () => setAddOpen(false), user, deck, setDeck }} />
-      <ConfirmModal
-        {...{
-          open: unlinkOpen,
-          onClose: () => setUnlinkOpen(false),
-          text: `Unlink collection from ${deck.parent?.name}?`,
-          confirmAction: async () => {
-            if (!user) {
-              return;
-            }
-            const batch = writeBatch(firestore);
-            batch.update(doc(collection(firestore, 'decks'), params.deckId), {
-              linked: false,
-            });
-            const result = await getDocs(
-              query(
-                collection(firestore, 'links'),
-                where('creator_uid', '==', user.uid),
-                where('child_id', '==', deck.id)
-              )
-            );
-            const d = result.docs.map((doc) => doc).shift();
-            if (d?.exists()) {
-              batch.delete(d.ref);
-            }
-            await batch.commit();
-            setDeck({ ...deck, linked: false, parent: null });
-          },
-        }}
-      />
+      {isDeckLoading || isError || isParentFetching ? null : (
+        <>
+          <CollectionModal
+            {...{
+              open: addOpen,
+              onClose: () => setAddOpen(false),
+              user,
+              deck,
+              deckId: params.deckId,
+              parent,
+              updateUI: () => {
+                queryClient.invalidateQueries(['deck', params.deckId]);
+                queryClient.invalidateQueries(['parent', params.deckId]);
+                setAddOpen(false);
+              },
+            }}
+          />
+          <ConfirmModal
+            {...{
+              open: unlinkOpen,
+              onClose: () => setUnlinkOpen(false),
+              text: `Unlink collection from ${parent?.name}?`,
+              confirmAction: async () => await unlinkMutation.mutateAsync(),
+            }}
+          />
+        </>
+      )}
     </>
   );
 }

@@ -2,19 +2,22 @@ import { User } from 'firebase/auth';
 import { addDoc, collection, doc, getDocs, query, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 
+import { Deck, Parent } from '../../../data/types';
 import { firestore } from '../../../ts/firebase';
-import { ChildKind, CollectionSchema, DeckSchema } from '../../../ts/interfaces';
+import { ChildKind, CollectionSchema } from '../../../ts/interfaces';
 import { BaseModalProps, Modal } from '../Modal';
 import './CollectionModal.scss';
 
 type CollectionModalProps = BaseModalProps & {
   user: User | null | undefined;
-  deck: DeckSchema;
-  setDeck: (value: React.SetStateAction<DeckSchema>) => void;
+  deck: Deck;
+  deckId: string | undefined;
+  parent: (Parent | null) | undefined;
+  updateUI: () => void;
 };
 
 export function CollectionModal(props: CollectionModalProps): JSX.Element {
-  const { open, onClose, user, deck, setDeck } = props;
+  const { open, onClose, user, deck, deckId, parent, updateUI } = props;
 
   const [loading, setLoading] = useState<boolean>(true);
   const [empty, setEmpty] = useState<boolean>(false);
@@ -23,7 +26,7 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
 
   useEffect(() => {
     async function fetchCollections() {
-      if (!user) {
+      if (!user || deckId === undefined) {
         return;
       }
       const collections: CollectionSchema[] = [];
@@ -42,16 +45,16 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
     }
 
     fetchCollections();
-  }, [user]);
+  }, [user, deckId]);
 
   const addCollectionLink = useCallback(
     async (c: CollectionSchema) => {
-      if (!user) {
+      if (!user || deckId === undefined) {
         return;
       }
       setDisabled(true);
       await addDoc(collection(firestore, 'links'), {
-        child_id: deck.id,
+        child_id: deckId,
         child_kind: ChildKind.Deck,
         child_name: deck.name,
         created: Timestamp.now(),
@@ -60,10 +63,9 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
 
         creator_uid: user.uid,
       });
-      await updateDoc(doc(firestore, 'decks', deck.id), { linked: true });
-      setDeck({ ...deck, linked: true, parent: { id: c.id, name: c.name } });
+      await updateDoc(doc(firestore, 'decks', deckId), { linked: true });
     },
-    [user, deck, setDeck]
+    [user, deckId, deck]
   );
 
   return (
@@ -71,8 +73,8 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
       <div className="collections">
         {!user || loading ? (
           <div className="text">Loading...</div>
-        ) : deck.parent ? (
-          <div className="text">This deck is already part of the collection {deck.parent.name}!</div>
+        ) : parent ? (
+          <div className="text">This deck is already part of the collection {parent.name}!</div>
         ) : empty ? (
           <div className="text">No collections, make one!</div>
         ) : (
@@ -83,7 +85,7 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
               onClick={async () => {
                 if (!disabled) {
                   await addCollectionLink(collection);
-                  onClose();
+                  updateUI();
                 }
               }}
             >

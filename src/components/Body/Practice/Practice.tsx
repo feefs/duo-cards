@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
 
-import { fetchDeck } from '../../../data/queries/deck';
+import { fetchDeck } from '../../../data/queries';
 import { auth } from '../../../ts/firebase';
 import { CardSchema } from '../../../ts/interfaces';
 import PracticeSlider from '../../Sliders/PracticeSlider';
