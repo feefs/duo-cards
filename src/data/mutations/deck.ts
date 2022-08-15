@@ -2,7 +2,7 @@ import { doc, DocumentReference, Timestamp, writeBatch } from 'firebase/firestor
 
 import { decksCollection, firestore } from '../firestore';
 import { Deck } from '../types';
-import { getParentLinkSnapshot } from './helpers';
+import { getParentLinkSnapshot } from '../helpers';
 
 export async function submitDeck(
   data: Pick<Deck, 'cards' | 'name'>,
@@ -37,4 +37,14 @@ export async function submitDeck(
     await batch.commit();
     return docRef;
   }
+}
+
+export async function unlinkDeck(userId: string, deckId: string): Promise<void> {
+  const batch = writeBatch(firestore);
+  const parentLink = await getParentLinkSnapshot(userId, deckId);
+  if (parentLink?.exists()) {
+    batch.delete(parentLink.ref);
+  }
+  batch.update(doc(decksCollection, deckId), { linked: false });
+  await batch.commit();
 }

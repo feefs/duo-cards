@@ -33,5 +33,14 @@
     .confirm {
       @include styled-box(true, $nord14, 5vmin, 5vmin, 0.5vmin);
     }
+
+    .disabled {
+      color: $nord3;
+      text-decoration: line-through;
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
   }
 }

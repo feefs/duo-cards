@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
-import { fetchDeck } from '../../../data/queries/deck';
 
 import Editor from './Editor';
+import { fetchDeck } from '../../../data/queries';
 import { auth } from '../../../ts/firebase';
 import { CardSchema } from '../../../ts/interfaces';
 

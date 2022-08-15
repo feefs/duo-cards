@@ -1,1 +1,1 @@
-export { submitDeck } from './deck';
+export { submitDeck, unlinkDeck } from './deck';

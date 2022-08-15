@@ -14,16 +14,15 @@ export function ConfirmModal(props: ConfirmModalProps): JSX.Element {
   const [confirmed, setConfirmed] = useState<boolean>(false);
 
   return (
-    <Modal innerClassName="confirm-modal" {...{ open, onClose }}>
+    <Modal keepMounted={false} innerClassName="confirm-modal" {...{ open, onClose }}>
       <div className="confirm-container">
         <div className="text">{text}</div>
         <button
-          className="confirm"
+          className={'confirm' + (confirmed ? ' disabled' : '')}
           onClick={async () => {
             if (!confirmed) {
               setConfirmed(true);
               await confirmAction();
-              onClose();
             }
           }}
         >
