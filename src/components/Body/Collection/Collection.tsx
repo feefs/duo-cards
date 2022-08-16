@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { createSubcollection } from '../../../data/mutations';
+import { createSubcollection, renameCollection } from '../../../data/mutations';
 import { fetchChildren, fetchCollection } from '../../../data/queries';
 import { auth, firestore } from '../../../ts/firebase';
 import { ChildKind } from '../../../data/types';
@@ -22,6 +22,7 @@ function Collection(): JSX.Element {
   const {
     isLoading: isCollectionLoading,
     isError: isCollectionError,
+    isFetching: isCollectionFetching,
     data: collection,
   } = useQuery(['collection', params.collectionId], () => fetchCollection(params.collectionId!), {
     enabled: !!user && !!params.collectionId,
@@ -47,6 +48,16 @@ function Collection(): JSX.Element {
       onSuccess: () => {
         queryClient.invalidateQueries(['children']);
         setSubcollectionOpen(false);
+      },
+    }
+  );
+
+  const renameCollectionMutation = useMutation(
+    (newCollectionName: string) => renameCollection(newCollectionName, user?.uid!, params.collectionId!),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['collection']);
+        setRenameCollectionOpen(false);
       },
     }
   );
@@ -120,7 +131,7 @@ function Collection(): JSX.Element {
           ) : null}
         </div>
       </div>
-      {isCollectionLoading || isCollectionError || areChildrenFetching ? null : (
+      {isCollectionLoading || isCollectionError || isCollectionFetching || areChildrenFetching ? null : (
         <>
           <InputModal
             {...{
@@ -139,40 +150,7 @@ function Collection(): JSX.Element {
               user,
               initialText: collection.name,
               placeholderText: 'Collection name',
-              submitText: async (text) => {
-                if (!user) {
-                  return;
-                }
-                const batch = writeBatch(firestore);
-                batch.update(doc(firestoreCollection(firestore, 'collections'), params.collectionId), {
-                  name: text,
-                });
-                const result = await getDocs(
-                  query(
-                    firestoreCollection(firestore, 'links'),
-                    where('creator_uid', '==', user.uid),
-                    where('parent_id', '==', params.collectionId!)
-                  )
-                );
-                result.docs.forEach((doc) => {
-                  if (doc.exists()) {
-                    batch.update(doc.ref, { parent_name: text });
-                  }
-                });
-                const result2 = await getDocs(
-                  query(
-                    firestoreCollection(firestore, 'links'),
-                    where('creator_uid', '==', user.uid),
-                    where('child_id', '==', params.collectionId!)
-                  )
-                );
-                const d = result2.docs.map((doc) => doc).shift();
-                if (d?.exists()) {
-                  batch.update(d.ref, { child_name: text });
-                }
-                await batch.commit();
-                queryClient.invalidateQueries(['collection']);
-              },
+              submitText: async (newCollectionName) => await renameCollectionMutation.mutateAsync(newCollectionName),
             }}
           />
           <ConfirmModal

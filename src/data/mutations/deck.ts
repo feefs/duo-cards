@@ -24,9 +24,9 @@ export async function submitDeck(
     await batch.commit();
     return newDocRef;
   } else {
-    const parent = await getParentLinkSnapshot(userId, deckId);
-    if (parent && parent.exists()) {
-      batch.update(parent.ref, { child_name: data.name });
+    const parentLink = await getParentLinkSnapshot(userId, deckId);
+    if (parentLink?.exists()) {
+      batch.update(parentLink.ref, { child_name: data.name });
     }
     const docRef = doc(decksCollection, deckId);
     batch.update(docRef, {
