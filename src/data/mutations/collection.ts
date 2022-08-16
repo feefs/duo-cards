@@ -25,6 +25,20 @@ export async function createSubcollection(subcollectionName: string, parent: Par
   await batch.commit();
 }
 
+export async function deleteCollection(userId: string, collectionId: string): Promise<void> {
+  const batch = writeBatch(firestore);
+  batch.delete(doc(collectionsCollection, collectionId));
+  const parentLinks = await getDocs(
+    query(linksCollection, where('creator_uid', '==', userId), where('child_id', '==', collectionId))
+  );
+  parentLinks.docs.forEach((doc) => {
+    if (doc.exists()) {
+      batch.delete(doc.ref);
+    }
+  });
+  await batch.commit();
+}
+
 export async function renameCollection(newCollectionName: string, userId: string, collectionId: string): Promise<void> {
   const batch = writeBatch(firestore);
   batch.update(doc(collectionsCollection, collectionId), {

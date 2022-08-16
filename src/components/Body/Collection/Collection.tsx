@@ -1,14 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import file from 'bootstrap-icons/icons/file.svg';
 import files from 'bootstrap-icons/icons/files.svg';
-import { collection as firestoreCollection, doc, getDocs, query, where, writeBatch } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { createSubcollection, renameCollection } from '../../../data/mutations';
+import { createSubcollection, deleteCollection, renameCollection } from '../../../data/mutations';
 import { fetchChildren, fetchCollection } from '../../../data/queries';
-import { auth, firestore } from '../../../ts/firebase';
+import { auth } from '../../../ts/firebase';
 import { ChildKind } from '../../../data/types';
 import { ConfirmModal, InputModal } from '../../Modals';
 import './Collection.scss';
@@ -61,6 +60,12 @@ function Collection(): JSX.Element {
       },
     }
   );
+
+  const deleteCollectionMutation = useMutation(() => deleteCollection(user?.uid!, params.collectionId!), {
+    onSuccess: () => {
+      navigate('/');
+    },
+  });
 
   return (
     <>
@@ -158,26 +163,7 @@ function Collection(): JSX.Element {
               open: deleteCollectionOpen,
               onClose: () => setDeleteCollectionOpen(false),
               text: 'Delete collection?',
-              confirmAction: async () => {
-                if (!user) {
-                  return;
-                }
-                const batch = writeBatch(firestore);
-                batch.delete(doc(firestoreCollection(firestore, 'collections'), params.collectionId!));
-                const result = await getDocs(
-                  query(
-                    firestoreCollection(firestore, 'links'),
-                    where('creator_uid', '==', user.uid),
-                    where('child_id', '==', params.collectionId!)
-                  )
-                );
-                const d = result.docs.map((doc) => doc).shift();
-                if (d?.exists()) {
-                  batch.delete(d.ref);
-                }
-                batch.commit();
-                navigate('/');
-              },
+              confirmAction: async () => await deleteCollectionMutation.mutateAsync(),
             }}
           />
         </>
