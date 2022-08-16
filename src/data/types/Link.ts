@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 
-import { ChildKind } from './ChildKind';
+import { ChildKind } from '.';
 
 export interface Link {
   child_id: string;
