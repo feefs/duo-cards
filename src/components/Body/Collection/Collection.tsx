@@ -1,19 +1,12 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import file from 'bootstrap-icons/icons/file.svg';
 import files from 'bootstrap-icons/icons/files.svg';
-import {
-  collection as firestoreCollection,
-  doc,
-  getDocs,
-  query,
-  Timestamp,
-  where,
-  writeBatch,
-} from 'firebase/firestore';
+import { collection as firestoreCollection, doc, getDocs, query, where, writeBatch } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { createSubcollection } from '../../../data/mutations';
 import { fetchChildren, fetchCollection } from '../../../data/queries';
 import { auth, firestore } from '../../../ts/firebase';
 import { ChildKind } from '../../../data/types';
@@ -29,7 +22,6 @@ function Collection(): JSX.Element {
   const {
     isLoading: isCollectionLoading,
     isError: isCollectionError,
-    isFetching: isCollectionFetching,
     data: collection,
   } = useQuery(['collection', params.collectionId], () => fetchCollection(params.collectionId!), {
     enabled: !!user && !!params.collectionId,
@@ -38,6 +30,7 @@ function Collection(): JSX.Element {
   const {
     isLoading: areChildrenLoading,
     isError: areChildrenError,
+    isFetching: areChildrenFetching,
     data: children,
   } = useQuery(['children', params.collectionId], () => fetchChildren(user?.uid!, params.collectionId!), {
     enabled: !!user && !!params.collectionId,
@@ -46,6 +39,17 @@ function Collection(): JSX.Element {
   const [subcollectionOpen, setSubcollectionOpen] = useState<boolean>(false);
   const [renameCollectionOpen, setRenameCollectionOpen] = useState<boolean>(false);
   const [deleteCollectionOpen, setDeleteCollectionOpen] = useState<boolean>(false);
+
+  const addSubcollectionMutation = useMutation(
+    (subcollectionName: string) =>
+      createSubcollection(subcollectionName, { id: params.collectionId!, name: collection?.name! }, user?.uid!),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['children']);
+        setSubcollectionOpen(false);
+      },
+    }
+  );
 
   return (
     <>
@@ -116,7 +120,7 @@ function Collection(): JSX.Element {
           ) : null}
         </div>
       </div>
-      {isCollectionLoading || isCollectionError || isCollectionFetching ? null : (
+      {isCollectionLoading || isCollectionError || areChildrenFetching ? null : (
         <>
           <InputModal
             {...{
@@ -125,33 +129,7 @@ function Collection(): JSX.Element {
               user,
               initialText: '',
               placeholderText: 'Subcollection name',
-              submitText: async (text) => {
-                if (!user) {
-                  return;
-                }
-                const batch = writeBatch(firestore);
-                const timestamp = Timestamp.now();
-                const collectionRef = doc(firestoreCollection(firestore, 'collections'));
-                batch.set(collectionRef, {
-                  created: timestamp,
-                  creator_uid: user.uid,
-                  linked: true,
-                  name: text,
-                });
-                batch.set(doc(firestoreCollection(firestore, 'links')), {
-                  child_id: collectionRef.id,
-                  child_kind: ChildKind.Collection,
-                  child_name: text,
-                  created: timestamp,
-                  parent_name: collection.name,
-                  parent_id: params.collectionId!,
-
-                  creator_uid: user.uid,
-                });
-                await batch.commit();
-                queryClient.invalidateQueries(['collection']);
-                queryClient.invalidateQueries(['children']);
-              },
+              submitText: async (subcollectionName) => await addSubcollectionMutation.mutateAsync(subcollectionName),
             }}
           />
           <InputModal
