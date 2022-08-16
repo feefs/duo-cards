@@ -1,6 +1,7 @@
-export type { Card } from './Card';
-export type { Collection } from './Collection';
+export type { Card } from './firestore/Card';
+export type { Collection } from './firestore/Collection';
+export type { Deck } from './firestore/Deck';
+export type { Link } from './firestore/Link';
+
 export { ChildKind } from './ChildKind';
-export type { Deck } from './Deck';
-export type { Link } from './Link';
 export type { Parent } from './Parent';
