@@ -7,6 +7,7 @@ export interface Link {
   child_kind: ChildKind;
   child_name: string;
   created: Timestamp;
+  creator_uid: string;
   parent_id: string;
   parent_name: string;
 }
