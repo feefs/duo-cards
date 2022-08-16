@@ -1,21 +1,22 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import file from 'bootstrap-icons/icons/file.svg';
 import files from 'bootstrap-icons/icons/files.svg';
 import {
   collection as firestoreCollection,
   doc,
-  getDoc,
   getDocs,
   query,
   Timestamp,
   where,
   writeBatch,
 } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { fetchChildren, fetchCollection } from '../../../data/queries';
 import { auth, firestore } from '../../../ts/firebase';
-import { Child, ChildKind, CollectionSchema, Link, Parent } from '../../../ts/interfaces';
+import { ChildKind } from '../../../data/types';
 import { ConfirmModal, InputModal } from '../../Modals';
 import './Collection.scss';
 
@@ -23,114 +24,63 @@ function Collection(): JSX.Element {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const params = useParams();
+  const queryClient = useQueryClient();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [exists, setExists] = useState<boolean>(true);
-  const [empty, setEmpty] = useState<boolean>(false);
-  const [collection, setCollection] = useState<CollectionSchema>({
-    created: Timestamp.fromMillis(0),
-    linked: false,
-    name: '',
-    parent: null,
-    children: [],
-    id: '',
+  const {
+    isLoading: isCollectionLoading,
+    isError: isCollectionError,
+    isFetching: isCollectionFetching,
+    data: collection,
+  } = useQuery(['collection', params.collectionId], () => fetchCollection(params.collectionId!), {
+    enabled: !!user && !!params.collectionId,
+  });
+
+  const {
+    isLoading: areChildrenLoading,
+    isError: areChildrenError,
+    data: children,
+  } = useQuery(['children', params.collectionId], () => fetchChildren(user?.uid!, params.collectionId!), {
+    enabled: !!user && !!params.collectionId,
   });
 
   const [subcollectionOpen, setSubcollectionOpen] = useState<boolean>(false);
   const [renameCollectionOpen, setRenameCollectionOpen] = useState<boolean>(false);
   const [deleteCollectionOpen, setDeleteCollectionOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchCollection() {
-      if (!user || !params.collectionId) {
-        return;
-      }
-      const collectionDoc = await getDoc(doc(firestoreCollection(firestore, 'collections'), params.collectionId));
-      if (!collectionDoc.exists()) {
-        setExists(false);
-      } else {
-        let parent: Parent | null = null;
-        const parentResult = await getDocs(
-          query(
-            firestoreCollection(firestore, 'links'),
-            where('creator_uid', '==', user.uid),
-            where('child_id', '==', collectionDoc.id)
-          )
-        );
-        const doc = parentResult.docs.map((doc) => doc).shift();
-        if (doc?.exists()) {
-          const link = doc.data() as Link;
-          parent = { id: link.parent_id, name: link.parent_name };
-        }
-
-        const linksResult = await getDocs(
-          query(
-            firestoreCollection(firestore, 'links'),
-            where('creator_uid', '==', user.uid),
-            where('parent_id', '==', collectionDoc.id)
-          )
-        );
-        const collectionChildren: Child[] = [];
-        const deckChildren: Child[] = [];
-        linksResult.docs
-          .map((doc) => doc.data() as Link)
-          .forEach((link) => {
-            const child = {
-              id: link.child_id,
-              name: link.child_name,
-              time_added: link.created,
-              kind: link.child_kind,
-            };
-            if (link.child_kind === ChildKind.Collection) {
-              collectionChildren.push(child);
-            } else {
-              deckChildren.push(child);
-            }
-          });
-        collectionChildren.sort((a, b) => a.name.localeCompare(b.name));
-        deckChildren.sort((a, b) => a.name.localeCompare(b.name));
-        const children = [...collectionChildren, ...deckChildren];
-        if (children.length === 0) {
-          setEmpty(true);
-        } else {
-          setEmpty(false);
-        }
-        setCollection({ ...collectionDoc.data(), parent, children, id: collectionDoc.id } as CollectionSchema);
-      }
-      setLoading(false);
-    }
-
-    fetchCollection();
-  }, [params.collectionId, user]);
-
   return (
     <>
       <div className="Collection">
         <div className="entries">
-          {loading ? (
+          {isCollectionLoading || areChildrenLoading ? (
             <div className="text">Loading...</div>
-          ) : !exists ? (
+          ) : isCollectionError ? (
             <div className="text">Collection doesn't exist!</div>
-          ) : empty ? (
+          ) : areChildrenError ? (
+            <div className="text">Error fetching children!</div>
+          ) : children.length === 0 ? (
             <div className="text">No entries, link one!</div>
           ) : (
-            collection.children.map((child) => (
+            children.map((link) => (
               <div
                 className="entry-preview"
-                key={child.id}
+                key={link.child_id}
                 onClick={() => {
-                  switch (child.kind) {
+                  switch (link.child_kind) {
                     case ChildKind.Collection:
-                      navigate(`/collection/${child.id}`);
+                      navigate(`/collection/${link.child_id}`);
                       break;
                     case ChildKind.Deck:
-                      navigate(`/deck/${child.id}`);
+                      navigate(`/deck/${link.child_id}`);
                       break;
                   }
                 }}
               >
-                <img className="type-icon" src={child.kind === ChildKind.Collection ? files : file} alt="type-icon" />
-                <div className="name">{child.name}</div>
+                <img
+                  className="type-icon"
+                  src={link.child_kind === ChildKind.Collection ? files : file}
+                  alt="type-icon"
+                />
+                <div className="name">{link.child_name}</div>
               </div>
             ))
           )}
@@ -141,23 +91,23 @@ function Collection(): JSX.Element {
           </button>
         </div>
         <div className="collection-info">
-          {!loading ? (
+          {!(isCollectionLoading || areChildrenLoading || isCollectionError || areChildrenError) ? (
             <>
               <div className="info-name">{collection.name}</div>
               <hr />
-              <div># of entries: {collection.children.length}</div>
+              <div># of entries: {children.length}</div>
               <div>
-                # of subcollections: {collection.children.filter((child) => child.kind === ChildKind.Collection).length}
+                # of subcollections: {children.filter((link) => link.child_kind === ChildKind.Collection).length}
               </div>
-              <div># of decks: {collection.children.filter((child) => child.kind === ChildKind.Deck).length}</div>
+              <div># of decks: {children.filter((link) => link.child_kind === ChildKind.Deck).length}</div>
               <hr />
               <button className="rename-collection" onClick={() => setRenameCollectionOpen(true)}>
                 Rename collection
               </button>
               <button
-                className={'delete-collection' + (collection.children.length === 0 ? '' : ' disabled')}
+                className={'delete-collection' + (children.length === 0 ? '' : ' disabled')}
                 onClick={() => {
-                  if (collection.children.length === 0) setDeleteCollectionOpen(true);
+                  if (children.length === 0) setDeleteCollectionOpen(true);
                 }}
               >
                 Delete collection
@@ -166,113 +116,116 @@ function Collection(): JSX.Element {
           ) : null}
         </div>
       </div>
-      <InputModal
-        {...{
-          open: subcollectionOpen,
-          onClose: () => setSubcollectionOpen(false),
-          user,
-          initialText: '',
-          placeholderText: 'Subcollection name',
-          submitText: async (text) => {
-            if (!user) {
-              return;
-            }
-            const batch = writeBatch(firestore);
-            const timestamp = Timestamp.now();
-            const collectionRef = doc(firestoreCollection(firestore, 'collections'));
-            batch.set(collectionRef, {
-              created: timestamp,
-              creator_uid: user.uid,
-              linked: true,
-              name: text,
-            });
-            batch.set(doc(firestoreCollection(firestore, 'links')), {
-              child_id: collectionRef.id,
-              child_kind: ChildKind.Collection,
-              child_name: text,
-              created: timestamp,
-              parent_name: collection.name,
-              parent_id: collection.id,
-
-              creator_uid: user.uid,
-            });
-            await batch.commit();
-            if (empty) {
-              setEmpty(false);
-            }
-            setCollection({
-              ...collection,
-              children: [
-                ...collection.children,
-                {
-                  id: collectionRef.id,
+      {isCollectionLoading || isCollectionError || isCollectionFetching ? null : (
+        <>
+          <InputModal
+            {...{
+              open: subcollectionOpen,
+              onClose: () => setSubcollectionOpen(false),
+              user,
+              initialText: '',
+              placeholderText: 'Subcollection name',
+              submitText: async (text) => {
+                if (!user) {
+                  return;
+                }
+                const batch = writeBatch(firestore);
+                const timestamp = Timestamp.now();
+                const collectionRef = doc(firestoreCollection(firestore, 'collections'));
+                batch.set(collectionRef, {
+                  created: timestamp,
+                  creator_uid: user.uid,
+                  linked: true,
                   name: text,
-                  time_added: timestamp,
-                  kind: ChildKind.Collection,
-                },
-              ].sort((a, b) => a.name.localeCompare(b.name)),
-            });
-          },
-        }}
-      />
-      <InputModal
-        {...{
-          open: renameCollectionOpen,
-          onClose: () => setRenameCollectionOpen(false),
-          user,
-          initialText: collection.name,
-          placeholderText: 'Collection name',
-          submitText: async (text) => {
-            if (!user) {
-              return;
-            }
-            const batch = writeBatch(firestore);
-            batch.update(doc(firestoreCollection(firestore, 'collections'), params.collectionId), {
-              name: text,
-            });
-            const result = await getDocs(
-              query(
-                firestoreCollection(firestore, 'links'),
-                where('creator_uid', '==', user.uid),
-                where('parent_id', '==', collection.id)
-              )
-            );
-            const d = result.docs.map((doc) => doc).shift();
-            if (d?.exists()) {
-              batch.update(d.ref, { name: text });
-            }
-            await batch.commit();
-            setCollection({ ...collection, name: text });
-          },
-        }}
-      />
-      <ConfirmModal
-        {...{
-          open: deleteCollectionOpen,
-          onClose: () => setDeleteCollectionOpen(false),
-          text: 'Delete collection?',
-          confirmAction: async () => {
-            if (!user) {
-              return;
-            }
-            const batch = writeBatch(firestore);
-            batch.delete(doc(firestoreCollection(firestore, 'collections'), collection.id));
-            const result = await getDocs(
-              query(
-                firestoreCollection(firestore, 'links'),
-                where('creator_uid', '==', user.uid),
-                where('child_id', '==', collection.id)
-              )
-            );
-            const d = result.docs.map((doc) => doc).shift();
-            if (d?.exists()) {
-              batch.delete(d.ref);
-            }
-            batch.commit();
-            navigate('/');
-          },
-        }}
-      />
+                });
+                batch.set(doc(firestoreCollection(firestore, 'links')), {
+                  child_id: collectionRef.id,
+                  child_kind: ChildKind.Collection,
+                  child_name: text,
+                  created: timestamp,
+                  parent_name: collection.name,
+                  parent_id: params.collectionId!,
+
+                  creator_uid: user.uid,
+                });
+                await batch.commit();
+                queryClient.invalidateQueries(['collection']);
+                queryClient.invalidateQueries(['children']);
+              },
+            }}
+          />
+          <InputModal
+            {...{
+              open: renameCollectionOpen,
+              onClose: () => setRenameCollectionOpen(false),
+              user,
+              initialText: collection.name,
+              placeholderText: 'Collection name',
+              submitText: async (text) => {
+                if (!user) {
+                  return;
+                }
+                const batch = writeBatch(firestore);
+                batch.update(doc(firestoreCollection(firestore, 'collections'), params.collectionId), {
+                  name: text,
+                });
+                const result = await getDocs(
+                  query(
+                    firestoreCollection(firestore, 'links'),
+                    where('creator_uid', '==', user.uid),
+                    where('parent_id', '==', params.collectionId!)
+                  )
+                );
+                result.docs.forEach((doc) => {
+                  if (doc.exists()) {
+                    batch.update(doc.ref, { parent_name: text });
+                  }
+                });
+                const result2 = await getDocs(
+                  query(
+                    firestoreCollection(firestore, 'links'),
+                    where('creator_uid', '==', user.uid),
+                    where('child_id', '==', params.collectionId!)
+                  )
+                );
+                const d = result2.docs.map((doc) => doc).shift();
+                if (d?.exists()) {
+                  batch.update(d.ref, { child_name: text });
+                }
+                await batch.commit();
+                queryClient.invalidateQueries(['collection']);
+              },
+            }}
+          />
+          <ConfirmModal
+            {...{
+              open: deleteCollectionOpen,
+              onClose: () => setDeleteCollectionOpen(false),
+              text: 'Delete collection?',
+              confirmAction: async () => {
+                if (!user) {
+                  return;
+                }
+                const batch = writeBatch(firestore);
+                batch.delete(doc(firestoreCollection(firestore, 'collections'), params.collectionId!));
+                const result = await getDocs(
+                  query(
+                    firestoreCollection(firestore, 'links'),
+                    where('creator_uid', '==', user.uid),
+                    where('child_id', '==', params.collectionId!)
+                  )
+                );
+                const d = result.docs.map((doc) => doc).shift();
+                if (d?.exists()) {
+                  batch.delete(d.ref);
+                }
+                batch.commit();
+                navigate('/');
+              },
+            }}
+          />
+        </>
+      )}
     </>
   );
 }
