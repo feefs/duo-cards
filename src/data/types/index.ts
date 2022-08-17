@@ -5,3 +5,5 @@ export type { Link } from './firestore/Link';
 
 export { ChildKind } from './ChildKind';
 export type { Parent } from './Parent';
+
+export type { WithId } from './WithId';

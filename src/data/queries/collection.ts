@@ -1,7 +1,7 @@
 import { doc, getDoc, getDocs, query, Timestamp, where } from 'firebase/firestore';
 
 import { collectionsCollection } from '../firestore';
-import { Collection } from '../types';
+import { Collection, WithId } from '../types';
 
 export const UNCOLLECTED_COLLECTION: Collection = {
   created: Timestamp.fromMillis(0),
@@ -21,11 +21,11 @@ export async function fetchCollection(collectionId: string): Promise<Collection>
   }
 }
 
-export async function fetchCollectionsWithUncollected(userId: string): Promise<{ data: Collection; id: string }[]> {
+export async function fetchCollectionsWithUncollected(userId: string): Promise<WithId<Collection>[]> {
   const response = await getDocs(
     query(collectionsCollection, where('creator_uid', '==', userId), where('linked', '==', false))
   );
-  const result: { data: Collection; id: string }[] = [];
+  const result: WithId<Collection>[] = [];
   response.docs.forEach((doc) => {
     if (doc.exists()) {
       result.push({ data: doc.data(), id: doc.id });
@@ -34,9 +34,9 @@ export async function fetchCollectionsWithUncollected(userId: string): Promise<{
   return [...result, { data: UNCOLLECTED_COLLECTION, id: UNCOLLECTED_ID }];
 }
 
-export async function fetchAllCollections(userId: string): Promise<{ data: Collection; id: string }[]> {
+export async function fetchAllCollections(userId: string): Promise<WithId<Collection>[]> {
   const response = await getDocs(query(collectionsCollection, where('creator_uid', '==', userId)));
-  const result: { data: Collection; id: string }[] = [];
+  const result: WithId<Collection>[] = [];
   response.docs.forEach((doc) => {
     if (doc.exists()) {
       result.push({ data: doc.data(), id: doc.id });
