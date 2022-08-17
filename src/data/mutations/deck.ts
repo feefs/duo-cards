@@ -4,6 +4,16 @@ import { decksCollection, firestore } from '../firestore';
 import { Deck } from '../types';
 import { getParentLinkSnapshot } from '../helpers';
 
+export async function deleteDeck(userId: string, deckId: string): Promise<void> {
+  const batch = writeBatch(firestore);
+  const parentLink = await getParentLinkSnapshot(userId, deckId);
+  if (parentLink?.exists()) {
+    batch.delete(parentLink.ref);
+  }
+  batch.delete(doc(decksCollection, deckId));
+  await batch.commit();
+}
+
 export async function submitDeck(
   data: Pick<Deck, 'cards' | 'name'>,
   userId: string,
