@@ -1,74 +1,42 @@
+import { useQuery } from '@tanstack/react-query';
 import files from 'bootstrap-icons/icons/files.svg';
-import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import objectHash from 'object-hash';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { auth, firestore } from '../../../ts/firebase';
-import { CollectionSchema } from '../../../ts/interfaces';
+import { fetchCollections } from '../../../data/queries';
+import { UNCOLLECTED_ID } from '../../../data/queries/collection';
+import { auth } from '../../../ts/firebase';
 import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../ts/local';
 import './Collections.scss';
-
-const UNCOLLECTED_ID = 'Uncollected';
-const uncollectedCollection: CollectionSchema = {
-  created: Timestamp.fromMillis(0),
-  linked: false,
-  name: 'Not Collected',
-  parent: null,
-  children: [],
-  id: UNCOLLECTED_ID,
-};
 
 function Collections(): JSX.Element {
   const [user, userLoading] = useAuthState(auth);
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [collections, setCollections] = useState<CollectionSchema[]>([]);
-
-  useEffect(() => {
-    async function fetchCollections() {
-      if (userLoading) {
-        return;
-      }
-      if (!user) {
-        setCollections([uncollectedCollection]);
-        return;
-      }
-      const collections: CollectionSchema[] = [];
-      const result = await getDocs(
-        query(collection(firestore, 'collections'), where('creator_uid', '==', user.uid), where('linked', '==', false))
-      );
-      result.forEach((doc) =>
-        collections.push({
-          ...doc.data(),
-          id: doc.id,
-        } as CollectionSchema)
-      );
-      setCollections([...collections, uncollectedCollection]);
-      setLoading(false);
-    }
-
-    fetchCollections();
-  }, [user, userLoading]);
+  const {
+    isLoading,
+    isError,
+    data: collections,
+  } = useQuery(['collections'], () => fetchCollections(user?.uid!), {
+    enabled: !!user,
+  });
 
   return (
     <div className="Collections">
       <div className="collections">
-        {userLoading ? (
-          <div className="text">Loading...</div>
-        ) : !user ? (
+        {!userLoading && !user ? (
           <div className="text">User not signed in!</div>
-        ) : loading ? (
+        ) : isLoading ? (
           <div className="text">Loading...</div>
+        ) : isError ? (
+          <div className="text">Error fetching decks!</div>
         ) : (
-          collections.map((collection) => (
+          collections.map(({ data: collection, id }) => (
             <div
               className="collection-preview"
-              key={collection.id}
-              onClick={() =>
-                navigate(collection.id === UNCOLLECTED_ID ? '/uncollected' : `/collection/${collection.id}`)
-              }
+              key={objectHash(collection)}
+              onClick={() => navigate(id === UNCOLLECTED_ID ? '/uncollected' : `/collection/${id}`)}
             >
               <img className="type-icon" src={files} alt="type-icon" />
               <div className="name">{collection.name}</div>
