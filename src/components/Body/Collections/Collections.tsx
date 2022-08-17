@@ -4,7 +4,7 @@ import objectHash from 'object-hash';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { fetchCollections } from '../../../data/queries';
+import { fetchCollectionsWithUncollected } from '../../../data/queries';
 import { UNCOLLECTED_ID } from '../../../data/queries/collection';
 import { auth } from '../../../ts/firebase';
 import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../ts/local';
@@ -18,7 +18,7 @@ function Collections(): JSX.Element {
     isLoading,
     isError,
     data: collections,
-  } = useQuery(['collections'], () => fetchCollections(user?.uid!), {
+  } = useQuery(['collections'], () => fetchCollectionsWithUncollected(user?.uid!), {
     enabled: !!user,
   });
 
@@ -30,7 +30,7 @@ function Collections(): JSX.Element {
         ) : isLoading ? (
           <div className="text">Loading...</div>
         ) : isError ? (
-          <div className="text">Error fetching decks!</div>
+          <div className="text">Error fetching collections!</div>
         ) : (
           collections.map(({ data: collection, id }) => (
             <div
