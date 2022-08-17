@@ -4,20 +4,20 @@ import objectHash from 'object-hash';
 import { Slider, SliderProps } from '../Slider';
 import './PracticeSlider.scss';
 
-interface PracticeSliderProps extends SliderProps {
+interface PracticeSliderProps extends Omit<SliderProps, 'children'> {
   flipped: boolean;
 }
 
 function PracticeSlider(props: PracticeSliderProps): JSX.Element {
-  const { cards, index, setIndex, flipped } = props;
+  const { sliderCards, index, setIndex, flipped } = props;
 
   const [jaFocus, setJaFocus] = useState<boolean>(true);
   const [pronunciation, setPronunciation] = useState<boolean>(false);
 
   return (
     <>
-      <Slider {...{ cards, index, setIndex }}>
-        {cards.map((card, i) => (
+      <Slider {...{ sliderCards, index, setIndex }}>
+        {sliderCards.map((card, i) => (
           <div
             className={'slider-card' + (i === index ? ' active' : '')}
             key={objectHash(card)}

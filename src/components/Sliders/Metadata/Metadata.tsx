@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { MetadataSchema } from '../../../ts/interfaces';
+import { Metadata as MetadataType } from '../../../data/types';
 
 interface MetadataProps {
-  data: MetadataSchema;
+  data: MetadataType;
 }
 
 export function Metadata(props: MetadataProps): JSX.Element {

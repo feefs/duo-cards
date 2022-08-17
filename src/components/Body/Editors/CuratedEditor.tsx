@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useLocation } from 'react-router-dom';
 
+import { CuratedConfig, Metadata, SliderCard } from '../../../data/types';
 import { auth } from '../../../ts/firebase';
-import { CardSchema, CuratedConfig, MetadataSchema } from '../../../ts/interfaces';
 import { DUOLINGO_URL } from '../../../ts/local';
 import Editor from './Editor';
 
@@ -12,7 +12,7 @@ interface CuratedCard {
   ja: string;
   pos: string;
   pronunciation: string;
-  metadata: MetadataSchema;
+  metadata: Metadata;
 }
 
 export function CuratedEditor(): JSX.Element {
@@ -21,8 +21,8 @@ export function CuratedEditor(): JSX.Element {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [name, setName] = useState<string>('');
-  const [cards, setCards] = useState<CardSchema[]>([]);
-  const [nextID, setNextID] = useState<number>(0);
+  const [sliderCards, setSliderCards] = useState<SliderCard[]>([]);
+  const [nextKey, setNextKey] = useState<number>(0);
 
   useEffect(() => {
     async function fetchCards() {
@@ -38,11 +38,11 @@ export function CuratedEditor(): JSX.Element {
         const words = (await response.json()) as CuratedCard[];
 
         if (words.length) {
-          setCards(words.map((curatedCard, index) => ({ ...curatedCard, id: index })));
-          setNextID(words.length);
+          setSliderCards(words.map((curatedCard, index) => ({ ...curatedCard, key: index })));
+          setNextKey(words.length);
         } else {
-          setCards([{ en: '', ja: '', pos: '', pronunciation: '', id: 0 }]);
-          setNextID(1);
+          setSliderCards([{ en: '', ja: '', pos: '', pronunciation: '', key: 0 }]);
+          setNextKey(1);
         }
 
         setName(name);
@@ -54,17 +54,17 @@ export function CuratedEditor(): JSX.Element {
   }, [loading, location.state]);
 
   const newCard = useCallback(() => {
-    const result = { en: '', ja: '', pos: '', pronunciation: '', id: nextID };
-    setNextID(nextID + 1);
+    const result = { en: '', ja: '', pos: '', pronunciation: '', key: nextKey };
+    setNextKey(nextKey + 1);
     return result;
-  }, [nextID]);
+  }, [nextKey]);
 
   return (
     <div className="Editor">
       {loading ? (
         <div className="text">Loading...</div>
       ) : (
-        <Editor {...{ user, name, setName, cards, setCards, newCard }} />
+        <Editor {...{ user, name, setName, sliderCards, setSliderCards, newCard }} />
       )}
     </div>
   );

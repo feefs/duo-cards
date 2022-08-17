@@ -4,29 +4,21 @@ import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { submitDeck } from '../../../data/mutations';
-import { CardSchema } from '../../../ts/interfaces';
+import { SliderCard } from '../../../data/types';
 import EditableSlider from '../../Sliders/EditableSlider';
 import './Editor.scss';
 
 interface EditorProps {
   user: User | null | undefined;
   name: string;
-  setName: Function;
-  cards: CardSchema[];
-  setCards: Function;
-  newCard: Function;
-}
-
-interface FirebaseCardSchema {
-  en: string;
-  ja: string;
-  pos: string;
-  pronunciation: string;
-  id?: string;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  sliderCards: SliderCard[];
+  setSliderCards: React.Dispatch<React.SetStateAction<SliderCard[]>>;
+  newCard: () => SliderCard;
 }
 
 function Editor(props: EditorProps): JSX.Element {
-  const { user, name, setName, cards, setCards, newCard } = props;
+  const { user, name, setName, sliderCards, setSliderCards, newCard } = props;
 
   const navigate = useNavigate();
   const params = useParams();
@@ -40,15 +32,12 @@ function Editor(props: EditorProps): JSX.Element {
 
   const mutation = useMutation(
     () => {
-      if (!canSubmit()) {
-        throw new Error();
-      }
       setSubmitted(true);
-      const cardsCopy = cards.map((card) => ({ ...card })) as FirebaseCardSchema[];
-      cardsCopy.forEach((card) => {
-        delete card.id;
-      });
-      return submitDeck({ cards: cardsCopy, name }, user?.uid!, params.deckId);
+      return submitDeck(
+        { cards: sliderCards.map(({ key, metadata, ...card }) => card), name },
+        user?.uid!,
+        params.deckId
+      );
     },
     {
       onSuccess: (docRef) => {
@@ -63,9 +52,9 @@ function Editor(props: EditorProps): JSX.Element {
       <button
         className="interact-button delete-card"
         onClick={() => {
-          if (cards.length > 1) {
-            setCards([...cards.slice(0, index), ...cards.slice(index + 1)]);
-            setIndex(Math.min(Math.max(0, index - 1), cards.length - 1));
+          if (sliderCards.length > 1) {
+            setSliderCards([...sliderCards.slice(0, index), ...sliderCards.slice(index + 1)]);
+            setIndex(Math.min(Math.max(0, index - 1), sliderCards.length - 1));
           }
         }}
       >
@@ -73,14 +62,14 @@ function Editor(props: EditorProps): JSX.Element {
       </button>
       <button
         className="interact-button wipe-card"
-        onClick={() => setCards([...cards.slice(0, index), newCard(), ...cards.slice(index + 1)])}
+        onClick={() => setSliderCards([...sliderCards.slice(0, index), newCard(), ...sliderCards.slice(index + 1)])}
       >
         🧹
       </button>
       <button
         className="interact-button new-card"
         onClick={() => {
-          setCards([...cards.slice(0, index + 1), newCard(), ...cards.slice(index + 1)]);
+          setSliderCards([...sliderCards.slice(0, index + 1), newCard(), ...sliderCards.slice(index + 1)]);
           setTimeout(() => setIndex(index + 1), 100);
         }}
       >
@@ -94,10 +83,10 @@ function Editor(props: EditorProps): JSX.Element {
       >
         ✓
       </button>
-      <button className="end" onClick={() => setIndex(cards.length - 1)}>
+      <button className="end" onClick={() => setIndex(sliderCards.length - 1)}>
         →
       </button>
-      <EditableSlider {...{ cards, setCards, index, setIndex }} />
+      <EditableSlider {...{ sliderCards, setSliderCards, index, setIndex }} />
     </div>
   );
 }
