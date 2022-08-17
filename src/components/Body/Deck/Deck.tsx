@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { unlinkDeck } from '../../../data/mutations';
+import { addCollectionLink, unlinkDeck } from '../../../data/mutations';
+import { addCollectionLinkMutationVariables } from '../../../data/mutations/collection';
 import { fetchDeck, fetchParent } from '../../../data/queries';
 import { auth, firestore } from '../../../ts/firebase';
 import { ConfirmModal, CollectionModal } from '../../Modals';
@@ -40,6 +41,17 @@ function Deck(): JSX.Element {
 
   const [addOpen, setAddOpen] = useState<boolean>(false);
   const [unlinkOpen, setUnlinkOpen] = useState<boolean>(false);
+
+  const addCollectionLinkMutation = useMutation(
+    (variables: addCollectionLinkMutationVariables) => addCollectionLink(variables),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['deck', params.deckId]);
+        queryClient.invalidateQueries(['parent', params.deckId]);
+        setAddOpen(false);
+      },
+    }
+  );
 
   const unlinkMutation = useMutation(() => unlinkDeck(user?.uid!, params.deckId!), {
     onSuccess: () => {
@@ -134,11 +146,8 @@ function Deck(): JSX.Element {
               deck,
               deckId: params.deckId,
               parent,
-              updateUI: () => {
-                queryClient.invalidateQueries(['deck', params.deckId]);
-                queryClient.invalidateQueries(['parent', params.deckId]);
-                setAddOpen(false);
-              },
+              addCollectionLink: async (variables: addCollectionLinkMutationVariables) =>
+                await addCollectionLinkMutation.mutateAsync(variables),
             }}
           />
           <ConfirmModal

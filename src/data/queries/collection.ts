@@ -21,7 +21,7 @@ export async function fetchCollection(collectionId: string): Promise<Collection>
   }
 }
 
-export async function fetchCollections(userId: string): Promise<{ data: Collection; id: string }[]> {
+export async function fetchCollectionsWithUncollected(userId: string): Promise<{ data: Collection; id: string }[]> {
   const response = await getDocs(
     query(collectionsCollection, where('creator_uid', '==', userId), where('linked', '==', false))
   );
@@ -32,4 +32,15 @@ export async function fetchCollections(userId: string): Promise<{ data: Collecti
     }
   });
   return [...result, { data: UNCOLLECTED_COLLECTION, id: UNCOLLECTED_ID }];
+}
+
+export async function fetchAllCollections(userId: string): Promise<{ data: Collection; id: string }[]> {
+  const response = await getDocs(query(collectionsCollection, where('creator_uid', '==', userId)));
+  const result: { data: Collection; id: string }[] = [];
+  response.docs.forEach((doc) => {
+    if (doc.exists()) {
+      result.push({ data: doc.data(), id: doc.id });
+    }
+  });
+  return result;
 }
