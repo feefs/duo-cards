@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 
 import Editor from './Editor';
 import { fetchDeck } from '../../../data/queries';
+import { SliderCard } from '../../../data/types';
 import { auth } from '../../../ts/firebase';
-import { CardSchema } from '../../../ts/interfaces';
 
 export function DeckEditor(): JSX.Element {
   const [user] = useAuthState(auth);
@@ -17,22 +17,22 @@ export function DeckEditor(): JSX.Element {
   });
 
   const [name, setName] = useState<string>('');
-  const [cards, setCards] = useState<CardSchema[]>([]);
-  const [nextID, setNextID] = useState<number>(0);
+  const [sliderCards, setSliderCards] = useState<SliderCard[]>([]);
+  const [nextKey, setNextKey] = useState<number>(0);
 
   useEffect(() => {
     if (data) {
       setName(data.name);
-      setCards(data.cards.map((card, index) => ({ ...card, id: index })));
-      setNextID(data.cards.length);
+      setSliderCards(data.cards.map((card, index) => ({ ...card, key: index })));
+      setNextKey(data.cards.length);
     }
   }, [data]);
 
   const newCard = useCallback(() => {
-    const result = { en: '', ja: '', pos: '', pronunciation: '', id: nextID };
-    setNextID(nextID + 1);
+    const result = { en: '', ja: '', pos: '', pronunciation: '', key: nextKey };
+    setNextKey(nextKey + 1);
     return result;
-  }, [nextID]);
+  }, [nextKey]);
 
   return (
     <div className="Editor">
@@ -41,7 +41,7 @@ export function DeckEditor(): JSX.Element {
       ) : isError ? (
         <div className="text">Deck to edit doesn't exist!</div>
       ) : (
-        <Editor {...{ user, name, setName, cards, setCards, newCard }} />
+        <Editor {...{ user, name, setName, sliderCards, setSliderCards, newCard }} />
       )}
     </div>
   );

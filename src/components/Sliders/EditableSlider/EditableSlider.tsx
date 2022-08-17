@@ -1,20 +1,20 @@
-import { CardField } from '../../../ts/interfaces';
+import { CardField, SliderCard } from '../../../data/types';
 import { Metadata } from '../Metadata';
 import { Slider, SliderProps } from '../Slider';
 
-interface EditableSliderProps extends SliderProps {
-  setCards: Function;
+interface EditableSliderProps extends Omit<SliderProps, 'children'> {
+  setSliderCards: React.Dispatch<React.SetStateAction<SliderCard[]>>;
 }
 
 function EditableSlider(props: EditableSliderProps): JSX.Element {
-  const { cards, index, setIndex, setCards } = props;
+  const { setSliderCards, sliderCards, index, setIndex } = props;
 
   return (
-    <Slider {...{ cards, index, setIndex }}>
-      {cards.map((card, i) => {
+    <Slider {...{ sliderCards, index, setIndex }}>
+      {sliderCards.map((card, i) => {
         const update = (field: CardField) => (e: React.ChangeEvent<HTMLInputElement>) => {
           const value = e.target.value;
-          const copy = [...cards];
+          const copy = [...sliderCards];
           switch (field) {
             case 'en':
               copy[i].en = value;
@@ -28,12 +28,12 @@ function EditableSlider(props: EditableSliderProps): JSX.Element {
             case 'pronunciation':
               copy[i].pronunciation = value;
           }
-          setCards(copy);
+          setSliderCards(copy);
         };
         return (
           <div
             className={'slider-card' + (i === index ? ' active' : '')}
-            key={card.id}
+            key={card.key}
             style={{ transform: `translateX(calc(-50% + ${(i - index) * 10}vmin))` }}
           >
             <input value={card.ja} placeholder="ja" onChange={update(CardField.ja)} />

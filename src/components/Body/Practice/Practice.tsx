@@ -4,8 +4,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
 
 import { fetchDeck } from '../../../data/queries';
+import { SliderCard } from '../../../data/types';
 import { auth } from '../../../ts/firebase';
-import { CardSchema } from '../../../ts/interfaces';
 import PracticeSlider from '../../Sliders/PracticeSlider';
 import './Practice.scss';
 
@@ -17,13 +17,13 @@ function Practice(): JSX.Element {
     enabled: !!user && !!params.deckId,
   });
 
-  const [cards, setCards] = useState<CardSchema[]>([]);
+  const [sliderCards, setSliderCards] = useState<SliderCard[]>([]);
   const [index, setIndex] = useState<number>(0);
   const [flipped, setFlipped] = useState<boolean>(false);
 
   useEffect(() => {
     if (data) {
-      setCards(data.cards);
+      setSliderCards(data.cards.map((card, index) => ({ ...card, key: index })));
     }
   }, [data]);
 
@@ -36,16 +36,16 @@ function Practice(): JSX.Element {
       ) : (
         <div className="practice-layout">
           <div className="name">{data.name}</div>
-          <PracticeSlider {...{ cards, index, setIndex, flipped }} />
+          <PracticeSlider {...{ sliderCards, index, setIndex, flipped }} />
           <button
             className="shuffle"
             onClick={() => {
-              const copy = [...cards];
-              for (let i = cards.length - 1; i > 0; i--) {
+              const copy = [...sliderCards];
+              for (let i = sliderCards.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i - 1));
                 [copy[i], copy[j]] = [copy[j], copy[i]];
               }
-              setCards(copy);
+              setSliderCards(copy);
               setIndex(0);
             }}
           >
