@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { collection, deleteDoc, doc, Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { addCollectionLink, unlinkDeck } from '../../../data/mutations';
+import { addCollectionLink, deleteDeck, unlinkDeck } from '../../../data/mutations';
 import { addCollectionLinkMutationVariables } from '../../../data/mutations/collection';
 import { fetchDeck, fetchParent } from '../../../data/queries';
-import { auth, firestore } from '../../../ts/firebase';
+import { auth } from '../../../ts/firebase';
 import { ConfirmModal, CollectionModal } from '../../Modals';
 import './Deck.scss';
 
@@ -37,10 +37,9 @@ function Deck(): JSX.Element {
     enabled: !!user && !!params.deckId,
   });
 
-  const [deleted, setDeleted] = useState<boolean>(false);
-
   const [addOpen, setAddOpen] = useState<boolean>(false);
   const [unlinkOpen, setUnlinkOpen] = useState<boolean>(false);
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
 
   const addCollectionLinkMutation = useMutation(
     (variables: addCollectionLinkMutationVariables) => addCollectionLink(variables),
@@ -58,6 +57,12 @@ function Deck(): JSX.Element {
       queryClient.invalidateQueries(['deck']);
       queryClient.invalidateQueries(['parent']);
       setUnlinkOpen(false);
+    },
+  });
+
+  const deleteMutation = useMutation(() => deleteDeck(user?.uid!, params.deckId!), {
+    onSuccess: () => {
+      navigate('/');
     },
   });
 
@@ -120,16 +125,7 @@ function Deck(): JSX.Element {
                   Add to Collection
                 </button>
               )}
-              <button
-                className={'delete-deck' + (deleted ? ' disabled' : '')}
-                onClick={async () => {
-                  if (!deleted) {
-                    setDeleted(true);
-                    await deleteDoc(doc(collection(firestore, 'decks'), params.deckId));
-                    navigate('/');
-                  }
-                }}
-              >
+              <button className="delete-deck" onClick={() => setDeleteOpen(true)}>
                 Delete Deck
               </button>
             </>
@@ -156,6 +152,14 @@ function Deck(): JSX.Element {
               onClose: () => setUnlinkOpen(false),
               text: `Unlink collection from ${parent?.name}?`,
               confirmAction: async () => await unlinkMutation.mutateAsync(),
+            }}
+          />
+          <ConfirmModal
+            {...{
+              open: deleteOpen,
+              onClose: () => setDeleteOpen(false),
+              text: `Delete the deck ${deck.name}?`,
+              confirmAction: async () => await deleteMutation.mutateAsync(),
             }}
           />
         </>
