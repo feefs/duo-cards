@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import files from 'bootstrap-icons/icons/files.svg';
-import objectHash from 'object-hash';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,7 +34,7 @@ function Collections(): JSX.Element {
           collections.map(({ data: collection, id }) => (
             <div
               className="collection-preview"
-              key={objectHash(collection)}
+              key={id}
               onClick={() => navigate(id === UNCOLLECTED_ID ? '/uncollected' : `/collection/${id}`)}
             >
               <img className="type-icon" src={files} alt="type-icon" />
