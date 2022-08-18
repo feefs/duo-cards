@@ -1,7 +1,7 @@
 import { doc, DocumentReference, Timestamp, writeBatch } from 'firebase/firestore';
 
-import { decksCollection, firestore } from '../firestore';
-import { Deck } from '../types';
+import { decksCollection, firestore, linksCollection } from '../firestore';
+import { ChildKind, Deck } from '../types';
 import { getParentLinkSnapshot } from '../helpers';
 
 export async function deleteDeck(userId: string, deckId: string): Promise<void> {
@@ -47,6 +47,32 @@ export async function submitDeck(
     await batch.commit();
     return docRef;
   }
+}
+
+export interface linkDeckVariables {
+  userId: string;
+  collectionName: string;
+  collectionId: string;
+  deckName: string;
+  deckId: string;
+}
+
+export async function linkDeck(variables: linkDeckVariables): Promise<void> {
+  const { userId, collectionName, collectionId, deckName, deckId } = variables;
+  const batch = writeBatch(firestore);
+  batch.set(doc(linksCollection), {
+    child_id: deckId,
+    child_kind: ChildKind.Deck,
+    child_name: deckName,
+    creator_uid: userId,
+    created: Timestamp.now(),
+    parent_name: collectionName,
+    parent_id: collectionId,
+  });
+  batch.update(doc(decksCollection, deckId), {
+    linked: true,
+  });
+  await batch.commit();
 }
 
 export async function unlinkDeck(userId: string, deckId: string): Promise<void> {

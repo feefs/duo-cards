@@ -1,2 +1,2 @@
-export { addCollectionLink, createSubcollection, deleteCollection, renameCollection } from './collection';
-export { deleteDeck, submitDeck, unlinkDeck } from './deck';
+export { createSubcollection, deleteCollection, renameCollection } from './collection';
+export { deleteDeck, linkDeck, submitDeck, unlinkDeck } from './deck';

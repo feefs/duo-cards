@@ -1,34 +1,8 @@
 import { doc, getDocs, query, Timestamp, where, writeBatch } from 'firebase/firestore';
 
-import { collectionsCollection, decksCollection, firestore, linksCollection } from '../firestore';
+import { collectionsCollection, firestore, linksCollection } from '../firestore';
 import { getParentLinkSnapshot } from '../helpers';
 import { ChildKind, Parent } from '../types';
-
-export interface addCollectionLinkMutationVariables {
-  userId: string;
-  collectionName: string;
-  collectionId: string;
-  deckName: string;
-  deckId: string;
-}
-
-export async function addCollectionLink(variables: addCollectionLinkMutationVariables): Promise<void> {
-  const { userId, collectionName, collectionId, deckName, deckId } = variables;
-  const batch = writeBatch(firestore);
-  batch.set(doc(linksCollection), {
-    child_id: deckId,
-    child_kind: ChildKind.Deck,
-    child_name: deckName,
-    creator_uid: userId,
-    created: Timestamp.now(),
-    parent_name: collectionName,
-    parent_id: collectionId,
-  });
-  batch.update(doc(decksCollection, deckId), {
-    linked: true,
-  });
-  await batch.commit();
-}
 
 export async function createSubcollection(subcollectionName: string, parent: Parent, userId: string): Promise<void> {
   const batch = writeBatch(firestore);
