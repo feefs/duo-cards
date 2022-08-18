@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { submitDeck } from '../../../data/mutations';
 import { SliderCard } from '../../../data/types';
-import EditableSlider from '../../Sliders/EditableSlider';
+import { EditableSlider } from '../../Sliders';
 import './Editor.scss';
 
 interface EditorProps {

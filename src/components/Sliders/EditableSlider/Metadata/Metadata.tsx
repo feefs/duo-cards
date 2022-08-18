@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Metadata as MetadataType } from '../../../data/types';
+import { Metadata as MetadataType } from '../../../../data/types';
 
 interface MetadataProps {
   data: MetadataType;
@@ -55,5 +55,3 @@ export function Metadata(props: MetadataProps): JSX.Element {
     </div>
   );
 }
-
-export default Metadata;

@@ -1,4 +1,4 @@
-import { SliderCard } from '../../../data/types';
+import { SliderCard } from '../../data/types';
 
 export interface SliderProps {
   children: React.ReactNode;

@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { fetchDeck } from '../../../data/queries';
 import { SliderCard } from '../../../data/types';
 import { auth } from '../../../ts/firebase';
-import PracticeSlider from '../../Sliders/PracticeSlider';
+import { PracticeSlider } from '../../Sliders';
 import './Practice.scss';
 
 function Practice(): JSX.Element {
