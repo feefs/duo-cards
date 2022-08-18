@@ -1,17 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import files from 'bootstrap-icons/icons/files.svg';
+import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
+import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../data/curated';
+import { createCollection } from '../../../data/mutations';
 import { fetchCollectionsWithUncollected } from '../../../data/queries';
 import { UNCOLLECTED_ID } from '../../../data/queries/collection';
 import { auth } from '../../../ts/firebase';
-import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../data/curated';
+import { NewModal } from '../../Modals';
 import './Collections.scss';
 
 function Collections(): JSX.Element {
   const [user, userLoading] = useAuthState(auth);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     isLoading,
@@ -19,6 +23,15 @@ function Collections(): JSX.Element {
     data: collections,
   } = useQuery(['collections'], () => fetchCollectionsWithUncollected(user?.uid!), {
     enabled: !!user,
+  });
+
+  const [newOpen, setNewOpen] = useState<boolean>(false);
+
+  const newCollectionMutation = useMutation((collectionName: string) => createCollection(collectionName, user?.uid!), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['collections']);
+      setNewOpen(false);
+    },
   });
 
   return (
@@ -48,7 +61,7 @@ function Collections(): JSX.Element {
           className={user ? '' : 'disabled'}
           onClick={() => {
             if (user) {
-              navigate('/new');
+              setNewOpen(true);
             }
           }}
         >
@@ -82,6 +95,16 @@ function Collections(): JSX.Element {
           </div>
         )}
       </div>
+      {!user ? null : (
+        <NewModal
+          {...{
+            open: newOpen,
+            onClose: () => setNewOpen(false),
+            newDeck: () => navigate('/new'),
+            newCollection: async (collectionName) => await newCollectionMutation.mutateAsync(collectionName),
+          }}
+        />
+      )}
     </div>
   );
 }
