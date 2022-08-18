@@ -18,7 +18,7 @@ export function ConfirmModal(props: ConfirmModalProps): JSX.Element {
       <div className="confirm-container">
         <div className="text">{text}</div>
         <button
-          className={'confirm' + (confirmed ? ' disabled' : '')}
+          className={'confirm' + (!confirmed ? '' : ' disabled')}
           onClick={async () => {
             if (!confirmed) {
               setConfirmed(true);

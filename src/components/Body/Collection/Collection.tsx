@@ -142,7 +142,6 @@ function Collection(): JSX.Element {
             {...{
               open: subcollectionOpen,
               onClose: () => setSubcollectionOpen(false),
-              user,
               initialText: '',
               placeholderText: 'Subcollection name',
               submitText: async (subcollectionName) => await addSubcollectionMutation.mutateAsync(subcollectionName),
@@ -152,7 +151,6 @@ function Collection(): JSX.Element {
             {...{
               open: renameCollectionOpen,
               onClose: () => setRenameCollectionOpen(false),
-              user,
               initialText: collection.name,
               placeholderText: 'Collection name',
               submitText: async (newCollectionName) => await renameCollectionMutation.mutateAsync(newCollectionName),
