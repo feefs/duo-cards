@@ -1,8 +1,17 @@
-import { doc, getDocs, query, Timestamp, where, writeBatch } from 'firebase/firestore';
+import { addDoc, doc, getDocs, query, Timestamp, where, writeBatch } from 'firebase/firestore';
 
 import { collectionsCollection, firestore, linksCollection } from '../firestore';
 import { getParentLinkSnapshot } from '../helpers';
 import { ChildKind, Parent } from '../types';
+
+export async function createCollection(collectionName: string, userId: string): Promise<void> {
+  await addDoc(collectionsCollection, {
+    created: Timestamp.now(),
+    creator_uid: userId,
+    linked: false,
+    name: collectionName,
+  });
+}
 
 export async function createSubcollection(subcollectionName: string, parent: Parent, userId: string): Promise<void> {
   const batch = writeBatch(firestore);
