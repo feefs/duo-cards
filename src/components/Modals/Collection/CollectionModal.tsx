@@ -8,13 +8,13 @@ import { Deck, Parent } from '../../../data/types';
 import { BaseModalProps, Modal } from '../Modal';
 import './CollectionModal.scss';
 
-type CollectionModalProps = BaseModalProps & {
+interface CollectionModalProps extends BaseModalProps {
   user: User | null | undefined;
   deck: Deck;
   deckId: string | undefined;
   parent: (Parent | null) | undefined;
   addCollectionLink: (variables: linkDeckVariables) => Promise<void>;
-};
+}
 
 export function CollectionModal(props: CollectionModalProps): JSX.Element {
   const { open, onClose, user, deck, deckId, parent, addCollectionLink } = props;
