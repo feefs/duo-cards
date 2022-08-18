@@ -1,12 +1,12 @@
+import { Metadata } from './Metadata/Metadata';
 import { CardField, SliderCard } from '../../../data/types';
-import { Metadata } from '../Metadata';
 import { Slider, SliderProps } from '../Slider';
 
 interface EditableSliderProps extends Omit<SliderProps, 'children'> {
   setSliderCards: React.Dispatch<React.SetStateAction<SliderCard[]>>;
 }
 
-function EditableSlider(props: EditableSliderProps): JSX.Element {
+export function EditableSlider(props: EditableSliderProps): JSX.Element {
   const { setSliderCards, sliderCards, index, setIndex } = props;
 
   return (
@@ -47,5 +47,3 @@ function EditableSlider(props: EditableSliderProps): JSX.Element {
     </Slider>
   );
 }
-
-export default EditableSlider;

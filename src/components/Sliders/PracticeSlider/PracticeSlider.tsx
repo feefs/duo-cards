@@ -8,7 +8,7 @@ interface PracticeSliderProps extends Omit<SliderProps, 'children'> {
   flipped: boolean;
 }
 
-function PracticeSlider(props: PracticeSliderProps): JSX.Element {
+export function PracticeSlider(props: PracticeSliderProps): JSX.Element {
   const { sliderCards, index, setIndex, flipped } = props;
 
   const [jaFocus, setJaFocus] = useState<boolean>(true);
@@ -58,5 +58,3 @@ function PracticeSlider(props: PracticeSliderProps): JSX.Element {
     </>
   );
 }
-
-export default PracticeSlider;
