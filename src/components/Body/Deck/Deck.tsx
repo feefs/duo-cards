@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { addCollectionLink, deleteDeck, unlinkDeck } from '../../../data/mutations';
-import { addCollectionLinkMutationVariables } from '../../../data/mutations/collection';
+import { deleteDeck, linkDeck, unlinkDeck } from '../../../data/mutations';
+import { linkDeckVariables } from '../../../data/mutations/deck';
 import { fetchDeck, fetchParent } from '../../../data/queries';
 import { auth } from '../../../ts/firebase';
 import { ConfirmModal, CollectionModal } from '../../Modals';
@@ -41,16 +41,13 @@ function Deck(): JSX.Element {
   const [unlinkOpen, setUnlinkOpen] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
 
-  const addCollectionLinkMutation = useMutation(
-    (variables: addCollectionLinkMutationVariables) => addCollectionLink(variables),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['deck', params.deckId]);
-        queryClient.invalidateQueries(['parent', params.deckId]);
-        setAddOpen(false);
-      },
-    }
-  );
+  const addCollectionLinkMutation = useMutation((variables: linkDeckVariables) => linkDeck(variables), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['deck', params.deckId]);
+      queryClient.invalidateQueries(['parent', params.deckId]);
+      setAddOpen(false);
+    },
+  });
 
   const unlinkMutation = useMutation(() => unlinkDeck(user?.uid!, params.deckId!), {
     onSuccess: () => {
@@ -142,7 +139,7 @@ function Deck(): JSX.Element {
               deck,
               deckId: params.deckId,
               parent,
-              addCollectionLink: async (variables: addCollectionLinkMutationVariables) =>
+              addCollectionLink: async (variables: linkDeckVariables) =>
                 await addCollectionLinkMutation.mutateAsync(variables),
             }}
           />

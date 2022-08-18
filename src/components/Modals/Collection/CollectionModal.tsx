@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { User } from 'firebase/auth';
 import { useState } from 'react';
 
-import { addCollectionLinkMutationVariables } from '../../../data/mutations/collection';
+import { linkDeckVariables } from '../../../data/mutations/deck';
 import { fetchAllCollections } from '../../../data/queries';
 import { Deck, Parent } from '../../../data/types';
 import { BaseModalProps, Modal } from '../Modal';
@@ -13,7 +13,7 @@ type CollectionModalProps = BaseModalProps & {
   deck: Deck;
   deckId: string | undefined;
   parent: (Parent | null) | undefined;
-  addCollectionLink: (variables: addCollectionLinkMutationVariables) => Promise<void>;
+  addCollectionLink: (variables: linkDeckVariables) => Promise<void>;
 };
 
 export function CollectionModal(props: CollectionModalProps): JSX.Element {
