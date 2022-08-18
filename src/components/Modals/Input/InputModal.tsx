@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { BaseModalProps, Modal } from '../Modal';
 import './InputModal.scss';
 
-type InputModalProps = BaseModalProps & {
+interface InputModalProps extends BaseModalProps {
   initialText: string;
   placeholderText: string;
   submitText: (value: string) => Promise<void>;
-};
+}
 
 export function InputModal(props: InputModalProps): JSX.Element {
   const { open, onClose, initialText, placeholderText, submitText } = props;
