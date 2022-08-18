@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import objectHash from 'object-hash';
 
 import { Slider, SliderProps } from '../Slider';
 import './PracticeSlider.scss';
@@ -20,7 +19,7 @@ export function PracticeSlider(props: PracticeSliderProps): JSX.Element {
         {sliderCards.map((card, i) => (
           <div
             className={'slider-card' + (i === index ? ' active' : '')}
-            key={objectHash(card)}
+            key={card.key}
             style={{ transform: `translateX(calc(-50% + ${(i - index) * 10}vmin))` }}
           >
             {flipped ? (
