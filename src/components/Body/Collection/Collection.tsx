@@ -160,7 +160,7 @@ function Collection(): JSX.Element {
             {...{
               open: deleteCollectionOpen,
               onClose: () => setDeleteCollectionOpen(false),
-              text: 'Delete collection?',
+              text: `Delete collection ${collection.name}?`,
               confirmAction: async () => await deleteCollectionMutation.mutateAsync(),
             }}
           />
