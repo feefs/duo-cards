@@ -8,7 +8,7 @@
 
   // TODO: refactor to mixin
   .collections {
-    display: flex;
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20vmin, 1fr));
     width: 100%;
     padding: 7.5vmin;
