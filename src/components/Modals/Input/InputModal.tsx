@@ -1,5 +1,5 @@
 import { User } from 'firebase/auth';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { BaseModalProps, Modal } from '../Modal';
 import './InputModal.scss';
@@ -14,12 +14,8 @@ type InputModalProps = BaseModalProps & {
 export function InputModal(props: InputModalProps): JSX.Element {
   const { open, onClose, user, initialText, placeholderText, submitText } = props;
 
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string>(initialText);
   const [submitted, setSubmitted] = useState<boolean>(false);
-
-  useEffect(() => {
-    setText(initialText);
-  }, [initialText]);
 
   const canSubmit = useCallback(() => {
     return user && text && !submitted;
