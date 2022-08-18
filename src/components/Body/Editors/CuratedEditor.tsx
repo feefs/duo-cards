@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useLocation } from 'react-router-dom';
 
+import Editor from './Editor';
 import { fetchCurated } from '../../../data/queries';
 import { CuratedConfig, SliderCard } from '../../../data/types';
 import { auth } from '../../../ts/firebase';
-import Editor from './Editor';
 
 export function CuratedEditor(): JSX.Element {
   const [user] = useAuthState(auth);

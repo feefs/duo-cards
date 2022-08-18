@@ -49,7 +49,7 @@ export function CollectionModal(props: CollectionModalProps): JSX.Element {
                 if (!disabled && user && deckId) {
                   setDisabled(true);
                   await addCollectionLink({
-                    userId: user.uid!,
+                    userId: user.uid,
                     collectionName: collection.name,
                     collectionId: id,
                     deckName: deck.name,

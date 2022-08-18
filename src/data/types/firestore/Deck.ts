@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 
-import { Card } from '..';
+import { Card } from './Card';
 
 export interface Deck {
   cards: Card[];

@@ -6,6 +6,6 @@ export type { Link } from './firestore/Link';
 export { ChildKind } from './ChildKind';
 export type { CuratedConfig } from './CuratedConfig';
 export type { Parent } from './Parent';
-export type { SliderCard, Metadata } from './SliderCard';
+export type { Metadata, SliderCard } from './SliderCard';
 
 export type { WithId } from './WithId';

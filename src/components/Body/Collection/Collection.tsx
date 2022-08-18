@@ -7,8 +7,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { createSubcollection, deleteCollection, renameCollection } from '../../../data/mutations';
 import { fetchChildren, fetchCollection } from '../../../data/queries';
-import { auth } from '../../../ts/firebase';
 import { ChildKind } from '../../../data/types';
+import { auth } from '../../../ts/firebase';
 import { ConfirmModal, InputModal } from '../../Modals';
 import './Collection.scss';
 
