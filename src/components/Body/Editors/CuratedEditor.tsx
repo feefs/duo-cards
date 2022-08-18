@@ -17,6 +17,7 @@ export function CuratedEditor(): JSX.Element {
     () => fetchCurated((location.state as { config: CuratedConfig }).config),
     {
       enabled: !!user && !!location.state,
+      cacheTime: 0,
     }
   );
 
