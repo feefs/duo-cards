@@ -1,4 +1,4 @@
-import { CuratedConfig } from '../data/types';
+import { CuratedConfig } from './types';
 
 export const CURATED_ENABLED = false;
 

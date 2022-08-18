@@ -1,4 +1,4 @@
-import { Card } from '.';
+import { Card } from './firestore/Card';
 
 export interface SliderCard extends Card {
   key: number;

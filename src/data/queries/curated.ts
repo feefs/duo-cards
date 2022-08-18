@@ -1,4 +1,4 @@
-import { DUOLINGO_URL } from '../../ts/curated';
+import { DUOLINGO_URL } from '../curated';
 import { CuratedConfig, SliderCard } from '../types';
 
 export async function fetchCurated(config: CuratedConfig): Promise<{ sliderCards: SliderCard[]; name: string }> {

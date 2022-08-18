@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchCollectionsWithUncollected } from '../../../data/queries';
 import { UNCOLLECTED_ID } from '../../../data/queries/collection';
 import { auth } from '../../../ts/firebase';
-import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../ts/curated';
+import { CURATED_CONFIGURATIONS, CURATED_ENABLED } from '../../../data/curated';
 import './Collections.scss';
 
 function Collections(): JSX.Element {
