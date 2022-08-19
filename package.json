@@ -1,7 +1,7 @@
 {
   "name": "duo-cards",
   "homepage": "https://feefs.me/duo-cards",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "dependencies": {
     "@emotion/styled": "^11.10.0",
     "@mui/material": "^5.10.1",
@@ -15,7 +15,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "bootstrap-icons": "^1.9.1",
-    "firebase": "^9.9.2",
+    "firebase": "^9.9.3",
     "gh-pages": "^4.0.0",
     "nord": "^0.2.1",
     "react": "^18.2.0",
