@@ -67,6 +67,17 @@ PERFORMANCE OF THIS SOFTWARE.
       */
 
 /**
+     * query-core
+     *
+     * Copyright (c) TanStack
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE.md file in the root directory of this source tree.
+     *
+     * @license MIT
+     */
+
+/**
   * @license
   * Copyright 2018 Google LLC
   *
@@ -260,6 +271,16 @@ PERFORMANCE OF THIS SOFTWARE.
  */
 
 /**
+ * @license React
+ * use-sync-external-store-shim.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
  * React Router v6.3.0
  *
  * Copyright (c) Remix Software Inc.
@@ -270,7 +291,18 @@ PERFORMANCE OF THIS SOFTWARE.
  * @license MIT
  */
 
-/** @license MUI v5.10.0
+/**
+ * react-query-devtools-noop
+ *
+ * Copyright (c) TanStack
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
+
+/** @license MUI v5.10.1
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
