@@ -1,4 +1,5 @@
-@use '../../../scss/style' as *;
+@use 'src/scss/core' as *;
+@use 'src/scss/mixins/modal' as *;
 
 .input-modal {
   @include modal;
@@ -23,7 +24,7 @@
   }
 
   .submit {
-    @include styled-box(true, $nord15, 5vmin, 5vmin, 0.5vmin);
+    @include styled-box-animated($small-styled-box-config, $nord15, 5vmin, 5vmin);
   }
 
   .disabled {
