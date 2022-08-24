@@ -1,4 +1,4 @@
-@use '../../../scss/style' as *;
+@use 'src/scss/core' as *;
 
 .Collections {
   display: grid;
@@ -28,7 +28,7 @@
     gap: 7.5vmin;
 
     .collection-preview {
-      @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+      @include styled-box-animated($large-styled-box-config, $nord1, 20vmin, 20vmin);
 
       position: relative;
 
@@ -63,7 +63,7 @@
     justify-content: center;
 
     button {
-      @include styled-box(true, $nord14, 15vmin, 6vmin, 0.5vmin);
+      @include styled-box-animated($small-styled-box-config, $nord14, 15vmin, 6vmin);
 
       font-size: 2.5vmin;
     }
@@ -106,7 +106,7 @@
       align-items: center;
 
       .curated-preview-card {
-        @include styled-box(true, $nord1, 16vmin, 16vmin, 1vmin, 0.3vmin);
+        @include styled-box-animated($large-styled-box-config, $nord1, 16vmin, 16vmin);
 
         margin: 2vmin 0 3vmin;
 

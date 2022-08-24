@@ -1,4 +1,4 @@
-@use '../../../scss/style' as *;
+@use 'src/scss/core' as *;
 
 .Collection {
   display: grid;
@@ -27,7 +27,7 @@
     gap: 7.5vmin;
 
     .entry-preview {
-      @include styled-box(true, $nord1, 20vmin, 20vmin, 1vmin, 0.3vmin);
+      @include styled-box-animated($large-styled-box-config, $nord1, 20vmin, 20vmin);
 
       position: relative;
 
@@ -62,7 +62,7 @@
     justify-content: space-evenly;
 
     > button {
-      @include styled-box(true, $nord0, 30vmin, 6vmin, 0.5vmin);
+      @include styled-box-animated($small-styled-box-config, $nord0, 30vmin, 6vmin);
 
       font-size: 2.5vmin;
     }
@@ -101,7 +101,7 @@
     }
 
     > button {
-      @include styled-box(true, $nord0, 30vmin, 5vmin, 0.5vmin);
+      @include styled-box-animated($small-styled-box-config, $nord0, 30vmin, 5vmin);
 
       font-size: 2.5vmin;
     }
