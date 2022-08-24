@@ -109,18 +109,6 @@
   }
 }
 
-@mixin modal {
-  @include styled-border;
-
-  display: flex;
-  background: $nord0;
-  color: $nord6;
-
-  * {
-    font-family: Nunito, sans-serif;
-  }
-}
-
 @mixin type-icon {
   position: absolute;
   top: 1.75vmin;

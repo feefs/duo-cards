@@ -1,11 +1,12 @@
-@use '../../../scss/style' as *;
+@use 'src/scss/core' as *;
+@use 'src/scss/mixins/modals' as *;
 
 .new-modal {
   @include modal;
 
   flex-direction: column;
   align-items: center;
-  width: 30vmin;
+  width: 35vmin;
   height: 25vmin;
 
   * {
@@ -21,7 +22,7 @@
     height: 100%;
 
     button {
-      @include styled-box(true, $nord14, 20vmin, 6vmin, 0.5vmin);
+      @include styled-box-animated($small-styled-box-config, $nord14, 25vmin, 6vmin);
 
       font-size: 2.5vmin;
     }
