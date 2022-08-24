@@ -1,4 +1,4 @@
-@use '../../scss/style' as *;
+@use 'src/scss/core' as *;
 
 .Header {
   @include styled-border;
@@ -46,7 +46,7 @@
 
     .user-auth {
       button {
-        @include styled-box(true, $nord6, 15vmin, 3vmin, 0.5vmin);
+        @include styled-box-animated($small-styled-box-config, $nord6, 15vmin, 3vmin);
 
         color: $nord0;
         font-size: 2vmin;
