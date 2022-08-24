@@ -1,7 +1,9 @@
 @use 'src/scss/core' as *;
+@use 'src/scss/mixins/grid-layouts' as *;
 
 .Deck {
-  display: grid;
+  @include grid-layout;
+
   grid-template:
     'a a b'
     'a a c';
@@ -9,37 +11,23 @@
   grid-template-rows: 1fr 4fr;
   width: 90vw;
   height: 75vh;
-  margin: auto;
-  margin-top: 5vh;
-  gap: 3vmin 4vmin;
 
-  > div {
-    @include styled-border;
-  }
-
-  // TODO: refactor to mixin
   .cards {
-    display: grid;
+    @include grid-entries;
+
     grid-area: a;
-    grid-template-columns: repeat(auto-fit, minmax(20vmin, 1fr));
-    padding: 7.5vmin;
-    overflow-y: scroll;
-    gap: 7.5vmin;
 
     .card {
       @include styled-box-static($large-styled-box-config, $nord1, 20vmin, 20vmin);
 
+      &:hover {
+        cursor: text;
+      }
+
       .card-text {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        width: 75%;
-        height: 100%;
-        margin: auto;
+        @include grid-entry-text;
+
         font-size: 2vmin;
-        text-align: center;
-        overflow-wrap: anywhere;
       }
     }
 
