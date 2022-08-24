@@ -38,7 +38,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "format": "prettier --write \"src/**/*.{ts,tsx,scss}\" && stylelint --fix \"src/**/*.scss\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss}\" \"README.md\" && stylelint --fix \"src/**/*.scss\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
@@ -46,7 +46,7 @@
     "eject": "react-scripts eject"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,tsx,md}": [
       "prettier --check"
     ],
     "*.scss": [

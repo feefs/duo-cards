@@ -1,28 +1,35 @@
 # [Duo-cards](https://feefs.me/duo-cards)
-Duo-cards is a flashcard web app that complements Duolingo with curated decks from a custom REST API.
 
-Duolingo discontinued [Tinycards](https://support.duolingo.com/hc/en-us/articles/360043909772-UPDATE-Tinycards-Announcement) in September 2020, and as of recently their Japanese JSON data is still incomplete. I made this app to fix both problems (for me at least).
+Duo-cards is a flashcard web app that complements Duolingo with curated decks generated from the user's Duolingo activity.
 
-Built with React, TypeScript, Flask, Firebase, [duolingo-api](https://github.com/KartikTalwar/Duolingo), and [Googletrans](https://github.com/ssut/py-googletrans)
+I built this to replace Tinycards, which I was using until Duolingo [discontinued](https://twitter.com/duolingo/status/1275404093201149952) it in September 2020.
+
+Since Duolingo's Japanese translation data is still incomplete, Duo-cards can fill in missing translations using Google Translate. In addition, curated deck generation responds to adjustable parameters such as word strength from Duolingo's API and the range of time in which words were last practiced.
+
+Built with React, TypeScript, Sass, Flask, and Firebase.
 
 <p align="center">
     <img src="demo.gif" alt="demo">
 <p>
 
 ## Local installation for curated cards
-Curated cards are not available on the website, since a part of curation uses an unofficial Duolingo API called [duolingo-api](https://github.com/KartikTalwar/Duolingo).
 
-Regardless, you can try the feature by installing and running the React app + servers locally:
+Curated cards are not available on the website since the curation process uses an unofficial Duolingo API [duolingo-api](https://github.com/KartikTalwar/Duolingo).
 
-Make a .env file like the [example](servers/duolingo/.env.example), set CURATED_ENABLED to `true` in [local.ts](src/ts/local.ts), and configure a curated deck of your own in [local.ts](src/ts/local.ts)
+You can still run the feature locally by installing and running the React app + servers:
+
+Make a .env file like the [example](servers/duolingo/.env.example) and set CURATED_ENABLED to `true` + configure a curated deck of your own in [curated.ts](src/data/curated.ts)
 
 ---
 
 Start the react app with
+
 ```
 npm run start
 ```
-Start the webservers with Docker by running
+
+and start the webservers (Docker needs to be installed) by running
+
 ```
 cd servers
 ./run.sh
