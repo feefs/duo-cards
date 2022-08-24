@@ -1,0 +1,7 @@
+@mixin type-icon {
+  position: absolute;
+  top: 1.75vmin;
+  right: 1.75vmin;
+  width: 2.5vmin;
+  filter: invert(34%) sepia(7%) saturate(1635%) hue-rotate(182deg) brightness(100%) contrast(87%);
+}
