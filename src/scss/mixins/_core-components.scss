@@ -40,3 +40,11 @@ $large-styled-box-config: 1vmin 0.3vmin;
     box-shadow: 0 0.1vmin 0 $nord3, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
   }
 }
+
+@mixin translate-styled-box-animated($X, $Y) {
+  transform: translate($X, $Y);
+
+  &:active {
+    transform: translate($X, $Y + 0.5vmin);
+  }
+}

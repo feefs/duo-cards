@@ -1,4 +1,5 @@
-@use '../../../scss/style' as *;
+@use 'src/scss/core' as *;
+@use 'src/scss/mixins/sliders' as *;
 
 .Practice {
   @include styled-border;
@@ -18,15 +19,15 @@
     @include slider-layout;
 
     .shuffle {
-      @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
-      @include translate-styled-box(-40vmin, -15vmin);
+      @include styled-box-animated($small-styled-box-config, $nord0, 5vmin, 5vmin);
+      @include translate-styled-box-animated(-40vmin, -15vmin);
 
       background: $nord12;
     }
 
     .flip {
-      @include styled-box(true, $nord0, 15vmin, 6vmin, 0.5vmin);
-      @include translate-styled-box(35vmin, -15vmin);
+      @include styled-box-animated($small-styled-box-config, $nord0, 15vmin, 6vmin);
+      @include translate-styled-box-animated(35vmin, -15vmin);
 
       background: $nord9;
     }
