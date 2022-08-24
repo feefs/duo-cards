@@ -1,0 +1,75 @@
+@use '../core' as *;
+
+@mixin slider-layout {
+  display: grid;
+  grid-template:
+    'a'
+    'b';
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 4fr;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+
+  .name {
+    grid-area: a;
+    border: unset;
+    outline: unset;
+    background: unset;
+    font-size: 3.5vmin;
+    text-align: center;
+  }
+
+  > button {
+    z-index: 2;
+    grid-area: b;
+    margin: auto;
+    font-size: 2.5vmin;
+  }
+
+  .nav-button {
+    @include styled-box-animated($small-styled-box-config, $nord2, 15vmin, 6vmin);
+  }
+
+  .previous {
+    @include translate-styled-box-animated(-35vmin, -3vmin);
+  }
+
+  .next {
+    @include translate-styled-box-animated(35vmin, -3vmin);
+  }
+
+  .slider-cards {
+    position: relative;
+    grid-area: b;
+    overflow: hidden;
+
+    .slider-card {
+      @include styled-box($large-styled-box-config, $nord1, 30vmin, 30vmin);
+
+      display: flex;
+      position: absolute;
+      left: 50%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      margin: auto;
+      opacity: 0;
+
+      > * {
+        width: 85%;
+        border: unset;
+        outline: unset;
+        background: unset;
+        font-size: 2.5vmin;
+        text-align: center;
+      }
+    }
+
+    .active {
+      z-index: 1;
+      transition: 0.3s;
+      opacity: 1;
+    }
+  }
+}
