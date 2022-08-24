@@ -1,16 +1,17 @@
-@use '../../../scss/style' as *;
+@use 'src/scss/core' as *;
+@use 'src/scss/mixins/sliders' as *;
 
 .practice-layout {
   .toggle-language {
-    @include styled-box(true, $nord0, 5vmin, 5vmin, 0.5vmin);
-    @include translate-styled-box(-30vmin, -15vmin);
+    @include styled-box-animated($small-styled-box-config, $nord0, 5vmin, 5vmin);
+    @include translate-styled-box-animated(-30vmin, -15vmin);
 
     background: $nord9;
   }
 
   .show-pronunciation {
-    @include styled-box(true, $nord0, 30vmin, 5vmin, 0.5vmin);
-    @include translate-styled-box(0, 14vmin);
+    @include styled-box-animated($small-styled-box-config, $nord0, 30vmin, 5vmin);
+    @include translate-styled-box-animated(0, 14vmin);
 
     background: $nord9;
   }
