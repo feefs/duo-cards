@@ -22,7 +22,7 @@
     height: 100%;
 
     button {
-      @include styled-box-animated($small-styled-box-config, $nord14, 25vmin, 6vmin);
+      @include styled-box($small-styled-box-config, $nord14, 25vmin, 6vmin);
 
       font-size: 2.5vmin;
     }

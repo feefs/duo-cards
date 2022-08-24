@@ -12,6 +12,16 @@ $large-styled-box-config: 1vmin 0.3vmin;
 }
 
 @mixin styled-box($config, $color, $width, $height) {
+  @include styled-box-static($config, $color, $width, $height);
+
+  &:active {
+    transform: translateY(0.5vmin);
+    transition: 0.05s;
+    box-shadow: 0 0.1vmin 0 $nord3, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
+  }
+}
+
+@mixin styled-box-static($config, $color, $width, $height) {
   $depth: list.nth($config, 1);
   $spread-radius: list.nth($config, 2);
 
@@ -28,16 +38,6 @@ $large-styled-box-config: 1vmin 0.3vmin;
 
   &:hover {
     cursor: pointer;
-  }
-}
-
-@mixin styled-box-animated($color, $width, $height, $config) {
-  @include styled-box($color, $width, $height, $config);
-
-  &:active {
-    transform: translateY(0.5vmin);
-    transition: 0.05s;
-    box-shadow: 0 0.1vmin 0 $nord3, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
   }
 }
 

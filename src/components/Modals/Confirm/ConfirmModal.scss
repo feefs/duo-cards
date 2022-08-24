@@ -32,7 +32,7 @@
     }
 
     .confirm {
-      @include styled-box-animated($small-styled-box-config, $nord14, 5vmin, 5vmin);
+      @include styled-box($small-styled-box-config, $nord14, 5vmin, 5vmin);
     }
 
     .disabled {

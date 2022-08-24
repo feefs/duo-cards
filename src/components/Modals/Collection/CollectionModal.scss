@@ -17,7 +17,7 @@
     gap: 7.5vmin;
 
     .collection-preview {
-      @include styled-box-animated($large-styled-box-config, $nord1, 20vmin, 20vmin);
+      @include styled-box($large-styled-box-config, $nord1, 20vmin, 20vmin);
 
       .name {
         display: flex;

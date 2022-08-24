@@ -28,7 +28,7 @@
   }
 
   .nav-button {
-    @include styled-box-animated($small-styled-box-config, $nord2, 15vmin, 6vmin);
+    @include styled-box($small-styled-box-config, $nord2, 15vmin, 6vmin);
   }
 
   .previous {
@@ -45,7 +45,7 @@
     overflow: hidden;
 
     .slider-card {
-      @include styled-box($large-styled-box-config, $nord1, 30vmin, 30vmin);
+      @include styled-box-static($large-styled-box-config, $nord1, 30vmin, 30vmin);
 
       display: flex;
       position: absolute;
