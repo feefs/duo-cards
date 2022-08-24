@@ -2,14 +2,14 @@
 
 .practice-layout {
   .toggle-language {
-    @include styled-box-animated($small-styled-box-config, $nord0, 5vmin, 5vmin);
+    @include styled-box($small-styled-box-config, $nord0, 5vmin, 5vmin);
     @include translate-styled-box-animated(-30vmin, -15vmin);
 
     background: $nord9;
   }
 
   .show-pronunciation {
-    @include styled-box-animated($small-styled-box-config, $nord0, 30vmin, 5vmin);
+    @include styled-box($small-styled-box-config, $nord0, 30vmin, 5vmin);
     @include translate-styled-box-animated(0, 14vmin);
 
     background: $nord9;

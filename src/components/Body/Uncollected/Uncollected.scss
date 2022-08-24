@@ -28,7 +28,7 @@
     gap: 7.5vmin;
 
     .deck-preview {
-      @include styled-box-animated($large-styled-box-config, $nord1, 20vmin, 20vmin);
+      @include styled-box($large-styled-box-config, $nord1, 20vmin, 20vmin);
 
       position: relative;
 
@@ -63,7 +63,7 @@
     justify-content: center;
 
     button {
-      @include styled-box-animated($small-styled-box-config, $nord14, 15vmin, 6vmin);
+      @include styled-box($small-styled-box-config, $nord14, 15vmin, 6vmin);
 
       font-size: 2.5vmin;
     }

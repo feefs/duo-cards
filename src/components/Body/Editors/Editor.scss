@@ -51,7 +51,7 @@
     }
 
     .interact-button {
-      @include styled-box-animated($small-styled-box-config, $nord0, 5vmin, 5vmin);
+      @include styled-box($small-styled-box-config, $nord0, 5vmin, 5vmin);
     }
 
     .disabled {
@@ -88,7 +88,7 @@
     }
 
     .end {
-      @include styled-box-animated($small-styled-box-config, $nord1, 5vmin, 5vmin);
+      @include styled-box($small-styled-box-config, $nord1, 5vmin, 5vmin);
       @include translate-styled-box-animated(50vmin, -9.5vmin);
     }
   }
