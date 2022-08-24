@@ -1,0 +1,42 @@
+@use 'node_modules/nord/src/sass/nord.scss' as *;
+
+@use 'sass:list';
+
+// depth | spread-radius
+$small-styled-box-config: 0.5vmin 0;
+$large-styled-box-config: 1vmin 0.3vmin;
+
+@mixin styled-border {
+  border-radius: 15px;
+  box-shadow: 0 0 20px 6px rgb(0 0 0 / 40%);
+}
+
+@mixin styled-box($config, $color, $width, $height) {
+  $depth: list.nth($config, 1);
+  $spread-radius: list.nth($config, 2);
+
+  width: $width;
+  height: $height;
+  transition: 0.05s;
+  border: unset;
+  border-radius: 15px;
+  background: $color;
+
+  // inset | offset-x | offset-y | color
+  // base, sides
+  box-shadow: 0 $depth 0 $nord3, 0 1vmin 1vmin $spread-radius rgb(0 0 0 / 35%);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@mixin styled-box-animated($color, $width, $height, $config) {
+  @include styled-box($color, $width, $height, $config);
+
+  &:active {
+    transform: translateY(0.5vmin);
+    transition: 0.05s;
+    box-shadow: 0 0.1vmin 0 $nord3, 0 0.5vmin 0.5vmin rgb(0 0 0 / 35%);
+  }
+}
